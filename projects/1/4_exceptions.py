@@ -14,3 +14,5 @@ try:  # попытка (что-то сделать)
 except Exception as error:
     print(error)
     print("Деньги вернулись на мой счёт")
+finally:
+    pass
