@@ -2,6 +2,7 @@ bool1 = True
 int1 = 12
 float1 = 12.0
 str1 = "Python"
+bytes1 = b"Python"  # b'\x016А\x02\x03\x04\x05' ASCII (256) vs UTF-8 (N миллионов)
 list1 = [10, True, []]
 tuple1 = (12, False)
 set1 = {12, False}
