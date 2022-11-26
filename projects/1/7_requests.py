@@ -92,7 +92,8 @@ with open("temp/weather.html", "w", encoding="utf-8") as opened_file:
 # url = "https://ru.investing.com/currencies/usd-kzt"
 url = "https://kurs.kz/"
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 '
+                  'Safari/537.36 '
 }
 
 response = requests.get(url=url, headers=headers)
@@ -101,3 +102,29 @@ print(response.text)
 # substring = 'instrument-price-last'
 # step_1 = response.text.split(sep=substring)[1]
 # print(step_1)
+
+# headers = {
+#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+#                   'Chrome/102.0.0.0 Safari/537.36'
+# }
+# url = input("Введите ссылку")  # "https://picsum.photos/320/240/"
+# prefix = input()  # apple
+# count = int(input())  # 10
+# for i in range(1, count+1):
+#     response = requests.get(url=url, headers=headers)
+#     with open(f"img/{prefix}{i}.jpg", "wb") as opened_file:  # f"img/apple1.jpg"
+#         opened_file.write(response.content)
+
+arr = [
+    1,
+    2,
+    3,
+    5,
+    7,
+    8,
+    9,
+    19,
+    20,
+    50]
+for j in arr:
+    print(j)
