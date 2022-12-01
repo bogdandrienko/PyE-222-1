@@ -1,0 +1,3 @@
+
+def summ():
+    pass

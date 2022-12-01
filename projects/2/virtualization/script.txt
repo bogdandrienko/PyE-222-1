@@ -1,0 +1,67 @@
+https://app.diagrams.net/ - диаграммы
+
+https://www.virtualbox.org/wiki/Download_Old_Builds_6_1 - программа для виртуализации
+https://download.virtualbox.org/virtualbox/6.1.40/VirtualBox-6.1.40-154048-Win.exe
+
+образ - установщик (.iso)
+https://ubuntu.com/download/alternative-downloads
+https://releases.ubuntu.com/22.04/ubuntu-22.04.1-desktop-amd64.iso.torrent?_ga=2.53445419.2088623615.1669731168-392468269.1669530578
+
+https://windows64.net/434-windows-10-x64-x86-22h2-s-off-sajta-na-russkom.html
+
+виртуализация - система в системе
+
+
+##################################################################################################
+
+
+
+виртуальное окружение - новая версия интерпретатора с зависимостями (модули и библиотеки)
+! для каждого проекта своё виртуальное окружение и свои библиотеки !
+
+# обновление глобального пакетного менеджера
+python.exe -m pip install --upgrade pip
+
+# установка библиотеки для создания виртуального окружения глобально
+pip install env
+
+# создание нового виртуального окружения
+python -m venv "имя нового виртуального окружения" (venv/env)
+python -m venv env
+
+# активация виртуального окружения
+call env/Scripts/activate.bat
+deactivate
+
+# обновление локального пакетного менеджера
+python.exe -m pip install --upgrade pip
+
+# установка библиотек внутрь виртуального окружения
+pip install openpyxl
+pip install requests
+
+# "заморозка" всех библиотек внутри виртуального окружения
+pip freeze > requirements.txt
+
+# установка всех библиотек строго по версиям из файла
+pip install -r requirements.txt
+
+
+
+
+
+
+
+
+#######################################################
+
+# обновление репозиториев где лежат библиотеки
+sudo apt-get update -y
+# установка модулей глобально для разработки на python
+sudo apt-get install -y python3-dev python3-pip python3-venv
+
+python3 -m venv env
+source env/bin/activate
+pip install openpyxl
+pip install requests
+pip freeze > requirements.txt

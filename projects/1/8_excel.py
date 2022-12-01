@@ -195,12 +195,42 @@ arr9 = [1, 2, 3, 4, 5, 6]
 for i in map(double, arr9):
     print(i)
 
-
 # d = float(input("Введи диаметр"))
 # l = 3.14 * d
 # print(l)
 
-r = 2*3.14*5 / 2*3.14
+r = 2 * 3.14 * 5 / 2 * 3.14
 
 print(r)
 print(floor(r))
+#####################################################
+
+data = [1, 2, 3, 4, 5, 6, 7]
+workbook3 = Workbook()
+worksheet3 = workbook3.active
+
+internal_counter = 0
+for value in data:
+    internal_counter += 1
+    worksheet3.cell(internal_counter, 1, value)
+
+workbook3.save("data/new_data3.xlsx")
+
+#####################################################
+
+
+value = -1
+while value < 0:
+    value = int(input("Введите положительное число: ") + input("Введите положительное число: ") +
+                input("Введите "
+                      "положительное число: "))
+
+print(value)
+
+value = 0
+while True:
+    if value > 0:
+        break
+    else:
+        value = int(input("Введите положительное число: ") + input("Введите положительное число: ") + input("Введите "
+                                                                                                            "положительное число: "))

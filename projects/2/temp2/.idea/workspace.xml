@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c6636ea5-d8eb-43db-9bbc-862588bb9be6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../1/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../1/data/new_data3.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../hw_29_11.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../my_math_2_05.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../my_math_2_06.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../my_math_2_07.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new10.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new100.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new11.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new12.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new13.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new14.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new15.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new16.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new17.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new18.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new19.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new20.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new21.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new22.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new23.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new24.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new25.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new26.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new27.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new28.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new29.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new30.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new31.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new32.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new33.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new34.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new35.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new36.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new37.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new38.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new39.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new4.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new40.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new41.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new42.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new43.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new44.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new45.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new46.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new47.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new48.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new49.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new50.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new51.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new52.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new53.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new54.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new55.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new56.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new57.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new58.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new59.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new6.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new60.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new61.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new62.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new63.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new64.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new65.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new66.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new67.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new68.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new69.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new70.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new71.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new72.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new73.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new74.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new75.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new76.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new77.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new78.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new79.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new8.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new80.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new81.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new82.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new83.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new84.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new85.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new86.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new87.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new88.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new89.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new90.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new91.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new92.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new93.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new94.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new95.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new96.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new97.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new98.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../temp/new99.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/temp2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../virtualization/diagram.drawio" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../virtualization/script.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../1/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../1/.idea/1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../1/.idea/1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../1/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../1/8_excel.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../1/8_excel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../1/data/new_data.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../1/data/new_data.xlsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2IEAh05fDUIpn9B9lxoE7680Ti0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c6636ea5-d8eb-43db-9bbc-862588bb9be6" name="Changes" comment="" />
+      <created>1669736483866</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1669736483866</updated>
+      <workItem from="1669736485697" duration="771000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
