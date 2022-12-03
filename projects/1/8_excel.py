@@ -116,7 +116,7 @@ external_array1.extend(external_array2)
 #     print(i)
 
 # todo создание новой рабочей книги в оперативной памяти
-workbook3 = Workbook()
+workbook3 = openpyxl.Workbook()
 
 # todo выбор активного рабочего листа
 worksheet3 = workbook3.active
