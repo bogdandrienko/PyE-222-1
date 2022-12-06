@@ -1,8 +1,6 @@
 # todo объявление функции
 def print_hello():
     print("Hello world11111!")
-
-
 # todo объявление функции
 
 # todo вызов функции

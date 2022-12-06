@@ -48,7 +48,7 @@ json_data = data.json()
 print(json_data)
 
 index = 0
-for i in json_data:
+for i in json_data:  # [{}, {}]
     index += 1
     with open(f"temp/new{index}.json", "w", encoding="utf8") as file:
         json.dump(i, file, ensure_ascii=False)
