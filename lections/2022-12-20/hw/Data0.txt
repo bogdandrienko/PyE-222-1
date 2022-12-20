@@ -1,0 +1,4 @@
+Текст в первом файле: 1DataDataData1
+
+Текст во втором файле: 2DataDataData2
+Текст в третьем файле: 3DataDataData3
