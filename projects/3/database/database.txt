@@ -1,0 +1,88 @@
+CREATE DATABASE abonents
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
+###################################
+
+CREATE TABLE public.tarifs
+(
+    iin integer NOT NULL,
+    fio text,
+    type "char",
+    PRIMARY KEY (iin)
+);
+
+ALTER TABLE IF EXISTS public.tarifs
+    OWNER to postgres;
+
+##############################################
+
+ALTER TABLE IF EXISTS public.tarifs
+    ADD COLUMN active boolean NOT NULL DEFAULT 'false';
+
+##################################################
+
+SELECT * FROM public.tarifs
+ORDER BY iin ASC
+-- ORDER BY iin DESC
+
+
+
+##################################################
+
+-- CRUD
+-- Create (Insert)
+-- Read (SELECT)
+-- Update (UPDATE)
+-- Delete (Delete)
+
+-- Выборка всех полей и всех записей
+-- SELECT * FROM public.tarifs
+
+-- Выборка указанных полей из всех записей
+-- SELECT fio, iin, type FROM public.tarifs
+
+-- Выборка всех записей с полем active = 'false'
+-- SELECT * FROM public.tarifs where active = 'false'
+
+-- Выборка всех записей с сортировкой по возврастанию ИИН
+-- select * from public.tarifs order by iin asc
+
+-- Вставка одной строки в таблицу
+-- INSERT INTO public.tarifs(iin, fio, type, active) VALUES ('222', 'Bogdan', 'c', 'true');
+
+-- Вставка нескольких строк в таблицу
+-- INSERT INTO public.tarifs(iin, fio, type, active) 
+-- VALUES 
+-- 	('1002', 'Python', 'c', 'true'),
+-- 	('444', 'Bogdan', 'c', 'true'),
+-- 	('666', 'Python', 'c', 'true');
+
+-- Обновление выбранного поля на значение по условию
+-- UPDATE public.tarifs
+-- SET type = 'p'
+-- WHERE fio = 'Python' and active = 'true';
+
+-- Удаление строк из таблицы по условию
+-- DELETE FROM public.tarifs WHERE (iin > 0 and iin < 1000) and fio = 'Bogdan';
+
+
+
+
+#############################################################################
+
+
+CREATE ROLE test2 WITH
+	LOGIN
+	SUPERUSER
+	CREATEDB
+	CREATEROLE
+	INHERIT
+	REPLICATION
+	CONNECTION LIMIT -1
+	PASSWORD 'xxxxxx';
+
+######################################################################################
