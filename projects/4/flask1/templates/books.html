@@ -1,0 +1,33 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+<ol>
+{% for dat in datas %}
+    <li>{{ dat }}</li>
+{% endfor %}
+</ol>
+
+{% for book in books %}
+  <div class="col">
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">{{ book.title }}</h4>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>author: {{ book.userId }} <a href="/books/{{loop.index}}/update/" class="btn btn-outline-warning"><i class="fa-solid fa-screwdriver-wrench S"></i> </a></li>
+            <li># {{ book.id }} <a href="/books/{{loop.index}}/delete/" class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i> </a></li>
+        </ul>
+{% if book.completed %}
+        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
+{%  else %}
+        <button type="button" class="w-100 btn btn-lg btn-outline-danger">Sign up for free</button>
+{% endif %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock main %}
