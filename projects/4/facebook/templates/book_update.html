@@ -1,0 +1,25 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+<main class="form-signin">
+  <form class="border border-1 border-light" method="POST" action="{{ url_for('books_update',book_id=book.id) }} " enctype="multipart/form-data">
+    <h1 class="h3 mb-3 fw-normal">Измените эту книгу</h1>
+
+    <div class="form-floating">
+      <input type="text" class="form-control" id="floatingInput" value="{{ book.title }}" placeholder="введите сюда заголовок" name="title">
+      <label for="floatingInput">Заголовок</label>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+{% if book.completed %}
+        <input type="checkbox" value="True" name="completed" checked> Выполнено
+{%  else %}
+        <input type="checkbox" value="True" name="completed"> Выполнено
+{% endif %}
+      </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">отправить</button>
+  </form>
+</main>
+{% endblock main %}

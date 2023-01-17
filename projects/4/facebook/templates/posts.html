@@ -1,0 +1,30 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+<div class="row mb-2">
+    {% for post in arr_posts %}
+    <div class="col-md-6">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <div class="input-group">
+                {% if post.status_moderate %}
+                    <strong class="btn btn-success d-inline-block my-1">Принято</strong>
+                {% else %}
+                    <strong class="btn btn-warning d-inline-block my-1">На модерации</strong>
+                {% endif %}
+                <a href="/posts/{{ post.id }}/delete" class="btn btn-sm btn-outline-danger my-1"><i class="fa-solid fa-eraser"></i></a>
+            </div>
+          <h3 class="mb-0">{{ post.title }}</h3>
+          <div class="mb-1 text-muted">{{ post.date_create }}</div>
+          <p class="card-text mb-auto">{{ post.description }}</p>
+          <a href="/posts/{{ post.id }}" class="stretched-link lead text-decoration-none text-dark">Continue reading...</a>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+            <img class="bd-placeholder-img img-fluid" width="200" height="250" alt="image" src="/static/img/screen1.jpg"/>
+<!--          <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>-->
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endblock main %}
