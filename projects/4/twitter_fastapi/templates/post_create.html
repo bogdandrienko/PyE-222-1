@@ -1,0 +1,19 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+<form class="form-control" method="POST" action="{{ url_for('post_create') }}" enctype="multipart/form-data">
+
+  <label class="lead" for="fname">Заголовок:</label><br>
+  <input class="form-control" type="text" id="fname" name="title" value="" placeholder="введите сюда заголовок..." required minlength="5"><br>
+
+  <label class="lead" for="lname">Описание:</label><br>
+  <textarea class="form-control" type="text" id="lname" name="description" rows="5" placeholder="введите сюда описание..."></textarea>
+
+  <div class="form-check form-switch mt-5">
+    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked name="status">
+    <label class="form-check-label" for="flexSwitchCheckChecked">статус модерации</label>
+  </div>
+
+  <button class="form-control btn btn-outline-danger mt-5" type="submit">Отправить</button>
+</form>
+{% endblock main %}
