@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<h1>Обменник 2 app: {{name}} {{surname}}</h1>
+<div>
+
+<div class="container">
+<form class="form-control" method="post" action="{{ url_for('get_html_form') }}" enctype="multipart/form-data">
+  <label for="name">First name:</label><br>
+  <input type="text" id="name" name="name_form"><br>
+
+  <label for="surname">Last name:</label><br>
+  <input type="text" id="surname" name="surname_form">
+
+    <button type="submit" class="btn btn-outline-primary">send</button>
+</form>
+</div>
+</div>
+</body>
+</html>

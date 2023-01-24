@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+{{ name_for_jinja1 }}
+
+<div class="card border border-1 border-success mt-5">
+    <div class="card-header">{{ name_for_jinja2.user }}</div>
+    <div class="card-body">{{ name_for_jinja2.age }}</div>
+</div>
+
+<div class="container border border-1 border-warning mt-5">
+    {% if name_for_jinja3.success %}
+        <div>Вы прошли тест успешно! ({{name_for_jinja3.result}})</div>
+    {% else %}
+        <div>Вы завалили тест! ({{name_for_jinja3.result}}) <a href="/">пересдача</a></div>
+    {% endif %}
+</div>
+
+
+{% for user in name_for_jinja4 %}
+<div class="container border border-1 border-primary mt-5">
+    <ul class="list-group">
+        {% if user.result > 80 %}
+            <div>{{ user.name }}, Вы прошли тест успешно! ({{ user.result }})</div>
+        {% else %}
+            <div>{{ user.name }}, Вы завалили тест! ({{ user.result }}) <a href="/">пересдача</a></div>
+        {% endif %}
+        <li class="list-group-item">An item</li>
+    </ul>
+</div>
+
+{% endfor %}
+
+<textarea class="form-control mt-5" rows="10">
+    Python (МФА: [ˈpʌɪθ(ə)n]; в русском языке встречаются названия пито́н[23] или па́йтон[24]) — высокоуровневый язык программирования общего назначения с динамической строгой типизацией и автоматическим управлением памятью[25][26], ориентированный на повышение производительности разработчика, читаемости кода и его качества, а также на обеспечение переносимости написанных на нём программ[27]. Язык является полностью объектно-ориентированным в том плане, что всё является объектами[25]. Необычной особенностью языка является выделение блоков кода пробельными отступами[28]. Синтаксис ядра языка минималистичен, за счёт чего на практике редко возникает необходимость обращаться к документации[27]. Сам же язык известен как интерпретируемый и используется в том числе для написания скриптов[25]. Недостатками языка являются зачастую более низкая скорость работы и более высокое потребление памяти написанных на нём программ по сравнению с аналогичным кодом, написанным на компилируемых языках, таких как C или C++[25][27].
+</textarea>
+</body>
+</html>
