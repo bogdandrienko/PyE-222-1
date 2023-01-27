@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <img src="/static/avatars/{{img}}" class="image-fluid image-thumbnail" alt="avatar"/>
+    <form class="form-control" method="POST" action="{{ url_for('upload_image') }}" enctype="multipart/form-data">
+        <input type="text" class="form-control" name="name" placeholder="enter your name" required>
+        <input type="number" max="100" min="1" value="100" class="form-control" name="quality" required>
+        <input type="file" accept="image/jpeg, image/png" class="form-control" name="avatar" required>
+        <button type="submit" class="btn btn-primary">send avatar</button>
+    </form>
+</body>
+</html>
