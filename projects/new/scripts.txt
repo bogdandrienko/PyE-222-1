@@ -1,0 +1,31 @@
+# открывает консоль
+cmd
+# создаёт виртуальное окружение
+python -m venv env
+# активация виртуального окружения
+call env/Scripts/activate.bat
+# установка django
+pip install django Pillow
+# заморозка зависимостей в файл
+pip freeze > requirements.txt
+# установка зависимостей строго по их версиям из файла
+pip install -r requirements.txt
+
+##########################################################
+# создание нового проекта
+django-admin startproject django_settings .
+# создание нового приложения
+django-admin startapp django_app
+
+# разворачивает django-сервер
+python manage.py runserver 0.0.0.0:8000
+# http://127.0.0.1:8000/
+ipconfig
+# http://192.168.0.128:8000/
+
+# создание изменений в базе данных
+python manage.py makemigrations
+# применение изменений в базе данных
+python manage.py migrate
+# создание суперпользователя
+python manage.py createsuperuser
