@@ -1,3 +1,7 @@
+def print():
+    "удаление системы"
+    pass
+
 def summing(a, b):
     return a + b
 

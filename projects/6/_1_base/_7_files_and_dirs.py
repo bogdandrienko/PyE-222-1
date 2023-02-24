@@ -79,8 +79,101 @@ with open('data/new.json', 'r') as file2:
     # dict4 = json.loads(file2.read())
     # print(dict4, type(dict4))
 
-
 ########################################################################################################################
 
 ########################################################################################################################
 # TODO работа с папками
+
+print(os.getcwd())
+
+first = os.path.abspath(os.path.dirname(__file__))  # содержит абсолютный путь к текущему скрипту
+print(first)
+first = ''  # содержит относительный путь к текущему скрипту
+second = "temp\\tempjunk2.txt"  # \ - изоляция символа   \n - перенос строки, \t - табуляция...
+# r"" - сырая строка
+third = r"temp\junk2.txt"  # \ - изоляция символа   \n - перенос строки, \t - табуляция...
+fourth = "temp/junk2.txt"  # \ - изоляция символа   \n - перенос строки, \t - табуляция...
+print(second)
+
+path = os.path.join(second, third)  # склеивает несколько путей, корректным образом для каждой системы
+print(f"path: {path}")
+
+# os.remove("../")
+# os.remove("junk.txt")  # remove file
+# os.rmdir("junk")  # этим способом можно удалить только пустую папку
+# shutil.rmtree("junk")  # этим способом можно удалить папку
+
+if os.path.exists("temp"):
+    shutil.rmtree("./temp")
+else:
+    os.mkdir("temp")
+    with open('temp/new.txt', 'w') as file:
+        file.write("Hello world!")
+
+for filename in os.listdir('../_1_base'):
+    print(filename)
+
+
+# os.rename()  # переименовать
+# shutil.copy()
+# shutil.move()
+
+def get_all_files_in_path(p=os.path.dirname(os.path.abspath('__file__'))):
+    files_list = []
+    for root, dirs, files in os.walk(p, topdown=True):
+        for name in files:
+            if name.find(".txt") > 0:
+                files_list.append(f"{os.path.join(root, name)}")
+    return files_list
+
+
+print(get_all_files_in_path())
+
+
+def get_all_dirs_in_path(p=os.path.dirname(os.path.abspath('__file__'))):
+    directories_list = []
+    for root, dirs, files in os.walk(p, topdown=True):
+        for name in dirs:
+            directories_list.append(f"{os.path.join(root, name)}")
+    return directories_list
+
+
+print(get_all_dirs_in_path())
+
+
+def create_folder_in_this_dir(folder_name='new_folder', current_path=os.path.dirname(os.path.abspath('__file__'))):
+    full_path = current_path + f'/{folder_name}'
+    try:
+        os.makedirs(full_path)
+    except Exception as err:
+        print(f'directory already yet | {err}')
+    finally:
+        return full_path
+
+
+create_folder_in_this_dir("temp3")
+
+########################################################################################################################
+
+########################################################################################################################
+# TODO импорт функций и библиотек
+
+# импорт всей библиотеки
+# import tkinter
+# tkinter.Variable
+
+# импорт всей библиотеки с присовением псевдонима
+# import tkinter as tk
+# import json as js
+
+# импорт всех функций, классов и переменных из библиотеки ! Может вызвать коллизию имён !
+# from tkinter import *
+# from new import *
+# Variable
+# print()
+
+# импорт отдельной функции из модуля(из нашего файла)
+# from new import buddle_sort
+# print(buddle_sort([1, 2]))
+
+########################################################################################################################
