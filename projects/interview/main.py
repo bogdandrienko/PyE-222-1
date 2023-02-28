@@ -103,3 +103,18 @@ print(dict1)
 # https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2021/01/Python-Shallow-Copy-Deep-Copy.jpg
 
 ########################################################################################################################
+
+# What are the two major loop statements?
+# while(do while) / for
+
+########################################################################################################################
+
+# What is the difference between .py and .pyc files?
+# .py - python like lang files
+# .pyc - python bytes - precompile
+
+########################################################################################################################
+
+# deploy - ci/cd
+# Развёртывание программного обеспечения — это все действия, которые делают программную систему готовой к использованию
+# https://habr.com/ru/company/otus/blog/515078/
