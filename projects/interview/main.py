@@ -118,3 +118,50 @@ print(dict1)
 # deploy - ci/cd
 # Развёртывание программного обеспечения — это все действия, которые делают программную систему готовой к использованию
 # https://habr.com/ru/company/otus/blog/515078/
+
+#####################################################################
+
+# What is slicing in Python?
+# отрезок (получение подколлекции) - коллекции данных (list, array, tuple, str)
+str5 = "Python"
+str7 = str5[:3:]
+print(str7)
+
+list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+tuple2 = tuple(range(1, 10 + 1))
+print(list1)
+print(tuple2)
+
+print(list1[1::2])
+
+################################
+
+# Is python case sensitive?
+# yes
+
+def Func1():
+    print("Func1")
+
+def func1():
+    print("Func1")
+
+Func1()
+
+##############################
+
+# What is type conversion in Python?
+# все конвертации происходят с помощью одноимённых функций int - int()
+
+num1 = int("12")  # str -> int
+num2 = float("12.0")  # str -> int
+num3 = str(12.0)  # str -> int
+tuple3 = tuple(["12", 2])
+
+#######################################
+
+# What are Literals in Python and explain about different Literals
+# примитивные типы данных, которые не изменяются и передаются по ссылке как объект
+
+aaa = {"12": 12, 12: 12, ('', ): 12}
+
+###################################################

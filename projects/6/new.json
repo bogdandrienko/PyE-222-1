@@ -1,0 +1,8 @@
+{
+  "val1":  "second",
+  "dirs":  [
+    {"name":  "fo lder1"},
+    {"name":  "folde r2"},
+    {"name":  "fo lde r3"}
+  ]
+}
