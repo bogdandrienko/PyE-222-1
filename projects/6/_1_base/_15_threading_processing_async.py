@@ -105,6 +105,7 @@ async def async_download_one_image():
     async with aiohttp.ClientSession() as session:
         async with session.get(url=url, headers=headers) as response_obj:
             data = await response_obj.read()
+            # todo sync! AIOFILES
             with open(f"temp/image{random.randint(1, 10000000)}.jpg", "wb") as opened_file:
                 opened_file.write(data)
 

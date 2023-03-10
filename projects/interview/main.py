@@ -1,6 +1,7 @@
 # https://www.edureka.co/blog/interview-questions/python-interview-questions/
 # https://intellipaat.com/blog/interview-question/python-interview-questions/
 # https://mindmajix.com/python-interview-questions
+import time
 
 ########################################################################################################################
 
@@ -165,3 +166,15 @@ tuple3 = tuple(["12", 2])
 aaa = {"12": 12, 12: 12, ('', ): 12}
 
 ###################################################
+
+list1 = [1, 2, 4, 5, 1, 2, 4, 5, 1, 2, 4, 5, 1, 2, 4, 5, 3]
+for i in list1:  # O(N) - линейный
+    time.sleep(1.0)
+    for j in list1:  # O(N)^2 - квадратичный
+        time.sleep(1.0)
+        if j == 3:
+            print("find!")
+
+list2 = [1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 9, 10]
+step1 = 7  # < 9
+step2 = 9  # O(log(N))
