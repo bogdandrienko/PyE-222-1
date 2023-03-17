@@ -106,13 +106,33 @@ column_index = 1
 for value in titles:
     worksheet.cell(row=1, column=column_index, value=value)
     column_index += 1
+
+# for column_index, value in enumerate(titles, 1):
+#     worksheet.cell(row=1, column=column_index, value=value)
 # todo Наполнение рабочего листа заголовками ###########################################################################
 
 #
 
 # todo Наполнение рабочего листа данными ###############################################################################
-for row_index, post in enumerate(posts, 2):
-    for column_index, value in enumerate(post.get_row(), 1):
+posts = [
+    # голова туловище ноги ...
+    ["#", "id", "title", "body"],  # студент 1
+
+    # голова туловище ноги ...
+    ["#", "id", "title", "body"],  # студент 2
+
+    # голова туловище ноги ...
+    ["#", "id", "title", "body"],  # студент 3
+
+    # голова туловище ноги ...
+    ["#", "id", "title", "body"],  # студент 4
+
+    # голова туловище ноги ...
+    ["#", "id", "title", "body"],  # студент 5
+]
+
+for row_index, post in enumerate(posts, 2):  # внешний цикл отвечает за переключение сущностей
+    for column_index, value in enumerate(post.get_row(), 1):  # внутренний цикл отвечает за переключение атрибутов
         worksheet.cell(row=row_index, column=column_index, value=value)
 # todo Наполнение рабочего листа данными ###############################################################################
 
