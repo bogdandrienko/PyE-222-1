@@ -3,6 +3,7 @@ import time
 import threading
 import requests
 import bs4
+from bs4 import BeautifulSoup
 
 
 def get_wheather(city_name: str, url: str) -> None:
