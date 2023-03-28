@@ -9,6 +9,8 @@
 - iot [c/c++ ...java/assembler/] (холодильники, стиралки, пылесосы, комбайны, бульдозеры..)
 """
 
+import threading
+import time
 # from tkinter import *
 # from tkinter import ttk
 # root = Tk()
@@ -44,6 +46,10 @@ class Ui:
         self.window.title(title)
         self.window.geometry(f'{width}x{height}')
         self.window.iconbitmap(icon)
+        self.play = True
+        self.seconds = 0
+        self.minutes = 0
+        self.hours = 0
         # todo основное ################################################################################################
 
         #
@@ -57,11 +63,14 @@ class Ui:
         self.entry_filename.insert(0, "data.xlsx")
         self.entry_filename.grid(column=1, row=0)
 
-        self.button_start = tk.Button(self.window, text="запустить", command=self.clicked)
+        self.button_start = tk.Button(self.window, text="запустить", command=self.start_timer)
         self.button_start.grid(column=0, row=1)
 
+        self.button_stop = tk.Button(self.window, text="остановить", command=self.stop_timer)
+        self.button_stop.grid(column=1, row=1)
+
         self.label_result = tk.Label(self.window, text="...")
-        self.label_result.grid(column=1, row=1)
+        self.label_result.grid(column=2, row=1)
 
         self.select_box_variable = tk.StringVar(self.window)
         self.select_box_variable.set("стекло")  # default value
@@ -92,7 +101,37 @@ class Ui:
         workbook: Workbook = openpyxl.load_workbook(filename)
         worksheet: Worksheet = workbook.active
         text = str(worksheet.cell(row=1, column=1).value)
-        self.label_result.configure(text=text)
+        self.label_result.configure(text=text)  # Обновление label
+
+    def start_timer(self):
+        self.play = True
+
+        new_thread = threading.Thread(target=self.timer)
+        new_thread.start()
+
+    def timer(self):
+        while self.play:
+            # seconds = seconds + 1
+            self.seconds += 1
+            if self.seconds > 59:
+                if self.minutes > 59:
+                    if self.hours > 23:
+                        self.hours = 0
+                        self.minutes = 0
+                        self.seconds = 0
+                    else:
+                        self.hours += 1
+                        self.minutes = 0
+                        self.seconds = 0
+                self.minutes += 1
+                self.seconds = 0
+            text = f"{self.hours}:{self.minutes}" + ":" + str(self.seconds)
+            # print(text)
+            self.label_result.configure(text=text)  # Обновление (рендер) label
+            time.sleep(1.0)
+
+    def stop_timer(self):
+        self.play = False
 
 
 if __name__ == "__main__":
