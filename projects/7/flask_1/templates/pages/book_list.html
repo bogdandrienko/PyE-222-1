@@ -1,0 +1,77 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+
+<section class="text-center container">
+  <div class="row">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Страница для просмотра списка книга</h1>
+      <p class="lead text-muted">Данная страница все книги по очереди добавления.</p>
+    </div>
+  </div>
+  <hr/>
+</section>
+
+<main class="form-signin">
+<form action="{{ url_for('book_list') }}" method="POST" enctype="multipart/form-data">
+  <h1 class="h3 mb-3 fw-normal">Поиск:</h1>
+  <div class="input-group m-1 p-1">
+    <input type="text" class="form-control" value="{{search}}" id="floatingInput" placeholder="Амон Ра" name="title">
+  <button class="w-25 btn btn-lg btn-outline-primary" type="submit">искать</button>
+  </div>
+
+<hr/>
+<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+  <option selected value="">Выберите категорию для фильтрации</option>
+    {% for category in categories %}
+      <option value="{{category}}">{{category}}</option>
+    {% endfor %}
+</select>
+
+<div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+  <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+</div>
+<hr/>
+
+</form>
+  <hr/>
+</main>
+
+<div>
+<div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for book in books %}
+            <div class="col">
+              <div class="card shadow border border-1 border-dark">
+                <a href="/detail/{{book.id}}" class="text-decoration-none text-dark">
+                  <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img"
+                       aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect
+                          width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ book.title }}</text>
+                  </svg>
+                </a>
+                <div class="card-body">
+                  <p class="card-text">{{ book.description }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group text-start">
+                      <a href="/detail/{{book.id}}" class="btn btn-sm btn-outline-primary">Детально</a>
+                      <button type="button" class="btn btn-sm btn-warning disabled">Редактировать</button>
+                      <a href="/delete/{{book.id}}" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash m-0 p-1"></i> Удалить</a>
+                    </div>
+                    <small class="text-muted">{{ book.author }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+        {% else %}
+          <div class="alert alert-danger" role="alert">
+            Нет постов в базе данных!
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

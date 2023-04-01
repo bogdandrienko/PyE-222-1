@@ -1,0 +1,33 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+
+<section class="text-center container">
+  <div class="row">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Страница для отправки книг</h1>
+      <p class="lead text-muted">Данная страница содержит форму, при заполнении и отправки которой добавляется новая книга.</p>
+    </div>
+  </div>
+  <hr/>
+</section>
+
+<main class="form-signin">
+  <form action="{{ url_for('create') }}" method="POST" enctype="multipart/form-data">
+    <h1 class="h3 mb-3 fw-normal">Заполните данные:</h1>
+    <div class="form-floating m-1 p-1">
+      <input type="text" class="form-control" id="floatingInput" placeholder="Амон Ра" name="title">
+      <label for="floatingInput">Заголовок:</label>
+    </div>
+    <div class="m-1 p-1">
+      <textarea class="form-control" placeholder="Описание" rows="5" name="description"></textarea>
+    </div>
+      <div class="form-floating m-1 p-1">
+      <input type="text" class="form-control" id="floatingInput1" placeholder="В.Пелевин" name="author">
+      <label for="floatingInput1">Автор:</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-outline-primary" type="submit">отправить</button>
+  </form>
+</main>
+
+{% endblock main %}

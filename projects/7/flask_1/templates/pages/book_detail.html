@@ -1,0 +1,44 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+
+<section class="text-center container">
+  <div class="row">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Страница для детального просмотра книги</h1>
+      <p class="lead text-muted">Подробная информация о книге</p>
+    </div>
+  </div>
+  <hr/>
+</section>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+      <div class="container-fluid m-1 p-1">
+        <a href="/list" class="btn btn-lg btn-outline-primary"><= ко всем постам</a>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-1row-cols-md-1 g-1 mx-5">
+          <div class="col">
+            <div class="card shadow-sm">
+              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img"
+                   aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect
+                      width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ book.title }}</text></svg>
+              <div class="card-body">
+                <p class="card-text">{{ book.description }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="/detail/{{book.id}}" class="btn btn-sm btn-outline-primary">Детально</a>
+                      <button type="button" class="btn btn-sm btn-warning disabled">Редактировать</button>
+                      <a href="/delete/{{book.id}}" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash m-0 p-1"></i> Удалить</a>
+                  </div>
+                  <small class="text-muted">{{ book.author }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}
