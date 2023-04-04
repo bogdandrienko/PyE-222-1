@@ -1,5 +1,9 @@
+import contextlib
+
 from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
+import sqlite3
+
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 
@@ -237,5 +241,13 @@ INSERT INTO public.book_posts (title, description, author) VALUES ('Мёртвы
     pass
 
 
-if __name__ == "__main__":
-    database_create()
+def sql3_ex():
+    with contextlib.closing(sqlite3.connect('database.db')) as connection:
+        with connection as cursor:
+            cursor.execute("CREATE TABLE movie(title, year, score)")
+
+
+if __name__ == '__main__':
+    # app.run(port=5000)
+    # database_create()
+    sql3_ex()
