@@ -1,0 +1,57 @@
+{% extends "components/base.html" %}
+
+{% block main %}
+
+
+
+<div class="d-flex">
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white w-75" style="width: 380px;">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-5 fw-semibold">Все задачи</span>
+    </a>
+    {% for todo in todos %}
+        <div class="list-group list-group-flush border-bottom scrollarea">
+            <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                #{{todo.id}}
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                    <strong class="mb-1">{{todo.title}}</strong>
+                    {% if todo.status %}
+                        <small class="text-success">Выполнено</small>
+                    {% else %}
+                        <small class="text-warning">Не выполнено</small>
+                    {% endif %}
+                </div>
+                <div class="col-10 mb-1 small">{{todo.description}}</div>
+            </a>
+        </div>
+    {% else %}
+      <div class="alert alert-danger" role="alert">
+        Нет постов в базе данных!
+      </div>
+    {% endfor %}
+</div>
+
+<div class="container w-25">
+    <main class="form-signin small">
+      <form action="{{ url_for('create') }}" method="POST" enctype="multipart/form-data">
+        <h1 class="h3 mb-3 fw-normal">Заполните данные:</h1>
+        <div class="form-floating m-1 p-1">
+          <input type="text" class="form-control" id="floatingInput" placeholder="Амон Ра" name="title">
+          <label for="floatingInput">Заголовок:</label>
+        </div>
+        <div class="m-1 p-1">
+          <textarea class="form-control" placeholder="Описание" rows="5" name="description"></textarea>
+        </div>
+          <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="status">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Статус</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-outline-primary" type="submit">отправить</button>
+      </form>
+</main>
+</div>
+    </div>
+
+{% endblock main %}

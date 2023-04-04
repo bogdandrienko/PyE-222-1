@@ -1,9 +1,7 @@
 import contextlib
-
 from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 import sqlite3
-
 
 app = Flask(__name__, static_url_path='', static_folder='static', template_folder='templates')
 
@@ -88,20 +86,28 @@ def book_list():
     """
     title = request.form.get("title", "").strip()
 
-    with psycopg2.connect(
-            user="postgres",
-            password="31284bogdan",
-            host="127.0.0.1",
-            port="5432",
-            database="book_shop"
-    ) as connection:
-        with connection.cursor() as cursor:
-            cursor.execute(
-                "SELECT id, title, description, author FROM public.book_posts  WHERE title LIKE %s ORDER BY id ASC;",
-                (f"%{title}%",)
-            )
-            records = cursor.fetchall()
-            # print(records)
+    with contextlib.closing(sqlite3.connect('database.db')) as connection:
+        with connection as cursor:
+            rows = cursor.execute("""
+SELECT id, title, description, author FROM book_posts
+WHERE title LIKE ? ORDER BY id ASC;
+            """, (f"%{title}%",))
+            records = rows.fetchall()
+            # with psycopg2.connect(
+            #         user="postgres",
+            #         password="31284bogdan",
+            #         host="127.0.0.1",
+            #         port="5432",
+            #         database="book_shop"
+            # ) as connection:
+            #     with connection.cursor() as cursor:
+            #         cursor.execute(
+            #             "SELECT id, title, description, author FROM public.book_posts  WHERE title LIKE %s ORDER BY id ASC;",
+            #             (f"%{title}%",)
+            #         )
+            #         records = cursor.fetchall()
+
+            # print("records: ", records)
             _books = []
             for record in records:
                 new_dict = {
@@ -244,10 +250,32 @@ INSERT INTO public.book_posts (title, description, author) VALUES ('Мёртвы
 def sql3_ex():
     with contextlib.closing(sqlite3.connect('database.db')) as connection:
         with connection as cursor:
-            cursor.execute("CREATE TABLE movie(title, year, score)")
+            cursor.execute("""
+CREATE TABLE IF NOT EXISTS book_posts
+(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL UNIQUE,
+    description TEXT DEFAULT '',
+    author TEXT DEFAULT ''
+);
+            """)
+
+            #             cursor.execute("""
+            #
+            # INSERT INTO book_posts (title, description, author) VALUES ('Мёртвые души 1', 'Мёртвые души Мёртвые души Мёртвые души', 'Гоголь');
+            #
+            #             """)
+
+            rows = cursor.execute("""
+SELECT * FROM book_posts
+ORDER BY id ASC 
+""")
+
+            data = rows.fetchall()
+            print(data)
 
 
 if __name__ == '__main__':
-    # app.run(port=5000)
+    app.run(port=5000)
     # database_create()
-    sql3_ex()
+    # sql3_ex()
