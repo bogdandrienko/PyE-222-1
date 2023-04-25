@@ -1,0 +1,140 @@
+<mxfile host="app.diagrams.net" modified="2023-04-25T14:59:43.878Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="gilZzw7J8cKWAd-ksXq0" version="21.2.1" type="device">
+  <diagram name="Page-1" id="omqlMiOXuTMuD2715cba">
+    <mxGraphModel dx="2803" dy="1737" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="XTnmhPstq72m2_ETBXB7-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-4" target="XTnmhPstq72m2_ETBXB7-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-4" value="Пользователь" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="-47" y="288" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.014;entryY=0.421;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-5" target="XTnmhPstq72m2_ETBXB7-17">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="351" y="469.5" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="393" y="332" />
+              <mxPoint x="393" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-5" value="firefox" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="44" y="292" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-9" value="сервер (linux - ubuntu 22.04)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="671" y="194" width="198.75" height="30" as="geometry" />
+        </mxCell>
+        <UserObject label="https://egov.kz/cms/ru" link="https://egov.kz/cms/ru" id="XTnmhPstq72m2_ETBXB7-10">
+          <mxCell style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+            <mxGeometry x="176" y="297" width="153" height="27" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-14" value="Angular&lt;br&gt;Vue&lt;br&gt;React" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;" vertex="1" parent="1">
+          <mxGeometry x="26" y="376" width="114" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-15" target="XTnmhPstq72m2_ETBXB7-21">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="932" y="372" />
+              <mxPoint x="1102" y="372" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-15" target="XTnmhPstq72m2_ETBXB7-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-15" target="XTnmhPstq72m2_ETBXB7-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-15" value="Django (DRF) / Flask / FastAPI" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="837" y="413" width="216" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.036;entryY=0.31;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-19" target="XTnmhPstq72m2_ETBXB7-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-17" value="nginx" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="421" y="417" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-20" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.036;entryY=0.31;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-17" target="XTnmhPstq72m2_ETBXB7-19">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="541" y="446" as="sourcePoint" />
+            <mxPoint x="832" y="434" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-19" value="Gunicorn&lt;br&gt;&lt;br&gt;Uvicorn" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="614" y="400" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-21" target="XTnmhPstq72m2_ETBXB7-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-21" target="XTnmhPstq72m2_ETBXB7-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-21" target="XTnmhPstq72m2_ETBXB7-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-21" value="Postgre" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1087" y="-4" width="91" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-22" value="Пользователи" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1242" y="247" width="140" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-23" value="User 1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="XTnmhPstq72m2_ETBXB7-22">
+          <mxGeometry y="30" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-24" value="admin" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="XTnmhPstq72m2_ETBXB7-22">
+          <mxGeometry y="60" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-25" value="Bogdan A." style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="XTnmhPstq72m2_ETBXB7-22">
+          <mxGeometry y="90" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-27" value="Redis" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1596" y="437" width="91" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-29" value="Кэш" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1138" y="456" width="47" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-30" value="Выписка справки&lt;br&gt;Обучение нейронки&lt;br&gt;Посылка писем&lt;br&gt;Задачи на обработку статики&lt;br&gt;Обработка видео" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="1070" y="622" width="189" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="XTnmhPstq72m2_ETBXB7-31" target="XTnmhPstq72m2_ETBXB7-45">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-31" value="очередь задач" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="883" y="706" width="157" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-34" value="Postgre" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="989" y="-155" width="91" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-36" value="Postgre" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1226" y="-155" width="91" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-37" value="Postgre" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1111" y="-155" width="91" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-41" value="Redis" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1721" y="395" width="91" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-42" value="Redis" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="1726" y="528" width="91" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-43" value="сервер (linux - ubuntu 22.04)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="751" y="-120" width="198.75" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-44" value="" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="1042" y="172" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-45" value="" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="1343" y="456" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-46" value="сервер (linux - ubuntu 22.04)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="1613.25" y="303" width="198.75" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XTnmhPstq72m2_ETBXB7-48" value="amazon s3" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1352" y="874" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
