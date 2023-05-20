@@ -1,0 +1,42 @@
+[
+    {
+      "id": 1,
+      "title": "Клавиатура",
+      "description": "б/у",
+      "price": 1600.6,
+      "count": 2,
+      "date": "16.05.2023"
+    },
+    {
+      "id": 2,
+      "title": "Мышь",
+      "description": "новая",
+      "price": 2600.6,
+      "count": 1,
+      "date": "14.05.2023"
+    },
+    {
+      "id": 3,
+      "title": "Клавиатура 2",
+      "description": "б/у",
+      "price": 1600.6,
+      "count": 2,
+      "date": "16.05.2023"
+    },
+    {
+      "id": 4,
+      "title": "Клавиатура 3",
+      "description": "б/у",
+      "price": 1600.6,
+      "count": 2,
+      "date": "16.05.2023"
+    },
+    {
+      "id": 5,
+      "title": "Микрофон",
+      "description": "б/у",
+      "price": 21600.6,
+      "count": 1,
+      "date": "16.05.2023"
+    }
+]

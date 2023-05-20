@@ -1,0 +1,35 @@
+{% extends 'components/base.html' %}
+
+{% block content %}
+<div class="bg-body rounded shadow-sm">
+
+<!-- VIP -->
+{% include 'components/vip.html' %}
+<!-- VIP -->
+
+<!-- BASE -->
+<div class="d-flex flex-column align-items-stretch bg-body-tertiary" style="width: 600px;">
+<a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+<svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+<span class="fs-5 fw-semibold">Объявления</span>
+</a>
+<div class="list-group list-group-flush border-bottom scrollarea">
+
+{% for basic in basics %}
+    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+        <div class="d-flex w-100 align-items-center justify-content-between">
+            <strong class="mb-1">{{ basic.title }}</strong>
+            <small class="text-body-secondary">{{ basic.date }}</small>
+        </div>
+        <div class="col-10 mb-1 small">{{ basic.description }}</div>
+        <p class="card-text text-center fw-bold">{{ basic.price }} | <i class="fa-solid fa-sack-xmark"></i> * {{ basic.count }}</p>
+    </a>
+{% endfor %}
+
+</div>
+</div>
+<!-- BASE -->
+
+</div>
+
+{% endblock content %}
