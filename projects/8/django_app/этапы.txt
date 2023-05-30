@@ -1,0 +1,12 @@
+1. Виртуальное окружение
+2. Создание шаблона проекта
+python -m venv env
+call env/scripts/activate
+pip install django
+pip freeze > requirements.txt
+django-admin startproject django_settings .
+django-admin startapp django_app
+python manage.py runserver 0.0.0.0:8000
+
+https://www.virtualbox.org/wiki/Downloads
+https://ubuntu.com/download/alternative-downloads
