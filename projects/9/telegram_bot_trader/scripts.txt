@@ -1,0 +1,35 @@
+https://timeweb.cloud/tutorials/python/kak-sozdat-telegram-bota-na-python
+
+Шаг 1. Регистрация бота в BotFather (@BotFather)
+search -> @BotFather
+start
+/newbot
+
+name! @trader_bot_v3_bot
+api! 6214461102:AAFlbKZo1UPZbLnZC7pW4XNVTgPeOzZxI0A
+
+Шаг 2. Создание проекта
+python -m venv env
+call env/scripts/activate
+pip install pyTelegramBotAPI
+pip freeze > requirements.txt
+
+
+Шаг 3. План -> что, откуда, куда и зачем
+
+
+Шаг 4. Реализация функционала
+...
+
+Шаг 5. Развёртывание на сервере
+Выбрать хостинг (ps.kz / heroku / pythonanywhere)
+Получить аккаунт
+
+Загружаем requirements.txt
+pip install -r requirements
+
+Загружаем код (github / upload file / открыть файл на редактирование и изменить его)
+https://www.pythonanywhere.com/user/andriyenko1bogdan/files/home/andriyenko1bogdan/mysite
+
+Запускаем код
+python bot.py
