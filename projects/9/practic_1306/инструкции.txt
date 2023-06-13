@@ -1,0 +1,20 @@
+
+# Создание виртуального окружения
+# cmd
+python -m venv env
+call env/scripts/activate
+pip install django openpyxl
+pip freeze > requirements.txt
+
+# Создание django проекта
+django-admin startproject settings .
+django-admin startapp app
+python manage.py runserver
+# http://127.0.0.1:8000/
+
+# Реализуем функционал
+1. URL
+2. VIEW
+3. TEMPLATE
+4. MODEL
+

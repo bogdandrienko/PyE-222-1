@@ -1,0 +1,48 @@
+веб-разработка - широкая сфера пользовательского ПО, который включает -
+серверная часть(backend)
+
++ 
+
+визуальная часть (frontend)
+
+##################################################################################
+
+# команда
+# сроки
+# бюджет
+
+# usually
+# Python, PHP, JavaScript
+Python vs JavaScript
+1. ---- fullstack in one lang
+2. ++++ data sience, ML, CV, выразительность 
+
+# middle
+# Java, C#
+
+# perfomance
+# c++, rust, Go
+
+# Язык: от задач и целей
+# Фреймворк: от задач и целей 
+microbackend - flask
+safe и большое количество примеров / много библиотек - django
+modern - fastapi
+ultra-fast backend - sanic
+
+hybrid - смешанная, берём лучшие для лучших задач
+
+##################################################################################
+
+python -m venv env
+call env/scripts/activate
+pip install flask
+pip install fastapi "uvicorn[standard]" Jinja2
+pip install sanic sanic_ext Jinja2
+pip install django
+pip freeze > requirements.txt
+
+###################################################################
+
+https://web-frameworks-benchmark.netlify.app/result?asc=0&f=django,flask,sanic,fastapi,fasthttp,gin&l=go,python&metric=totalRequestsPerS&order_by=level64
+
