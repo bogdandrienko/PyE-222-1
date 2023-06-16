@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Домашняя страница</title>
+</head>
+<body>
+
+<h1>Домашняя страница нашего форума</h1>
+
+<ul>
+    <li><a href="{% url "forum_register" %}">Зарегистрироваться</a></li>
+    <li><a href="{% url "forum_login" %}">Войти</a></li>
+    <li><a href="{% url "forum_list" %}">Посмотреть все посты</a></li>
+    <li><a href="{% url "forum_post" %}">Отправить свой пост</a></li>
+</ul>
+</body>
+</html>

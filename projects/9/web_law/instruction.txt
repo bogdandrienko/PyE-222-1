@@ -1,0 +1,90 @@
+Django: 
+проект - каркас(основные настройки), 
+приложение - модуль(определённый функционал - оплата, чат, форум...), 
+маршрутизация - управление ссылками, 
+контроллеры - бизнес-логика, 
+шаблонизатор - внешний вид (html) - jinja, 
+модели - база данных.
+
+
+1.
+# виртуальное окружение - "сохранение зависимостей(библиотеки с строгим указанием версии)"
+# cmd
+python -m venv env
+call env/scripts/activate
+pip install django
+pip freeze > requirements.txt
+
+2.
+# Создание проекта - "каркас" для всех "приложений".
+call env/scripts/activate
+django-admin startproject django_settings .
+
+# Создание первого приложения - "каркас" для всех "приложений".
+django-admin startapp django_app
+
+# Запуск сервера разработки (vs продакшена)
+python manage.py runserver
+# 127.0.0.1:8000
+
+3. 
+# Воссоздать маршрутизацию
+Проект = Приложение 1 + Приложение 2 + ...
+
+4. 
+# Создание бизнес-логики
+...
+
+5.
+# Веб-Интерфейс
+home.html
+# jinja - позволяет выполнять код похожий на python внутри html.
+
+
+6.
+# База данных
+# ORM - позволяет выполнять код похожий на python внутри SQL
+Создание таблицы (ORM)
++= INSTALLED_APPS
+python manage.py createsuperuser
+
+# выполнение миграций
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+
+
+######################
+URL -> VIEW(def) -> MODEL(ORM) -> TEMPLATE (HTMl)
+########################
+MVT - MODEL VIEW TEMPLATE
+MVC - MODEL VIEW CONTROLLER
+MVC(T)
+
+
+#########################################################
+
+# Идея
+Страница отображащая весь массив документов: поиск, фильтрация, сортировка, рейтинг
+
+# Ссылка
+# https://egov.kz/cms/ru
+path('list/', views.docs_list, name="docs_list"),
+
+# Функция (вью / контроллер)
+def docs_list(request):
+    return render(request, "django_documents/docs_list.html", context={})
+
+# HTML (шаблоном / jinja)
+<!DOCTYPE html>
+...
+</html>
+
+
+
+# Есть excel-файл с данными, нужно вывести их в новом проекте в формате
+# https://getbootstrap.com/docs/5.0/examples/album/
+
+
+# python -m venv env
+

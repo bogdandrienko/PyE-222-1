@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Общий список</title>
+</head>
+<body>
+
+<h1>Общий список постов:</h1>
+{{ posts }}
+
+
+<ul>
+    <li><a href="{% url "forum_register" %}">Зарегистрироваться</a></li>
+    <li><a href="{% url "forum_login" %}">Войти</a></li>
+    <li><a href="{% url "forum_list" %}">Посмотреть все посты</a></li>
+    <li><a href="{% url "forum_post" %}">Отправить свой пост</a></li>
+</ul>
+</body>
+</html>

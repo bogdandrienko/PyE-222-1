@@ -1,0 +1,33 @@
+{% extends "components/main.html" %}
+{% block main %}
+
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <h4 class="mb-3">Заполните и отправьте форму</h4>
+        <form action="{{ url_for("view_create")}}" method="post" class="needs-validation" novalidate="">
+
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="title" class="form-label">Введите название поста</label>
+              <input name="title" type="text" class="form-control" id="title" placeholder="название" value="" required="">
+            </div>
+
+            <div class="col-12">
+              <label for="description" class="form-label">Описание поста</label>
+              <div class="input-group has-validation">
+                <span class="input-group-text">#</span>
+                  <textarea name="description" class="form-control" id="description" placeholder="описание" required="" rows="5"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Отправить</button>
+        </form>
+      </div>
+    </div>
+</div>
+
+{% endblock main %}
