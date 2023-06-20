@@ -1,0 +1,118 @@
+<mxfile host="app.diagrams.net" modified="2023-06-20T14:38:22.521Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="3iquB5jG5X0Xej6sSr_V" version="21.4.0" type="device">
+  <diagram name="Page-1" id="zJbrg_xM8Rx9oK9A7atH">
+    <mxGraphModel dx="893" dy="490" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WvaiMywwmPoKM4DUcScz-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-1" target="WvaiMywwmPoKM4DUcScz-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-1" value="/home GET" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-2" target="WvaiMywwmPoKM4DUcScz-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-2" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="170" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-4" value="видит главную страницу (home.html)" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="130" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-8" target="WvaiMywwmPoKM4DUcScz-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-8" value="/list GET" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="310" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-10" target="WvaiMywwmPoKM4DUcScz-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-10" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="170" y="320" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-11" value="видит список всех постов" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="280" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-13" target="WvaiMywwmPoKM4DUcScz-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-13" value="/create GET" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="360" y="440" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-15" target="WvaiMywwmPoKM4DUcScz-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-15" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="170" y="450" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-16" value="видит пустую форму" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="410" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-18" target="WvaiMywwmPoKM4DUcScz-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-18" value="/create POST" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="354" y="660" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-20" target="WvaiMywwmPoKM4DUcScz-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-20" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="120" y="700" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-21" target="WvaiMywwmPoKM4DUcScz-27">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-21" target="WvaiMywwmPoKM4DUcScz-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-21" value="видит пустую форму" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="590" y="720" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fillColor=#f8cecc;strokeColor=#b85450;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-27" target="WvaiMywwmPoKM4DUcScz-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-27" value="/list GET" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="910" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-28" value="видит список всех постов" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="500" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-34" target="WvaiMywwmPoKM4DUcScz-37">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-34" value="/change GET" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="900" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-36" target="WvaiMywwmPoKM4DUcScz-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-36" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="160" y="910" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-37" value="видит заполненую форму старыми данными" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="870" width="310" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-39" target="WvaiMywwmPoKM4DUcScz-40">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-39" value="/change POST" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="1000" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-40" target="WvaiMywwmPoKM4DUcScz-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-40" value="видит пустую форму" style="shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" vertex="1" parent="1">
+          <mxGeometry x="607" y="1060" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="WvaiMywwmPoKM4DUcScz-41" target="WvaiMywwmPoKM4DUcScz-39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WvaiMywwmPoKM4DUcScz-41" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="1010" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
