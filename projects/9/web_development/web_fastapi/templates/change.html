@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col">
         <h4 class="mb-3">Измените данные и отправьте форму</h4>
-        <form action="{{ url_for("view_change_get")}}" method="post" class="needs-validation" novalidate="">
+        <form action="{{ url_for("post_change_get")}}" method="post" class="needs-validation" novalidate="">
 
           <div class="row g-3">
               <input type="hidden" name="pk" value="{{ post.id }}"/>

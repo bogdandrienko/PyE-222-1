@@ -2,7 +2,7 @@
 {% block main %}
 
 <div class="container">
-    <form action="{{ url_for("view_list_post")}}" method="post">
+    <form action="{{ url_for("post_list_post")}}" method="post">
         <div class="input-group text-center w-50">
             <input name="search" type="text" min="0" max="100" required value="{{ search }}" class="form-control" placeholder="введите часть названия сюда"/>
             <button type="submit" class="btn btn-secondary">искать</button>
@@ -19,11 +19,13 @@
         <div class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
           <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
           <div class="d-flex gap-2 w-100 justify-content-between">
-              <p class="btn btn-sm btn-outline-dark">{{ post.author }}</p>
-            <div>
-              <h6 class="mb-0">{{ post.title }}</h6>
-              <p class="mb-0 opacity-75">{{ post.description }}</p>
-            </div>
+            <p class="btn btn-sm btn-outline-dark">{{ post.author }}</p>
+            <a class="text-dark text-decoration-none" href="/detail?pk={{ post.id }}">
+                <div>
+                    <h6 class="mb-0">{{ post.title }}</h6>
+                    <p class="mb-0 opacity-75">{{ post.description }}</p>
+                </div>
+            </a>
             <div>
               <small class="opacity-50 text-nowrap">{{ post.datetime }}</small>
                 <a class="small text-nowrap fa-solid fa-hammer text-warning text-decoration-none" href="/change?pk={{ post.id }}"></a>

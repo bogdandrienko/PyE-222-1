@@ -1,0 +1,59 @@
+{% extends "components/main.html" %}
+{% block main %}
+
+<div class="container">
+    <form action="{{ url_for("post_list_post")}}" method="post">
+        <div class="input-group text-center w-50">
+            <input name="search" type="text" min="0" max="100" required value="{{ search }}" class="form-control" placeholder="введите часть названия сюда"/>
+            <button type="submit" class="btn btn-secondary">искать</button>
+            <a type="reset" href="/list" class="btn btn-outline-secondary">сбросить</a>
+        </div>
+    </form>
+</div>
+
+<div class="d-flex flex-column flex-md-row p-2 align-items-center justify-content-center">
+  <div class="list-group">
+    <div class="list-group-item d-flex gap-3 py-3" aria-current="true">
+      <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+      <div class="d-flex gap-2 w-100 justify-content-between">
+          <p class="btn btn-sm btn-outline-dark">{{ post.author }}</p>
+        <div>
+          <h6 class="mb-0">{{ post.title }}</h6>
+          <p class="mb-0 opacity-75">{{ post.description }}</p>
+        </div>
+        <div>
+          <small class="opacity-50 text-nowrap">{{ post.datetime }}</small>
+            <a class="small text-nowrap fa-solid fa-hammer text-warning text-decoration-none" href="/change?pk={{ post.id }}"></a>
+            <a class="small text-nowrap fa-solid fa-trash text-danger text-decoration-none" href="/delete?pk={{ post.id }}"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <h4 class="mb-3">Комментарии к посту:</h4>
+        <form action="{{ url_for("post_comment_create")}}" method="post" class="needs-validation" novalidate="">
+
+          <hr class="my-4">
+
+          <div class="row g-3">
+            <div class="col-12">
+              <label for="description" class="form-label">Оставьте свой комментарий:</label>
+              <div class="input-group has-validation">
+                  <textarea name="description" class="form-control" id="description" placeholder="описание" required="" rows="2"></textarea>
+                <button class="btn btn-success btn-lg" type="submit">Отправить</button>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+        </form>
+      </div>
+    </div>
+</div>
+
+{% endblock main %}
