@@ -2,6 +2,8 @@ from fastapi import Request
 import datetime
 import sqlite3
 import main
+
+
 # from main import DEBUG, LOGGING
 
 
@@ -25,6 +27,7 @@ def db_query_sqlite(query: str, args=(), many=True) -> tuple | list[tuple] | Non
         except Exception as error:
             return None
 
+
 def sqlite_create_posts_db():
     with sqlite3.connect('database/database.db') as conn:
         cursor = conn.cursor()
@@ -39,18 +42,28 @@ datetime TEXT DEFAULT CURRENT_TIMESTAMP
 )
 ''')
 
+
 def sqlite_create_post_comments_db():
     with sqlite3.connect('database/database.db') as conn:
         cursor = conn.cursor()
+#         cursor.execute('''
+# CREATE TABLE IF NOT EXISTS post_comments
+# (
+# id INTEGER PRIMARY KEY AUTOINCREMENT,
+# title_id INTEGER,
+# author TEXT,
+# text TEXT,
+# datetime TEXT DEFAULT CURRENT_TIMESTAMP
+# )
+# ''')
+#         cursor.execute('''
+# DROP TABLE post_comments
+# ''')
         cursor.execute('''
-CREATE TABLE IF NOT EXISTS post_comments
-(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-author TEXT,
-text TEXT,
-datetime TEXT DEFAULT CURRENT_TIMESTAMP
-)
+SELECT * FROM post_comments
 ''')
+        print(cursor.fetchall())
 
 if __name__ == "__main__":
+    sqlite_create_post_comments_db()
     pass

@@ -135,23 +135,46 @@ async def post_detail_get(request: Request):
     return templates.TemplateResponse("detail.html", {"request": request, "post": new_dict})
 
 
-@app.get("/comment/create", response_class=RedirectResponse)
+@app.post("/comment/create", response_class=RedirectResponse)
 async def post_comment_create(request: Request):
     """Удаляет существующую публикацию"""
     utils.logging(request)
 
-    """
-    
-    """
+    form = await request.form()
+    pk = form.get('pk')
+    author = random.choice(["Дина", "Алема", "Айгерим"])
+    text = form.get('text')
 
-    # TODO нужно понять, как передать ключ в параметре url
-    return RedirectResponse(url=app.url_path_for("post_detail_get") + "?pk=10", status_code=303)
+    utils.db_query_sqlite(
+        f"""INSERT INTO post_comments (title_id, author, text) VALUES (?, ?, ?)""",
+        (pk, author, text)
+    )
+    return RedirectResponse(url=app.url_path_for("post_detail_get") + f"?pk={pk}", status_code=303)
 
 
 if __name__ == '__main__':
+    """
+    Сайт, для публикации постов, с комментариями и лайками
+    """
+
     # todo
     # детальный просмотр поста
     # комментарии
     # лайки
     # TODO исправить удаление и изменение на delete и put методы
+
+    # todo ИДЕЯ
+    # Люди, со своих компьютеров должны уметь посылать рационализаторские предложения
+
+    # todo ДИЗАЙН
+    # В настольном приложении, есть форма с полями:
+    # Наименование - label, Место - combobox, Экономический эффект - float
+
+    # todo СТЭК
+    # fastapi   - backend
+    # database  - sqlite
+    # pyqt6     - frontend (aiohttp) / android / ios
+
+
+
     pass

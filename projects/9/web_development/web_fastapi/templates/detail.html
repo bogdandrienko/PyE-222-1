@@ -37,13 +37,15 @@
         <h4 class="mb-3">Комментарии к посту:</h4>
         <form action="{{ url_for("post_comment_create")}}" method="post" class="needs-validation" novalidate="">
 
+          <input type="hidden" name="pk" value="{{ post.id }}"/>
+
           <hr class="my-4">
 
           <div class="row g-3">
             <div class="col-12">
               <label for="description" class="form-label">Оставьте свой комментарий:</label>
               <div class="input-group has-validation">
-                  <textarea name="description" class="form-control" id="description" placeholder="описание" required="" rows="2"></textarea>
+                  <textarea name="text" class="form-control" id="description" placeholder="описание" required="" rows="2"></textarea>
                 <button class="btn btn-success btn-lg" type="submit">Отправить</button>
               </div>
             </div>
