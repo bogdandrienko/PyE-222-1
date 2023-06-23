@@ -46,24 +46,43 @@ datetime TEXT DEFAULT CURRENT_TIMESTAMP
 def sqlite_create_post_comments_db():
     with sqlite3.connect('database/database.db') as conn:
         cursor = conn.cursor()
-#         cursor.execute('''
-# CREATE TABLE IF NOT EXISTS post_comments
-# (
-# id INTEGER PRIMARY KEY AUTOINCREMENT,
-# title_id INTEGER,
-# author TEXT,
-# text TEXT,
-# datetime TEXT DEFAULT CURRENT_TIMESTAMP
-# )
-# ''')
-#         cursor.execute('''
-# DROP TABLE post_comments
-# ''')
+        #         cursor.execute('''
+        # CREATE TABLE IF NOT EXISTS post_comments
+        # (
+        # id INTEGER PRIMARY KEY AUTOINCREMENT,
+        # title_id INTEGER,
+        # author TEXT,
+        # text TEXT,
+        # datetime TEXT DEFAULT CURRENT_TIMESTAMP
+        # )
+        # ''')
+        #         cursor.execute('''
+        # DROP TABLE post_comments
+        # ''')
         cursor.execute('''
 SELECT * FROM post_comments
 ''')
         print(cursor.fetchall())
 
+
+def sqlite_create_post_ratings_db():
+    with sqlite3.connect('database/database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+CREATE TABLE IF NOT EXISTS post_ratings
+(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+title_id INTEGER,
+rating INTEGER
+)
+''')
+        cursor.execute('''
+SELECT * FROM post_ratings
+''')
+        print(cursor.fetchall())
+
+
 if __name__ == "__main__":
-    sqlite_create_post_comments_db()
+    # sqlite_create_post_comments_db()
+    sqlite_create_post_ratings_db()
     pass

@@ -1,3 +1,5 @@
+import sqlite3
+
 import aiohttp
 import asyncio
 
@@ -12,6 +14,15 @@ def test_create_new_post():
     asyncio.run(test())
 
 
+def test_comments():
+    with sqlite3.connect('database/database.db') as connection:
+        cursor = connection.cursor()
+        cursor.execute("""SELECT * FROM post_comments""")
+        data = cursor.fetchall()
+        print(len(data), data)
+
+
 if __name__ == "__main__":
-    test_create_new_post()
+    # test_create_new_post()
+    test_comments()
     pass

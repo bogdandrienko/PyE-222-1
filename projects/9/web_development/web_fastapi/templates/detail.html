@@ -25,6 +25,27 @@
           <small class="opacity-50 text-nowrap">{{ post.datetime }}</small>
             <a class="small text-nowrap fa-solid fa-hammer text-warning text-decoration-none" href="/change?pk={{ post.id }}"></a>
             <a class="small text-nowrap fa-solid fa-trash text-danger text-decoration-none" href="/delete?pk={{ post.id }}"></a>
+
+<div class="card">
+    <div class="card-header">
+        {% if rating > 0 %}
+            <p class="text-success">
+                {{ rating }}
+            </p>
+        {% else %}
+            <p class="text-danger">
+                {{ rating }}
+            </p>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <a href="/post_rating?status=1&title_id={{ post.id }}" class="btn btn-sm btn-success m-1 p-1">like</a>
+        <a href="/post_rating?status=-1&title_id={{ post.id }}" class="btn btn-sm btn-danger m-1 p-1">dislike</a>
+    </div>
+    <div class="card-footer">
+    </div>
+</div>
+
         </div>
       </div>
     </div>
@@ -55,6 +76,47 @@
 
         </form>
       </div>
+
+
+
+
+
+
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center smal">
+          {% for comment in comments %}
+            <div class="coll">
+              <div class="card rounded-3 shadow-sm">
+                <div class="card-header">
+                  <h4 class="my-0 fw-normal">{{ comment.author }} #{{ comment.id }}</h4>
+                </div>
+                <div class="card-body">
+                  <ul class="list-unstyled">
+                    <li>{{ comment.text }}</li>
+                  </ul>
+                  <hr class="m-0 p-0"/>
+                  <p class="small text-secondary text-end">{{ comment.datetime }}</p>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <div class="col">
+              <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                  <h4 class="my-0 fw-normal">Комментариев нет! Вы можете быть первым!</h4>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+
+
+
+
+
+
+
+
     </div>
 </div>
 

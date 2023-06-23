@@ -132,7 +132,24 @@ async def post_detail_get(request: Request):
         args=(int(pk),), many=False
     )
     new_dict = {"id": raw_row[0], "author": raw_row[1], "title": raw_row[2], "description": raw_row[3], "datetime": raw_row[4]}
-    return templates.TemplateResponse("detail.html", {"request": request, "post": new_dict})
+
+    comments_raw = utils.db_query_sqlite(
+        """SELECT id, title_id, author, text, datetime FROM post_comments WHERE title_id = ?""",
+        args=(int(pk),), many=True
+    )
+    comments_json = []
+    if len(comments_raw) > 0:
+        for raw_row in comments_raw:
+            comment_json = {"id": raw_row[0], "title_id": raw_row[1], "author": raw_row[2], "text": raw_row[3], "datetime": raw_row[4]}
+            comments_json.append(comment_json)
+
+    rating = utils.db_query_sqlite(f"""SELECT rating FROM post_ratings where title_id = ?""", (pk,), many=False)
+    if rating is None:
+        rating = 0
+    else:
+        rating = rating[0]
+
+    return templates.TemplateResponse("detail.html", {"request": request, "post": new_dict, "comments": comments_json, "rating": rating})
 
 
 @app.post("/comment/create", response_class=RedirectResponse)
@@ -152,6 +169,26 @@ async def post_comment_create(request: Request):
     return RedirectResponse(url=app.url_path_for("post_detail_get") + f"?pk={pk}", status_code=303)
 
 
+@app.get("/post_rating", response_class=RedirectResponse)
+async def post_rating_change(request: Request):
+    """Изменяет рейтинг публикации"""
+    utils.logging(request)
+
+    title_id = int(request.query_params.get("title_id"))
+    status = int(request.query_params.get("status"))  # 1 - like | -1 - dislike
+    rating = utils.db_query_sqlite(f"""SELECT rating FROM post_ratings where title_id = ?""", (title_id,), many=False)
+
+    if rating is None:
+        utils.db_query_sqlite(f"""INSERT INTO post_ratings (title_id, rating) VALUES (?, ?)""", (title_id, status))
+    else:
+        if status == 1:
+            utils.db_query_sqlite(f"""UPDATE post_ratings SET rating = rating + 1 WHERE title_id = ?""", (title_id, ))
+        else:
+            utils.db_query_sqlite(f"""UPDATE post_ratings SET rating = rating - 1 WHERE title_id = ?""", (title_id, ))
+
+    return RedirectResponse(url=app.url_path_for("post_detail_get") + f"?pk={title_id}", status_code=303)
+
+
 if __name__ == '__main__':
     """
     Сайт, для публикации постов, с комментариями и лайками
@@ -163,18 +200,15 @@ if __name__ == '__main__':
     # лайки
     # TODO исправить удаление и изменение на delete и put методы
 
-    # todo ИДЕЯ
-    # Люди, со своих компьютеров должны уметь посылать рационализаторские предложения
+    # Реализовать систему "рейтинга"(лайки)
+    # Окно, с 3 элементами: 2 кнопки - лайк/дизлайк, и сам рейтинг (if - красный/зелёный)
+    # по нажатию кнопки лайк - происходит запись в базу данных
+    # по нажатию кнопки дизлайк - происходит запись в базу данных
+    #
 
-    # todo ДИЗАЙН
-    # В настольном приложении, есть форма с полями:
-    # Наименование - label, Место - combobox, Экономический эффект - float
-
-    # todo СТЭК
-    # fastapi   - backend
-    # database  - sqlite
-    # pyqt6     - frontend (aiohttp) / android / ios
-
-
+    # 1. Просто передать цифру в шаблонизатор, и показывать её красным/зелёным. + кнопки
+    # 2. Создать сущность (таблица - id, title_id, value) в базе данных
+    # 3. Можно сделать запись в базу по лайку - создаёте запись/обновляете
+    # 4. ...
 
     pass
