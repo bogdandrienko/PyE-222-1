@@ -5,20 +5,20 @@
     <div class="row">
       <div class="col">
         <h4 class="mb-3">Заполните и отправьте форму</h4>
-        <form action="{% url "post_create" %}" method="post" class="needs-validation" novalidate="">
+        <form action="{% url "post_create" %}" method="post">
             {% csrf_token %}
 
           <div class="row g-3">
             <div class="col-sm-6">
               <label for="title" class="form-label">Введите название поста</label>
-              <input name="title" type="text" class="form-control" id="title" placeholder="название" value="" required="">
+              <input name="title" type="text" minlength="1" class="form-control" id="title" placeholder="название" required>
             </div>
 
             <div class="col-12">
               <label for="description" class="form-label">Описание поста</label>
               <div class="input-group has-validation">
                 <span class="input-group-text">#</span>
-                  <textarea name="description" class="form-control" id="description" placeholder="описание" required="" rows="5"></textarea>
+                  <textarea name="description" class="form-control" id="description" placeholder="описание" required rows="5"></textarea>
               </div>
             </div>
           </div>

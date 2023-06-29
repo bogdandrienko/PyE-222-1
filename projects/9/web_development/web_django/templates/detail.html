@@ -2,7 +2,7 @@
 {% block main %}
 
 <div class="container">
-    <form action="{% url "post_list_post" %}" method="post">
+    <form action="{% url "posts" %}" method="post">
         <div class="input-group text-center w-50">
             <input name="search" type="text" min="0" max="100" required value="{{ search }}" class="form-control" placeholder="введите часть названия сюда"/>
             <button type="submit" class="btn btn-secondary">искать</button>
@@ -28,19 +28,23 @@
 
 <div class="card">
     <div class="card-header">
-        {% if rating.rating > 0 %}
+        {% if rating == 0 %}
+            <p class="text-dark">
+                0
+            </p>
+        {% elif rating > 0 %}
             <p class="text-success">
-                {{ rating.rating }}
+                {{ rating }}
             </p>
         {% else %}
             <p class="text-danger">
-                {{ rating.rating }}
+                {{ rating }}
             </p>
         {% endif %}
     </div>
     <div class="card-body">
-        <a href="{% url "rating_like" post.id %}" class="btn btn-sm btn-success m-1 p-1">like</a>
-        <a href="{% url "rating_dislike" post.id %}" class="btn btn-sm btn-danger m-1 p-1">dislike</a>
+        <a href="{% url "rating_change" post.id 1 %}" class="btn btn-sm btn-success m-1 p-1">like</a>
+        <a href="{% url "rating_change" post.id -1 %}" class="btn btn-sm btn-danger m-1 p-1">dislike</a>
     </div>
     <div class="card-footer">
     </div>

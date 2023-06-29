@@ -1,1 +1,11 @@
 URLS.py -> VIEWS.py -> MODELS.py -> TEMPLATE.html
+
+# купили сервер
+# ps.kz - самый популярный 70% рынка / hoster.kz - самый дешевый
+# oblaka - самый свежий, отзывчивый, оплата по дням
+
+# клонировали на него свой гитхаб проект
+sudo apt-get update -y
+sudo apt-get install -y git python3-dev python3-pip python3-venv
+git clone https://github.com/bogdandrienko/temp_django.git
+
