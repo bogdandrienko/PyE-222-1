@@ -1,35 +1,39 @@
 <div class="container my-2">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb breadcrumb-custom overflow-hidden text-center bg-body-tertiary border rounded-3 p-2">
-        {% if request.user.is_authenticated %}
-            <p class="text-success">ПОЛЬЗОВАТЕЛЬ ВОШЁЛ ({{ request.user.username }})</p>
-        {% else %}
-            <p class="text-danger">ПОЛЬЗОВАТЕЛЬ НЕ ВОШЁЛ (Аноним)</p>
-        {% endif %}
       <li class="breadcrumb-item">
         <a class="link-body-emphasis fw-semibold text-decoration-none custom_text" href="/">
           <svg class="bi" width="16" height="16"></svg>
           Домашняя страница
         </a>
       </li>
+
+    {% if request.user.is_authenticated %}
       <li class="breadcrumb-item">
         <a class="link-body-emphasis fw-semibold text-decoration-none" href="/list">Список постов</a>
       </li>
       <li class="breadcrumb-item">
         <a class="link-body-emphasis fw-semibold text-decoration-none" href="/create">Создание поста</a>
       </li>
-      <li class="breadcrumb-item">
+        <li class="breadcrumb-item">
+          <i class="fa-solid fa-door-open text-danger"></i>
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/logout">Выйти ({{ request.user.username }})</a>
+      </li>
+    {% else %}
+        <li class="breadcrumb-item">
           <i class="fa-solid fa-right-to-bracket text-primary"></i>
         <a class="link-body-emphasis fw-semibold text-decoration-none" href="/login">Войти</a>
       </li>
-      <li class="breadcrumb-item">
-          <i class="fa-solid fa-door-open text-danger"></i>
-        <a class="link-body-emphasis fw-semibold text-decoration-none" href="/logout">Выйти</a>
-      </li>
-      <li class="breadcrumb-item">
+        <li class="breadcrumb-item">
           <i class="fa-solid fa-user-plus text-success"></i>
         <a class="link-body-emphasis fw-semibold text-decoration-none" href="/register">Регистрация</a>
       </li>
+    {% endif %}
+
+
+
+
+
 
 
 

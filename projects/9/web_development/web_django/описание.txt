@@ -1,5 +1,12 @@
 URLS.py -> VIEWS.py -> MODELS.py -> TEMPLATE.html
 
+
+# login
+http://127.0.0.1:8000/ -> def home -> index.html -> /login GET ->
+def login_f GET -> login.html -> /login POST -> def login_f POST ->
+authenticate -> login -> save session_id to cookies
+
+
 # купили сервер
 # ps.kz - самый популярный 70% рынка / hoster.kz - самый дешевый
 # oblaka - самый свежий, отзывчивый, оплата по дням

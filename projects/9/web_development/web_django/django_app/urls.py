@@ -4,10 +4,9 @@ from django_app import views
 urlpatterns = [
     # base
     path('', views.home, name="home"),
-    path('about/', views.home, name="about"),
-    path('contacts/', views.home, name="contacts"),
     path('login/', views.login_f, name="login"),
     path('logout/', views.logout_f, name="logout"),
+    path('register/', views.register_f, name="register"),
 
     # posts
     path('list/', views.post_list, name="posts"),
@@ -22,8 +21,8 @@ urlpatterns = [
     # post ratings
     path('rating/change/<str:pk>/<str:status>/', views.rating_change, name="rating_change"),
 
-    #
     # TODO
-    path('register/', views.home, name="register"),
+    path('about/', views.home, name="about"),
+    path('contacts/', views.home, name="contacts"),
     path('profile/', views.home, name="profile"),
 ]
