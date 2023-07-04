@@ -1,0 +1,36 @@
+"сайт для публикации смешных картинок"
+
+1. Настройка окружения
+https://github.com/bogdandrienko
+
+https://git-scm.com/
+https://desktop.github.com/
+
+https://www.python.org/
+https://www.jetbrains.com/ru-ru/pycharm/download/?section=windows
+https://nodejs.org/en
+
+
+
+2. Выбор стека технологий
+Python + HTML + CSS + JS + PostgreSQL + Django (веб-сайт / веб-приложение / веб-платформа)
+
+- как писать код (выбрать стандарты)
+- какие паттерны использовать (DRY, MVC, TDD)
+
+3) Создание проекта
+
+python -m venv env
+call env/scripts/activate
+pip install Django Pillow black[d] pylint
+# PYCHARM PLUGINS: tabnine | prettier | blackconnect | pylint
+# SCRIPTS
+
+# 1. Figma -> frontend + backend (designer)
+# 2. Chema -> ...
+# 3. Expirience -> for middle
+
+# home.html -> navbar(login.html  / logout.html  / register.html ) + about + footer
+# login.html  / logout.html  / register.html
+
+# URL -> VIEW -> MODEL -> TEMPLATE

@@ -1,0 +1,77 @@
+{% extends "components/base.html" %}
+{% block main %}
+
+<div class="container">
+    <form action="{% url "posts" %}" method="post">
+        {% csrf_token %}
+
+        <div class="input-group text-center w-50">
+            <input name="search" type="text" min="0" max="100" required value="{{ search }}" class="form-control" placeholder="введите часть названия сюда"/>
+            <button type="submit" class="btn btn-secondary">искать</button>
+            <a type="reset" href="/list" class="btn btn-outline-secondary">сбросить</a>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+<div class="container marketing my-3">
+<hr class="featurette-divider">
+<div class="row">
+    {% for image in images %}
+        <div class="col-lg-4">
+            <img src="/static/{{ image.image }}" alt="image" class="img-fluid" width="200"/>
+            <h2 class="fw-normal">{{ image.title }}</h2>
+            <p>Some representative placeholder content for the three columns of text below the carousel. This is the first column.</p>
+            <p><a class="btn btn-secondary" href="#">View details »</a></p>
+        </div>
+    {% endfor %}
+</div>
+<hr class="featurette-divider">
+</div>
+
+
+
+
+
+
+
+
+<div class="p-3 flex-column flex-lg-row align-items-center justify-content-center">
+  <div class="list-group">
+    {% for image in images %}
+        <div class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+          <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <p class="btn btn-sm btn-outline-dark">{{ image.author }}</p>
+            <a class="text-dark text-decoration-none" href="{% url 'post_detail' image.id %}">
+                <div>
+                    <h6 class="mb-0">{{ image.title }}</h6>
+                    <p class="mb-0 opacity-75">{{ image.description }}</p>
+                </div>
+            </a>
+            <div>
+              <small class="opacity-50 text-nowrap">{{ image.datetime }}</small>
+                <a class="small text-nowrap fa-solid fa-hammer text-warning text-decoration-none" href="{% url 'post_change' image.id %}"></a>
+                <a class="small text-nowrap fa-solid fa-trash text-danger text-decoration-none" href="{% url 'post_delete' image.id %}"></a>
+            </div>
+          </div>
+        </div>
+    {% empty %}
+        <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+          <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+          <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+              <h6 class="mb-0">Ничего не найдено</h6>
+            </div>
+          </div>
+        </a>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock main %}
