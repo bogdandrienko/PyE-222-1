@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Домашняя страница</h1>
+<div>Погода в столице: {{ weather.day }}(день) | {{ weather.night }}(ночь)</div>
+<div>Курс доллара: {{ coin }} тг. за 1$</div>
+
+<ul>
+    {% for todo in todos %}
+        <li>[{{ todo.id }}] {{ todo.title }}</li>
+    {% empty %}
+        <li>Записей не найдено!</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>

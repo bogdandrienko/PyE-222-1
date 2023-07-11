@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Need</title>
+</head>
+<body>
+<h1>Need {{ name }}</h1>
+<a href="{% url "create_mem" %}">create_mem</a>
+<ul>
+    {% for meme in memes %}
+        <li>
+            {{ meme.title }} <img src="{% static meme.image.url %}" alt="image" class="img-fluid" width="200"/>
+            <a href="{% url "update_mem" meme.id %}">update_mem</a>
+            <a href="{% url "delete_mem" meme.id %}">delete_mem</a>
+        </li>
+    {% empty %}
+        <li>Ни одного мема не обнаружено!</li>
+    {% endfor %}
+</ul>
+</body>
+</html>

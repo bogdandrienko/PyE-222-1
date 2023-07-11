@@ -1,0 +1,40 @@
+Показ данных о погоде / валюте и из json_placehoplder
+
+
+python -m venv env
+call env/scripts/activate
+pip install Django requests
+pip freeze > requirements.txt
+
+django-admin startproject settings .
+django-admin startapp app
+
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+
+python manage.py runserver 0.0.0.0:8000
+# chrome -> http://127.0.0.1:8000/
+
+# URLS -> VIEWS -> MODELS -> TEMPLATES
+
+#################################################################
+# DEVELOP
+#################################################################
+
+ps.kz - 3200тг, мес. == 70% рынка РК
+hoster.kz 2400, низкая цена
+oblako.kz 3880, можно купить на час
+ruvds.com 130 рублей, сверхнизкая цена
+
+sudo apt-get update -y
+sudo apt-get install -y python3-venv python3-pip python3-dev
+
+python -V
+python3 -m venv env
+source env/bin/activate
+
+pip install -r requirements.txt
+python manage.py runserver 0.0.0.0:8000
+# chrome -> http://188.94.158.188:8000/
+

@@ -1,12 +1,12 @@
 """Контроллеры."""
 import re
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django_app import models
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -24,12 +24,12 @@ def register_view(request: HttpRequest) -> HttpResponse:
         email = request.POST.get("email", None)  # Admin1@gmail.com
         password = request.POST.get("password", None)  # Admin1@gmail.com
         if (
-            re.match(r"[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}", email) is None
-            or re.match(
-                r"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).*$",
-                password,
-            )
-            is None
+                re.match(r"[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}", email) is None
+                or re.match(
+            r"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!.]).*$",
+            password,
+        )
+                is None
         ):
             return render(
                 request,
@@ -89,12 +89,14 @@ def logout_view(request: HttpRequest) -> HttpResponse:
 def list_view(request: HttpRequest) -> HttpResponse:
     """_view"""
 
-    # models.Images.objects.all()
-    images = [
-        {"id": x, "title": f"Наименование {x} Alema", "image": "img/error.jpg"}
-        for x in range(1, 10+1)
-    ]
-    return render(request, "django_app/list.html", {"images": images})
+    memes = models.Mem.objects.all()
+
+    # фейковые данные
+    # images = [
+    #     {"id": x, "title": f"Наименование {x} Alema", "image": "img/error.jpg"}
+    #     for x in range(1, 10+1)
+    # ]
+    return render(request, "django_app/list.html", {"images": memes})
 
 
 def detail_view(request: HttpRequest, pk: str) -> HttpResponse:
@@ -105,3 +107,55 @@ def detail_view(request: HttpRequest, pk: str) -> HttpResponse:
 def create_view(request: HttpRequest, pk: str) -> HttpResponse:
     """_view"""
     return redirect(reverse("login"))
+
+
+def list_memes(request):
+    """Возврат списка мемов."""
+
+    name = "Айгерим"
+    # _ = """
+    # SELECT * from memes
+    # WHERE is_moderate=True
+    # ORDER BY date_time DESC
+    # """
+    memes = models.Mem.objects.all().filter(is_moderate=True).order_by("-date_time")  # SQL
+    return render(request, "django_app/list_memes.html", context={"name": name, "memes": memes})
+
+
+def create_mem(request):
+    """Создание нового мема."""
+
+    if request.method == "GET":
+        return render(request, "django_app/create_mem.html")
+    elif request.method == "POST":
+        title = request.POST.get("title", None)
+        avatar = request.FILES.get("avatar", None)
+        models.Mem.objects.create(author=request.user, title=title, description="", image=avatar)  # SQL
+        return redirect(reverse("list_memes"))
+    else:
+        raise ValueError("Invalid method")
+
+
+
+def update_mem(request, pk: str):
+    """Обновление существующего мема."""
+
+    if request.method == "GET":
+        mem = models.Mem.objects.get(id=int(pk))  # SQL
+        mem.title = mem.title[::-1]
+        # mem.is_moderate = False
+        mem.save()
+        return redirect(reverse("list_memes"))
+    else:
+        raise ValueError("Invalid method")
+
+
+def delete_mem(request, pk: str):
+    """Удаление мема."""
+
+    if request.method == "GET":
+        mem = models.Mem.objects.get(id=int(pk))  # SQL
+        mem.delete()
+        return redirect(reverse("list_memes"))
+    else:
+        raise ValueError("Invalid method")

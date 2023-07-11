@@ -123,6 +123,9 @@ STATICFILES_DIRS = [
     # Path(BASE_DIR / "frontend/react/build"),
 ]
 
+MEDIA_URL = "media/"
+MEDIA_ROOT = "static/media"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

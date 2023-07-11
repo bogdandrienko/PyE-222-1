@@ -13,19 +13,19 @@
         </a>
       </li>
 
-      <li class="breadcrumb-item">
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none"
-          href="{% url "list" %}"
-          >Список постов</a
-        >
-      </li>
       {% if request.user.is_authenticated %}
       <li class="breadcrumb-item">
         <a
           class="link-body-emphasis fw-semibold text-decoration-none"
-          href="/list"
-          >Список постов</a
+          href="{% url "need_name" %}"
+          >NEED</a
+        >
+      </li>
+      <li class="breadcrumb-item">
+        <a
+          class="link-body-emphasis fw-semibold text-decoration-none"
+          href="{% url "list" %}"
+          >Все мемы</a
         >
       </li>
       <li class="breadcrumb-item">

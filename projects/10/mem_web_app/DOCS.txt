@@ -33,4 +33,29 @@ pip install Django Pillow black[d] pylint
 # home.html -> navbar(login.html  / logout.html  / register.html ) + about + footer
 # login.html  / logout.html  / register.html
 
+
+
+
+
+
+
+
+
+
+
+
 # URL -> VIEW -> MODEL -> TEMPLATE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
