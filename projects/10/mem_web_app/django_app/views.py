@@ -1,4 +1,6 @@
 """Контроллеры."""
+import datetime
+import random
 import re
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
@@ -89,13 +91,22 @@ def logout_view(request: HttpRequest) -> HttpResponse:
 def list_view(request: HttpRequest) -> HttpResponse:
     """_view"""
 
-    memes = models.Mem.objects.all()
+    # memes = models.Mem.objects.all()
 
     # фейковые данные
-    # images = [
-    #     {"id": x, "title": f"Наименование {x} Alema", "image": "img/error.jpg"}
-    #     for x in range(1, 10+1)
-    # ]
+    memes = [
+        {
+            "id": x,
+            "title": f"Наименование {x} Alema",
+            "description": {"data1": {"price": random.randint(1, 1000000) + random.random()}},
+            "image": "media/images/posts/error.jpg",
+            "datetime": datetime.datetime.now(),
+        }
+        for x in range(1, 20+1)
+    ]
+
+    print(datetime.datetime.now())
+
     return render(request, "django_app/list.html", {"images": memes})
 
 
@@ -104,7 +115,7 @@ def detail_view(request: HttpRequest, pk: str) -> HttpResponse:
     return redirect(reverse("login"))
 
 
-def create_view(request: HttpRequest, pk: str) -> HttpResponse:
+def create_view(request: HttpRequest) -> HttpResponse:
     """_view"""
     return redirect(reverse("login"))
 

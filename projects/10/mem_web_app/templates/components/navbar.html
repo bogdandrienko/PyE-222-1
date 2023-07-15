@@ -1,3 +1,5 @@
+{% load django_app_filters_and_tags %}
+
 <div class="container my-1">
   <nav aria-label="breadcrumb">
     <ol
@@ -13,14 +15,17 @@
         </a>
       </li>
 
+
+{% check_user_group "Суперпользователи" 666 999 as user_is_god %}
+{% if user_is_god %}
+    <div class="display-6">Привет, Суперпользователь</div>
+{% else %}
+    <div class="display-6">Привет, ТЫ НИКТО</div>
+{% endif %}
+
+
+
       {% if request.user.is_authenticated %}
-      <li class="breadcrumb-item">
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none"
-          href="{% url "need_name" %}"
-          >NEED</a
-        >
-      </li>
       <li class="breadcrumb-item">
         <a
           class="link-body-emphasis fw-semibold text-decoration-none"
