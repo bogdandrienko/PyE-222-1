@@ -1,6 +1,5 @@
-"""Контроллеры."""
-import datetime
-import random
+"""Контроллеры(VIEW) - ЛОГИКА"""
+
 import re
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
@@ -9,6 +8,7 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django_app import models
+from django_app import utils
 
 
 def home(request: HttpRequest) -> HttpResponse:
@@ -17,11 +17,12 @@ def home(request: HttpRequest) -> HttpResponse:
     return render(request, "django_app/home.html")
 
 
-def register_view(request: HttpRequest) -> HttpResponse:
+def register(request: HttpRequest) -> HttpResponse:
     """Регистрация пользователя."""
 
     if request.method == "GET":
-        return render(request, "django_app/register.html")
+        name = "ALEMA777"
+        return render(request, "django_app/register.html", context={"Alema": name})
     elif request.method == "POST":
         email = request.POST.get("email", None)  # Admin1@gmail.com
         password = request.POST.get("password", None)  # Admin1@gmail.com
@@ -55,59 +56,96 @@ def register_view(request: HttpRequest) -> HttpResponse:
         raise ValueError("Invalid method")
 
 
-def login_view(request: HttpRequest) -> HttpResponse:
+def login_(request: HttpRequest) -> HttpResponse:
     """Вход в аккаунт пользователя."""
 
     if request.method == "GET":
         return render(request, "django_app/login.html")
     elif request.method == "POST":
-        print("ПОПЫТКА ВОЙТИ В АККАУНТ")
-
         email = request.POST.get("email", None)
         password = request.POST.get("password", None)
-        user = authenticate(
-            request, username=email, password=password
-        )  # пытается, взять из базы этого пользователя с этим паролем
-        print(user)
+        user = authenticate(request, username=email, password=password)
         if user is None:
-            return render(
-                request,
-                "django_app/login.html",
-                {"error": "Некорректный email или пароль"},
-            )
-        login(request, user)  # сохраняет токен в кукесы(cookies)
+            return render(request, "django_app/login.html", {"error": "Некорректный email или пароль"})
+        login(request, user)
         return redirect(reverse("home"))
     else:
         raise ValueError("Invalid method")
 
 
-def logout_view(request: HttpRequest) -> HttpResponse:
+def logout_(request: HttpRequest) -> HttpResponse:
     """Выход из аккаунта"""
 
     logout(request)
     return redirect(reverse("login"))
 
 
-def list_view(request: HttpRequest) -> HttpResponse:
-    """_view"""
+def list(request: HttpRequest) -> HttpResponse:
+    """Возврат списка публикаций с книгами."""
 
-    # memes = models.Mem.objects.all()
-
+    list_books = utils.CustomCache.caching(key="list books", timeout=2,
+                                           lambda_func=lambda: models.Mem.objects.all())
     # фейковые данные
-    memes = [
-        {
-            "id": x,
-            "title": f"Наименование {x} Alema",
-            "description": {"data1": {"price": random.randint(1, 1000000) + random.random()}},
-            "image": "media/images/posts/error.jpg",
-            "datetime": datetime.datetime.now(),
-        }
-        for x in range(1, 20+1)
-    ]
+    # memes = [
+    #     {
+    #         "id": x,
+    #         "title": f"Наименование {x} Alema",
+    #         "description": {"data1": {"price": random.randint(1, 1000000) + random.random()}},
+    #         "image": "media/images/posts/error.jpg",
+    #         "datetime": datetime.datetime.now(),
+    #     }
+    #     for x in range(1, 20 + 1)
+    # ]
+    current_page = utils.CustomPaginator.paginate(list_books, request, 15)
+    return render(request, "django_app/list.html", {"current_page": current_page})
 
-    print(datetime.datetime.now())
 
-    return render(request, "django_app/list.html", {"images": memes})
+# news
+def news_list(request):
+    """Возврат списка новостей."""
+
+    news = utils.CustomCache.caching(key="news_list", timeout=2, lambda_func=lambda: models.News.objects.all().filter(is_ban=False))
+    current_page = utils.CustomPaginator.paginate(object_list=news, limit=3, request=request)
+    return render(request, "django_app/news_list.html", context={"current_page": current_page})
+
+
+def news_detail(request, pk):
+    """Возврат новости."""
+
+    news = utils.CustomCache.caching(key=f"news_detail {pk}", timeout=5,lambda_func=lambda: models.News.objects.get(id=int(pk)))
+    comments = utils.CustomCache.caching(key=f"comments news_detail {pk}", timeout=1,lambda_func=lambda: models.NewsComments.objects.filter(news=news))
+    current_page = utils.CustomPaginator.paginate(object_list=comments, limit=3, request=request)
+    return render(request, "django_app/news_detail.html", context={"new": news, "current_page": current_page})
+
+
+def news_comments_create(request, pk):
+    """Создание комментария."""
+
+    if request.method != "POST":
+        raise Exception("Invalid method")
+
+    news = models.News.objects.get(id=int(pk))
+    user = request.user
+    text = request.POST.get("text", "")
+    models.NewsComments.objects.create(news=news, author=user, text=text)
+
+    return redirect(reverse('news_detail', args=(pk,)))
+
+
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 
 
 def detail_view(request: HttpRequest, pk: str) -> HttpResponse:
@@ -145,7 +183,6 @@ def create_mem(request):
         return redirect(reverse("list_memes"))
     else:
         raise ValueError("Invalid method")
-
 
 
 def update_mem(request, pk: str):

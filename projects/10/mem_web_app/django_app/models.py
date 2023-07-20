@@ -1,3 +1,5 @@
+"""Модели(MODELS) - ТАБЛИЦЫ В БАЗЕ ДАННЫХ С ДАННЫМИ"""
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -29,24 +31,45 @@ class Mem(models.Model):
         return f"{status} {self.title} {self.date_time} {self.title}"
 
 
-# class PostComments(models.Model):
-#     """
-#     """
-#
-#     post_id = models.IntegerField("Публикация, к которой комментарий")
-#     author = models.CharField("Автор", max_length=200)
-#     text = models.TextField("Текст комментария", )
-#     date_time = models.DateTimeField("Дата и время создания", default=timezone.now)
-#
-#     class Meta:
-#         app_label = "django_app"
-#         ordering = ("-date_time", "post_id")
-#         verbose_name = "Комментарий к публикации"
-#         verbose_name_plural = "Комментарии к публикациям"
-#
-#     def __str__(self):
-#         return f"{self.post_id} {self.date_time} {self.author}"
-#
+class News(models.Model):
+    """Таблица с новостями"""
+
+    author = models.ForeignKey(to=User, max_length=200, on_delete=models.CASCADE)
+    title = models.CharField("Наименование", max_length=200, unique=True)
+    description = models.TextField("Описание", default="")
+    image = models.ImageField("Изображение", upload_to="images/posts")
+    date_time = models.DateTimeField("Дата и время создания", default=timezone.now)
+    is_ban = models.BooleanField("Отключено ли отображение", default=False)
+
+    class Meta:
+        """Вспомогательный класс"""
+
+        app_label = "django_app"
+        ordering = ("-date_time", "title")
+        verbose_name = "Новость"
+        verbose_name_plural = "Новости"
+
+    def __str__(self):
+        return f"{self.title} {self.date_time} {self.description[:20]}"
+
+
+class NewsComments(models.Model):
+    """Комментарии к новостям"""
+
+    news = models.ForeignKey(to=News, verbose_name="К какой новости", max_length=200, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=User, verbose_name="Автор",max_length=200, on_delete=models.CASCADE)
+    text = models.TextField("Текст комментария", default="")
+    date_time = models.DateTimeField("Дата и время создания", default=timezone.now)
+
+    class Meta:
+        app_label = "django_app"
+        ordering = ("-date_time", "news")
+        verbose_name = "Комментарий к новости"
+        verbose_name_plural = "Комментарии к новостям"
+
+    def __str__(self):
+        return f"{self.date_time} {self.author.username} {self.news.title} {self.text[:20]}"
+
 #
 # class PostRatings(models.Model):
 #     """

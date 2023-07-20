@@ -1,71 +1,79 @@
-{% load django_app_filters_and_tags %}
-
-<div class="container my-1">
-  <nav aria-label="breadcrumb">
-    <ol
-      class="breadcrumb breadcrumb-custom overflow-hidden text-center bg-body-tertiary border rounded-3 p-2"
-    >
-      <li class="breadcrumb-item">
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none custom_text"
-          href="/"
-        >
-          <svg class="bi" width="16" height="16"></svg>
-          Домашняя страница
-        </a>
-      </li>
-
-
-{% check_user_group "Суперпользователи" 666 999 as user_is_god %}
-{% if user_is_god %}
-    <div class="display-6">Привет, Суперпользователь</div>
-{% else %}
-    <div class="display-6">Привет, ТЫ НИКТО</div>
-{% endif %}
-
-
-
-      {% if request.user.is_authenticated %}
-      <li class="breadcrumb-item">
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none"
-          href="{% url "list" %}"
-          >Все мемы</a
-        >
-      </li>
-      <li class="breadcrumb-item">
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none"
-          href="/create"
-          >Создание поста</a
-        >
-      </li>
-      <li class="breadcrumb-item">
-        <i class="fa-solid fa-door-open text-danger"></i>
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none"
-          href="/logout"
-          >Выйти ({{ request.user.username }})</a
-        >
-      </li>
-      {% else %}
-      <li class="breadcrumb-item">
-        <i class="fa-solid fa-right-to-bracket text-primary"></i>
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none"
-          href="/login"
-          >Войти</a
-        >
-      </li>
-      <li class="breadcrumb-item">
-        <i class="fa-solid fa-user-plus text-success"></i>
-        <a
-          class="link-body-emphasis fw-semibold text-decoration-none"
-          href="/register"
-          >Регистрация</a
-        >
-      </li>
-      {% endif %}
-    </ol>
-  </nav>
-</div>
+<nav class="container card container-fluid navbar navbar-expand-lg navbar-light bg-body-tertiary">
+    <a class="navbar-brand" href="{% url "home" %}">Домашняя страница</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav navbar-collapse collapse" id="navbarSupportedContent">
+        <li class="dropend">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                Профиль
+                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">аккаунт:
+                    {% if user.is_authenticated %}
+                        {{ user.username }}
+                    {% else %}
+                        аноним
+                    {% endif %}
+                </i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <strong class="dropdown-header">Профили пользователей</strong>
+                    {% if user.is_authenticated %}
+                        <a class="dropdown-item text-danger" href="{% url "logout" %}">
+                            <i class="fa-solid fa-list m-0 p-1"></i>
+                            выйти из аккаунта
+                        </a>
+                    {% else %}
+                        <a class="dropdown-item text-warning" href="{% url "register" %}">
+                            <i class="fa-solid fa-circle-plus m-0 p-1"></i>
+                            регистрация новых пользователей
+                            <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">пользователей: {{ user_count }}</i>
+                        </a>
+                        <a class="dropdown-item text-primary" href="{% url "login" %}">
+                            <i class="fa-solid fa-list m-0 p-1"></i>
+                            войти в аккаунт
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </li>
+        <li class="dropend">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                Книжный магазин
+                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">количество книг: {{ book_count }}</i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <strong class="dropdown-header">Публикация книг</strong>
+                    {% if user.is_authenticated %}
+                        <a class="dropdown-item" href="#">
+                            <i class="fa-solid fa-circle-plus m-0 p-1"></i>
+                            создать новую публикацию книги
+                        </a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{% url "list" %}">
+                        <i class="fa-solid fa-list m-0 p-1"></i>
+                        список публикаций книг
+                        <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">{{ post_count }}</i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropend">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                Новостной раздел
+                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">количество свежих (30 минут) новостей: {{ fresh_count }}</i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <strong class="dropdown-header">Новости</strong>
+                    <a class="dropdown-item" href="{% url "news_list" %}">
+                        <i class="fa-solid fa-list m-0 p-1"></i>
+                        список всех новостей
+                        <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">{{ all_news_count }}</i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

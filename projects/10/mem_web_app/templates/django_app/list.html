@@ -3,8 +3,8 @@
 {% load django_app_filters_and_tags %}
 {% block main %}
 
-<div class="container">
-    <form action="{% url "posts" %}" method="post">
+<div class="container m-3 p-3 bg-warning">
+    <form action="{% url "list" %}" method="post">
         {% csrf_token %}
 
         <div class="input-group text-center w-50">
@@ -16,66 +16,44 @@
 </div>
 
 
+<div class="container bg-light card">
+<div class="position-sticky" style="top: 2rem;">
+        <div>
+          <h4 class="fst-italic lead p-2">Лучшие книги:</h4>
+          <ul class="list-unstyled">
 
+            {% include "components/paginator.html" %}
 
-
-
-<div class="container marketing my-3">
-<hr class="featurette-divider">
-<div class="row">
-    {% for image in images1 %}
-        <div class="col-lg-4">
-            <img src="{% static image.image %}" alt="image" class="img-fluid" width="200"/> .url
-            <h2 class="fw-normal">{{ image.title }}</h2>
-            <p>{{ image.description.data1.price }}</p>
-            <p><a class="btn btn-secondary" href="#">View details »</a></p>
-        </div>
-    {% endfor %}
-</div>
-
-<div>
-    <div class="table-responsive small bg-light">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Заголовок</th>
-              <th scope="col">Цена</th>
-              <th scope="col">Дата и время</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for image in images %}
-                <tr>
-                  <td>#{{ forloop.counter }}</td>
-                  <td>{{ image.title }}</td>
-                  <td>{{ image.title|lower }}</td>
-                  <td>{{ image.title|my_slice:10 }}</td>
-                  <td>{% digit_beautify image.description.data1.price %}</td>
-                  <td>{% digit_beautify image.description.data1.price|rounding:3 %}</td>
-                  <td>{{ image.datetime|format_datetime:"date3" }}</td>
-                </tr>
+            {% for book in current_page %}
+            <li>
+              <div class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                <div class="fw-bold">{{ book.id }}</div>
+                <img src="{% static book.image.url %}" alt="image" class="img-fluid bd-placeholder-img" width="200"/>
+                <div class="col-lg-8">
+                <div class="d-flex">
+                    {% for category in book.categories %}
+                        <small class="m-1 btn btn-outline-dark">{{ category.name }}</small>
+                    {% empty %}
+                        <small class="m-1 btn btn-outline-dark">Без категории</small>
+                    {% endfor %}
+                </div>
+                  <h6 class="mb-0">{{ book.title }}</h6>
+                  <p class="mb-0 lead">{{ book.author }}</p>
+                  <small class="text-body-secondary">{{ book.description|slice:"50" }}...</small>
+                </div>
+              </div>
+            </li>
             {% empty %}
-                <tr class="text-center text-danger fw-bold">
-                  <td colspan="3">Данных нет!</td>
-                </tr>
+            <li>
+                По запросу ничего не найдено!
+            </li>
             {% endfor %}
-          </tbody>
-        </table>
-      </div>
-</div>
 
-<hr class="featurette-divider">
-</div>
+            {% include "components/paginator.html" %}
 
-
-
-
-
-
-
-
-  </div>
+          </ul>
+        </div>
+    </div>
 </div>
 
 {% endblock main %}

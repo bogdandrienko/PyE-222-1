@@ -64,6 +64,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django_app.context_processors.get_book_count",
+                "django_app.context_processors.get_news_count",
             ],
         },
     },
@@ -79,9 +81,37 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    # "extra": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # }
 }
 
+CACHES = {
+    "default": {  # экономия ОЗУ == для тяжёлых и не особо нужных
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache_table",
+        "TIMEOUT": "120",
+        "OPTIONS": {
+            "MAX_ENTIES": 200,
+        },
+    },
+    "ram_cache": {  # дорого для ОЗУ == для нужных данных
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "django_ram_cache_table",
+    },
+    # serv1++(django + static) -- serv2(postgresql)(master-slave) -- serv3(redis + Go)
+    # 'extra': {
+    #     'BACKEND': 'django_redis.cache.RedisCache',
+    #     'LOCATION': env("REDIS_LOCATION")',
+    #     'TIMEOUT': '240',
+    #     'OPTIONS': {
+    #         # "MAX_ENTIES": 200,
+    #         "PASSWORD": "12345qwertY!"
+    #     }
+    # }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -118,9 +148,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+# STATIC_ROOT = Path(BASE_DIR / "static")
 STATICFILES_DIRS = [
     Path(BASE_DIR / "static"),
-    # Path(BASE_DIR / "frontend/react/build"),
+    Path(BASE_DIR / "static_external"),
 ]
 
 MEDIA_URL = "media/"

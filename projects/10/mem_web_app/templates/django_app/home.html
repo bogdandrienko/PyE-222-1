@@ -1,4 +1,6 @@
-{% extends "components/base.html" %} {% block main %}
+{% extends "components/base.html" %}
+
+{% block main %}
 
 <div class="container my-5">
   <div
@@ -19,6 +21,9 @@
     </p>
     <a class="btn btn-primary px-5 mb-5" type="button" href="{% url "login" %}">
       Наслаждаться ->
+    </a>
+    <a class="btn btn-warning px-5 mb-5" type="button" href="{% url "news_list" %}">
+      Новости ->
     </a>
   </div>
 </div>

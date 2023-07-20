@@ -46,16 +46,8 @@ pip install Django Pillow black[d] pylint
 
 # URL -> VIEW -> MODEL -> TEMPLATE
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Сайт с новостями (публикуют - модераторы контента, пользователи - смотрят, лайкают и комментируют)
+# news_list
+# news_detail + comments + create_comment
+#
+#

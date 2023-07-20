@@ -1,44 +1,38 @@
+"""Маршруты(URL) - ССЫЛКИ"""
+
 from django.urls import path
 from django_app import views
 
 urlpatterns = [
-    # главная страница
     path("", views.home, name=""),
     path("index/", views.home, name="index"),
     path("home/", views.home, name="home"),
 
-    # страница регистрации
-    path("register/", views.register_view, name="register"),
+    path("register/", views.register, name="register"),
+    path("login/", views.login_, name="login"),
+    path("logout/", views.logout_, name="logout"),
 
-    # страница авторизации
-    path("login/", views.login_view, name="login"),
+    path("list/", views.list, name="list"),
 
-    # страница выхода из аккаунта
-    path("logout/", views.logout_view, name="logout"),
-
-    # страница для показа всех мемов
-    path("list/", views.list_view, name="list"),
+    # news
+    path("news/list/", views.news_list, name="news_list"),
+    path("news/detail/<str:pk>/", views.news_detail, name="news_detail"),
+    path("news/comments/create/<str:pk>/", views.news_comments_create, name="news_comments_create"),
+    # TODO ratings
 
     #
-    path("list/", views.list_view, name="posts"),
+    #
+    #
+    #
+    #
+    #
+    path("list/", views.list, name="posts"),
     path("detail/<str:pk>/", views.detail_view, name="post_detail"),
     path("detail/<str:pk>/", views.detail_view, name="post_change"),
     path("detail/<str:pk>/", views.detail_view, name="post_delete"),
     #
     path("detail/<str:pk>/", views.detail_view, name="detail"),
     path("create/", views.create_view, name="create"),
-
-
-
-
-
-
-
-
-
-
-
-
     # SELECT - GET
     path("list_memes/", views.list_memes, name="list_memes"),
     # INSERT - POST
@@ -47,17 +41,4 @@ urlpatterns = [
     path("update_mem/<str:pk>/", views.update_mem, name="update_mem"),
     # DELETE - DELETE
     path("delete_mem/<str:pk>/", views.delete_mem, name="delete_mem"),
-
-
-
-
-
-
-
-
-
-
-
-
-
 ]
