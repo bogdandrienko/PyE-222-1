@@ -1,0 +1,28 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% block main %}
+
+<div class="container my-5 w-50 bg-light card p-3">
+<main class="form-signin w-100 m-auto">
+    {% if error %}
+        {% include "components/error.html" %}
+    {% endif %}
+  <form action="{% url "register" %}" method="POST">
+      {% csrf_token %}
+    <h1 class="h3 mb-3 fw-normal text-center">Создайте аккаунт</h1>
+    <div class="form-floating m-1 p-1">
+      <input name="email" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="5" maxlength="200" required>
+      <label for="floatingInput">Электронная почта</label>
+    </div>
+    <div class="form-floating m-1 p-1">
+        <input name="password" type="password" id="passwordInput" class="form-control w-100" placeholder="Password" minlength="8" maxlength="24" required>
+      <label for="passwordInput">Пароль</label>
+    </div>
+    <div class="input-group">
+        <button class="btn btn-warning w-75 py-2" type="submit">Создать</button>
+        <button id="toggleButton" onclick="passwordSwitchVisibility()" class="btn btn-danger w-25 py-2 fa-solid fa-eye" type="button"></button>
+    </div>
+  </form>
+</main>
+</div>
+{% endblock main %}

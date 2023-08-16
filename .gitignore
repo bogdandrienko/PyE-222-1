@@ -12,11 +12,3 @@ __pycache__/
 *__pycache__/
 *.pyc
 *.pyc
-
-idea
-idea\
-idea/
-.idea
-.idea\
-.idea/
-**/.idea/

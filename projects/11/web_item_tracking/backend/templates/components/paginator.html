@@ -1,0 +1,46 @@
+<div class="container my-2 mb-2">
+<nav aria-label="Page navigation example p-2 m-1">
+  <ul class="pagination pagination-sm justify-content-center">
+    {% if current_page.number != 1 %}
+        <li class="page-item">
+            <a href="?page=1" class="page-link">&laquo;&laquo; Первая</a>
+        </li>
+    {% endif %}
+
+  {% if current_page.has_previous %}
+    <li class="page-item">
+      <a href="?page={{ current_page.previous_page_number }}" class="page-link">&laquo; Предыдущая</a>
+    </li>
+      {% else %}
+      <li class="page-item disabled">
+      <a href="#" class="page-link">&laquo; Предыдущая</a>
+    </li>
+  {% endif %}
+
+    {% for page_number in current_page.paginator.page_range %}
+        {% if page_number == current_page.number %}
+            <li class="page-item active"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+        {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if current_page.has_next %}
+        <li class="page-item">
+            <a href="?page={{ current_page.next_page_number }}" class="page-link">Следующая &raquo;</a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <a href="#" class="page-link">Следующая &raquo;</a>
+        </li>
+    {% endif %}
+
+    {% if current_page.number != current_page.paginator.num_pages %}
+        <li class="page-item">
+            <a href="?page={{ current_page.paginator.num_pages }}" class="page-link">Последняя &raquo;&raquo;</a>
+        </li>
+    {% endif %}
+
+  </ul>
+</nav>
+</div>

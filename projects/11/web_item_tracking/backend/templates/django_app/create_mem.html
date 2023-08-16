@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CREATE</title>
+</head>
+<body>
+    <h1>CREATE HTML</h1>
+    <a href="{% url "list_memes" %}">list_memes</a>
+    <form action="{% url "create_mem" %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 fw-normal text-center">Создайте смешной мем</h1>
+        <div class="form-floating m-1 p-1">
+            <input name="title" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="5" maxlength="200" required>
+            <label for="floatingInput">Наименование</label>
+        </div>
+        <div class="form-floating m-1 p-1">
+            <label for="floatingInput1">Наименование</label>
+            <input name="avatar" type="file" accept="image/jpeg" class="form-control" id="floatingInput1" placeholder="name@example.com" minlength="5" maxlength="200" required>
+        </div>
+        <div class="input-group">
+            <button class="btn btn-warning w-75 py-2" type="submit">Создать</button>
+        </div>
+    </form>
+</body>
+</html>
