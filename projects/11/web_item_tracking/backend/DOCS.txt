@@ -89,5 +89,4 @@ ManyToMany(книги и их категории == "Война и Мир" - р�
 - шаблон
 -
 
-# URL -> VIEW -> (optional)MODEL -> (optional)TEMPLATE(C)
-
+# URL -> VIEW -> (optional)MODEL -> VIEW -> (optional)TEMPLATE

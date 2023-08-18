@@ -1,74 +1,51 @@
 {% extends "Base.html" %}
+{% load static %}
 
 {% block title %}Цены на услуги{% endblock title %}
 
 {% block content %}
-<h1>Price Page</h1>
-<div class="container px-4 py-5" id="custom-cards">
-    <h2 class="pb-2 border-bottom">Custom cards</h2>
+<div class="px-4 py-5" id="custom-cards">
+    <h2 class="pb-2 border-bottom custom-text">Цены на услуги</h2>
+
+    <form class="p-1 m-2" action="{% url "pricing" %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input-group">
+            <input class="form-control form-control-lg p-1 m-1" type="text"
+                   name="search" placeholder="{{ search }}" value="{{ search }}"/>
+            <button class="btn btn-success w-25" type="submit">искать</button>
+        </div>
+    </form>
+
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        {%  for price in price_list %}
       <div class="col">
         <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
           <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Short title, long jacket</h3>
+            {% if price.image %}
+                <img src="{% static price.image.url %}" alt="image"
+                     class="img-thumbnail img-fluid" width="400"/>
+                <img src="/static/media/111{{ price.image }}" alt="image"
+                     class="img-thumbnail img-fluid" width="400"/>
+            {% endif %}
+            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ price.title }}</h3>
+              <p class="lead">{{ price.description }}</p>
             <ul class="d-flex list-unstyled mt-auto">
               <li class="me-auto">
                 <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
               </li>
               <li class="d-flex align-items-center me-3">
                 <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-                <small>Earth</small>
+                <small>{{ price.price }}</small>
               </li>
               <li class="d-flex align-items-center">
                 <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                <small>3d</small>
+                <small>{{ price.valute }}</small>
               </li>
             </ul>
           </div>
         </div>
       </div>
-
-      <div class="col">
-        <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-2.jpg');">
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Much longer title that wraps to multiple lines</h3>
-            <ul class="d-flex list-unstyled mt-auto">
-              <li class="me-auto">
-                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-              </li>
-              <li class="d-flex align-items-center me-3">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-                <small>Pakistan</small>
-              </li>
-              <li class="d-flex align-items-center">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                <small>4d</small>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-3.jpg');">
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
-            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Another longer title belongs here</h3>
-            <ul class="d-flex list-unstyled mt-auto">
-              <li class="me-auto">
-                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-              </li>
-              <li class="d-flex align-items-center me-3">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-                <small>California</small>
-              </li>
-              <li class="d-flex align-items-center">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                <small>5d</small>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+        {% endfor %}
     </div>
   </div>
 {% endblock content %}
