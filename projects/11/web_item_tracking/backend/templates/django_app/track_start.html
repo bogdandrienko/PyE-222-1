@@ -1,0 +1,59 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block title %}Запуск маршрута посылки{% endblock title %}
+
+{% block main %}
+
+<div class="container my-5 w-75 bg-light card p-3">
+<main class="form-signin w-100 m-auto">
+    {% if error %}
+        {% include "components/error.html" %}
+    {% endif %}
+
+  <form action="{% url "track_start" %}" method="POST">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 fw-normal text-center">Заполните все поля для получения трек-кода: </h1>
+
+    <select name="point" class="form-select form-select-lg" aria-label="Large select example" required>
+      <option selected value="">Выберите пункт приёма</option>
+        {% for city in cities %}
+            <option value="{{ city.name }}">{{ city.name }}</option>
+        {% empty %}
+            <option value="">Ошибка выборки городов</option>
+        {% endfor %}
+    </select>
+
+    <hr class="m-1 p-1"/>
+
+    <div class="form-floating m-1 p-1">
+      <input name="username" type="number" class="form-control" id="floatingInput" value="{{ user.username }}" placeholder="name@example.com" minlength="5" maxlength="200" required>
+       <label for="floatingInput">Вес посылки (kg)</label>
+    </div>
+
+    <hr class="m-1 p-1"/>
+
+    <div class="input-group m-1 p-1">
+      <label for="floatingInput2" class="form-control w-25">Габариты - m3 (Ш*В*Г)</label>
+      <input name="w" type="number" class="form-control w-25" id="floatingInput2" value="{{ user.username }}" placeholder="ширина" minlength="5" maxlength="200" required>
+      <input name="h" type="number" class="form-control w-25" id="floatingInput3" value="{{ user.username }}" placeholder="высота" minlength="5" maxlength="200" required>
+      <input name="g" type="number" class="form-control w-25" id="floatingInput4" value="{{ user.username }}" placeholder="глубина" minlength="5" maxlength="200" required>
+    </div>
+
+    <hr class="m-1 p-1"/>
+
+  <div class="input-group m-1 p-1">
+      <label for="floatingInput6" class="form-control w-25">Контакты: (сотовый/домашний)</label>
+      <input name="contact" type="text" class="form-control w-75" id="floatingInput6" placeholder="+7 777 777 77 77" minlength="5" maxlength="200" required>
+    </div>
+
+    <hr class="m-1 p-1"/>
+
+    <label for="floatingInput9" class="form-control w-25">Адрес:</label>
+   <textarea name="address" class="form-control form-control-lg m-1 p-1" rows="5" minlength="5" required></textarea>
+
+    <button class="btn btn-outline-primary w-25" type="submit">СОЗДАТЬ</button>
+  </form>
+</main>
+</div>
+{% endblock main %}

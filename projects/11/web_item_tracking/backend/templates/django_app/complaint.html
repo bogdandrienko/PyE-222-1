@@ -1,0 +1,30 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% block main %}
+
+<div class="container my-5 w-75 bg-light card p-3">
+<main class="form-signin w-100 m-auto">
+    {% if error %}
+        {% include "components/error.html" %}
+    {% endif %}
+  <form action="{% url "complaint" %}" method="POST">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 fw-normal text-center">Внесите текст жалобы и нажмите отправить: </h1>
+    <div class="form-floating m-1 p-1">
+      <input name="username" type="text" class="form-control" id="floatingInput" value="{{ user.username }}" placeholder="name@example.com" minlength="5" maxlength="200" required>
+      <label for="floatingInput">Электронная почта</label>
+    </div>
+    <textarea name="text" class="form-control form-control-lg m-1 p-1" rows="5" minlength="5" required></textarea>
+    <div class="input-group">
+        <select name="type" class="form-select form-select-lg" aria-label="Large select example" required>
+          <option selected value="">Выберите тип жалобы</option>
+          <option value="Внешний вид">Внешний вид</option>
+          <option value="Поставщик">Поставщик</option>
+          <option value="Пользователи">Пользователи</option>
+        </select>
+        <button class="btn btn-outline-danger w-25" type="submit">ОТПРАВИТЬ</button>
+    </div>
+  </form>
+</main>
+</div>
+{% endblock main %}

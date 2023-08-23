@@ -8,7 +8,7 @@
         {% include "components/error.html" %}
     {% endif %}
   <form action="{% url "register" %}" method="POST">
-      {% csrf_token %}
+    {% csrf_token %}
     <h1 class="h3 mb-3 fw-normal text-center">Создайте аккаунт</h1>
     <div class="form-floating m-1 p-1">
       <input name="email" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="5" maxlength="200" required>

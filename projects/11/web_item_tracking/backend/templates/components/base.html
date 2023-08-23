@@ -10,7 +10,7 @@
     <link href="{% static "css/bootstrap/bootstrap.min.css" %}" type="text/css" rel="stylesheet" crossorigin="anonymous"/>
     <link href="{% static "css/fontawesome/css/all.min.css" %}" type="text/css" rel="stylesheet" crossorigin="anonymous"/>
     <link href="{% static "css/my_css.css" %}" type="text/css" rel="stylesheet" crossorigin="anonymous"/>
-    <title>Смешные картинки</title>
+    <title>{% block title %}Мои посылки{% endblock title %}</title>
   </head>
   <body class="d-flex flex-column h-100 p-0 m-0 custom-body">
     {% include 'components/navbar.html' %}
