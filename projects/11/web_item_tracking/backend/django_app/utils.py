@@ -5,6 +5,8 @@ from django.core.cache import caches
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
+import random
+
 
 cache = caches["default"]
 
@@ -102,3 +104,7 @@ class CustomPaginator:
         if num >= max_page - 2:
             return [max_page - 2, max_page - 1, max_page]
         return [x for x in range(num - 2, num + 3)]
+
+
+def generate_track(length: int, characters: str) -> str:
+    return "".join(random.choice(characters) for _ in range(length))

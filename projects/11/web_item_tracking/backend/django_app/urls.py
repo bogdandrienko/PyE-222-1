@@ -27,5 +27,5 @@ urlpatterns = [
     path("track/start/", views.track_start, name="track_start"),
     path("track/middle/", views.track_start, name="track_middle"),
     path("track/end/", views.track_start, name="track_end"),
-    path("track/find/", views.track_start, name="track_find"),
+    path("track/find/", views.track_find, name="track_find"),
 ]

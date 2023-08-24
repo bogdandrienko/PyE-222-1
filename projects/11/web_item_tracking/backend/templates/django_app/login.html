@@ -19,8 +19,9 @@
       <label for="passwordInput">Пароль</label>
     </div>
     <div class="input-group">
-        <button class="btn btn-primary w-75 py-2" type="submit">Войти</button>
+        <button class="btn btn-primary w-50 py-2" type="submit">Войти</button>
         <button id="toggleButton" onclick="passwordSwitchVisibility()" class="btn btn-danger w-25 py-2 fa-solid fa-eye" type="button"></button>
+        <a class="btn btn-warning w-25 py-2" type="button" href="{% url 'register' %}">регистрация</a>
     </div>
   </form>
 </main>

@@ -80,7 +80,6 @@ def pricing(request: HttpRequest) -> HttpResponse:
 
     search = str(request.POST.get("search", ""))
     price_list_new = models.Product.objects.filter(is_active=True, title__icontains=search)  # ORM
-
     return render(request, "django_app/pricing.html", {"price_list": price_list_new, "search": search})
 
 
@@ -322,21 +321,26 @@ def track_start(request: HttpRequest) -> HttpResponse:
         return render(request, "django_app/track_start.html", context=context)
     elif request.method == "POST":
         try:
-            point = request.POST["point"]
-            print(type(point), point)
+            target = request.POST["target"]
+            weight = request.POST["weight"]
+            width = request.POST["width"]
+            height = request.POST["height"]
+            depth = request.POST["depth"]
+            contact = request.POST["contact"]
+            address = request.POST["address"]
 
-            # создать трек-код
-
-            # username = request.POST.get("username", None)
-            # text = request.POST.get("text", None)
-            # type_ = request.POST.get("type", None)
-            #
-            # models.Complaint.objects.create(
-            #     username=str(username),
-            #     text=str(text),
-            #     type=str(type_),
-            # )
-            pass
+            models.Item.objects.create(
+                track=str(models.Item.track_generator()),
+                status="1",
+                target=str(target),
+                weight=str(weight),
+                width=str(width),
+                height=str(height),
+                depth=str(depth),
+                contact=str(contact),
+                address=str(address),
+                price=models.Item.price_formul(target=target, weight=weight, width=width, height=height, depth=depth),
+            )
         except Exception as error:
             return render(
                 request,
@@ -344,6 +348,23 @@ def track_start(request: HttpRequest) -> HttpResponse:
                 {"error": str(error)},
             )
         return redirect(reverse("track_start"))
+    else:
+        raise ValueError("Invalid method")
+
+
+@utils.custom_login_required
+def track_find(request: HttpRequest) -> HttpResponse:
+    """Поиск посылки."""
+
+    if request.method == "GET":
+        return render(request, "django_app/track_find.html", {})
+    elif request.method == "POST":
+        search = str(request.POST.get("search", "")).replace(" ", "").strip()
+        try:
+            item = models.Item.objects.get(track=search)
+            return render(request, "django_app/track_find.html", {"item": item, "search": search})
+        except Exception as error:
+            return render(request, "django_app/track_find.html", {"item": None, "search": search, "error": "Трек код не совпадает"})
     else:
         raise ValueError("Invalid method")
 

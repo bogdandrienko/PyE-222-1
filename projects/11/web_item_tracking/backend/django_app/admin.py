@@ -90,3 +90,104 @@ class CitiesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Cities, CitiesAdmin)
+
+
+class ItemAdmin(admin.ModelAdmin):
+    """
+    Настройки отображения, фильтрации и поиска модели:'Item' на панели администратора
+    """
+
+    list_display = ("track", "status", "target", "weight", "width", "height", "depth", "contact", "address", "price", "is_active", "date_time_start")
+    list_display_links = ("track", "target", "contact", "address")
+    list_editable = ("status", "is_active")
+    list_filter = ("track", "status", "target", "weight", "width", "height", "depth", "contact", "address", "price", "is_active", "date_time_start")
+    fieldsets = (
+        (
+            "Основное",
+            {
+                "fields": (
+                    "track",
+                    "target",
+                    "contact",
+                    "address",
+                    "price",
+                )
+            },
+        ),
+        (
+            "Характеристики",
+            {
+                "fields": (
+                    "weight",
+                    "width",
+                    "height",
+                    "depth",
+                )
+            },
+        ),
+        (
+            "Техническое",
+            {
+                "fields": (
+                    "status",
+                    "is_active",
+                    "date_time_start",
+                )
+            },
+        ),
+    )
+    search_fields = ["track", "contact", "address"]
+
+
+admin.site.register(models.Item, ItemAdmin)
+
+
+class FindAdmin(admin.ModelAdmin):
+    """
+    Настройки отображения, фильтрации и поиска модели:'Find' на панели администратора
+    """
+
+    list_display = ("user",)
+    list_display_links = ("user",)
+    list_editable = ()
+    list_filter = ("user", "tracks")
+    filter_horizontal = ("tracks",)
+    fieldsets = (
+        (
+            "Основное",
+            {"fields": ("user",)},
+        ),
+        (
+            "Основное 2",
+            {"fields": ("tracks",)},
+        ),
+    )
+    search_fields = ["user", "tracks"]
+
+
+admin.site.register(models.Find, FindAdmin)
+admin.site.register(models.IceCreamType)
+admin.site.register(models.IceCream)
+admin.site.register(models.BookCategory)
+
+
+class BookAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    list_display_links = ("name",)
+    list_editable = ()
+    list_filter = ("name", "category")
+    filter_horizontal = ("category",)
+    fieldsets = (
+        (
+            "Основное",
+            {"fields": ("name",)},
+        ),
+        (
+            "Основное 2",
+            {"fields": ("category",)},
+        ),
+    )
+    search_fields = ["name", "category"]
+
+
+admin.site.register(models.Book, BookAdmin)
