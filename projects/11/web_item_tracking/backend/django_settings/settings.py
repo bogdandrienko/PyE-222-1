@@ -65,6 +65,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django_app.context_processors.get_complete_item",  # cache
                 # "django_app.context_processors.get_book_count",
                 # "django_app.context_processors.get_news_count",
             ],
@@ -98,7 +99,7 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "django_ram_cache_table",
     },
-    # "default": {
+    # "special": {
     #     "BACKEND": "django_redis.cache.RedisCache",
     #     "LOCATION": "redis://127.0.0.1:6379/1",
     #     "OPTIONS": {

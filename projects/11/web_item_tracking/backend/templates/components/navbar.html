@@ -9,16 +9,16 @@
         <li class="dropend">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
                 Профиль
-                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">аккаунт:
-                    {% if user.is_authenticated %}
-                        {{ user.username }}
-                    {% else %}
-                        аноним
-                    {% endif %}
-                </i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
+                    <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">аккаунт:
+                        {% if user.is_authenticated %}
+                            {{ user.username }}
+                        {% else %}
+                            аноним
+                        {% endif %}
+                    </i>
                     <strong class="dropdown-header">Профили пользователей</strong>
                     {% if user.is_authenticated %}
                         <a class="dropdown-item text-danger" href="{% url 'logout' %}">
@@ -29,7 +29,6 @@
                         <a class="dropdown-item text-warning" href="{% url 'register' %}">
                             <i class="fa-solid fa-circle-plus m-0 p-1"></i>
                             регистрация новых пользователей
-                            <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">пользователей: {{ user_count }}</i>
                         </a>
                         <a class="dropdown-item text-primary" href="{% url 'login' %}">
                             <i class="fa-solid fa-list m-0 p-1"></i>
@@ -43,7 +42,6 @@
         <li class="dropend">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
                 Вспомогательные сервисы:
-                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">количество книг: {{ book_count }}</i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
@@ -69,8 +67,13 @@
         <li class="dropend">
             <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
                 Раздел посылок
-                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">в пути: {{ fresh_count }}</i>
-                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">ожидают: {{ fresh_count }}</i>
+                <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">в пути: {{ in_progress_item }}</i>
+
+                {% if complete_item > 0 %}
+                    <i class="btn btn-sm btn-danger bg-opacity-50 badge rounded-pill">ожидают: {{ complete_item }}</i>
+                {% else %}
+                    <i class="btn btn-sm btn-outline-danger text-dark bg-opacity-50 badge rounded-pill">ожидают: {{ complete_item }}</i>
+                {% endif %}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
@@ -103,6 +106,11 @@
                     <a class="dropdown-item" href="{% url "track_find" %}">
                         <i class="fa-solid fa-magnifying-glass text-primary m-0 p-1"></i>
                         Поиск посылки
+                    </a>
+
+                    <a class="dropdown-item" href="{% url "track_list" %}">
+                        <i class="fa-solid fa-briefcase text-dark m-0 p-1"></i>
+                        Мои посылки
                     </a>
                 </li>
             </ul>

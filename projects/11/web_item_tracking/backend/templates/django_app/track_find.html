@@ -26,8 +26,8 @@
     <div class="card mb-4 rounded-3 shadow-sm">
       <div class="card-header py-3">
 
-        {% if item.get_choice == "Доставлено" %}
-        <h1 class="my-0 fw-normal btn btn-success">Доставлено</h1>
+        {% if item.get_choice == "Доставлено" or item.get_choice == "Ожидает получения" %}
+        <h1 class="my-0 fw-normal btn btn-success">{{ item.get_choice }}</h1>
         {% else %}
             {% if item.get_choice == "На проверке" %}
             <h1 class="my-0 fw-normal btn btn-secondary">На проверке</h1>
@@ -46,7 +46,7 @@
           <li>Высота(см): {{ item.height }}</li>
           <li>Глубина(см): {{ item.depth }}</li>
         </ul>
-        <button type="button" class="w-100 btn btn-lg btn-outline-primary">Отслеживать</button>
+        <a href="{% url 'track_add' item.track %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Отслеживать</a>
       </div>
     </div>
   </div>

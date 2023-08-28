@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.db import connection
 from django.http import HttpRequest, HttpResponse
 from django.http import JsonResponse
@@ -353,6 +354,36 @@ def track_start(request: HttpRequest) -> HttpResponse:
 
 
 @utils.custom_login_required
+def track_middle(request: HttpRequest) -> HttpResponse:
+    """Сортировка посылки."""
+
+    if request.method == "GET":
+        statuses = models.Item.LIST_DB_VIEW_CHOICES
+        context = {"statuses": statuses}
+        return render(request, "django_app/track_middle.html", context=context)
+    elif request.method == "POST":
+        try:
+            status = request.POST["status"]
+            track: str = request.POST["track"]
+            item = models.Item.objects.filter(track=track)
+            if len(item) > 0:
+                item = item[0]
+                item.status = status
+                item.save()
+            else:
+                raise Exception("Трек код не совпадает")
+        except Exception as error:
+            return render(
+                request,
+                "django_app/track_middle.html",
+                {"error": str(error)},
+            )
+        return redirect(reverse("track_middle"))
+    else:
+        raise ValueError("Invalid method")
+
+
+@utils.custom_login_required
 def track_find(request: HttpRequest) -> HttpResponse:
     """Поиск посылки."""
 
@@ -367,6 +398,80 @@ def track_find(request: HttpRequest) -> HttpResponse:
             return render(request, "django_app/track_find.html", {"item": None, "search": search, "error": "Трек код не совпадает"})
     else:
         raise ValueError("Invalid method")
+
+
+@utils.custom_login_required
+def track_add(request: HttpRequest, track: str) -> HttpResponse:
+    """Добавление посылки в отслеживаемые для пользователя."""
+
+    # 0. Переход Ваш сайт
+    # 1. Его никуда, кроме цен, инструкций.. не пускает
+    # 2. Он создаёт аккаунт и входит
+    # 3. Переходит на страницу "поиск посылки"
+    # 4. Вводит в строке поиска трек код от поставщика/продавца/системы...
+    # 5. Если трек совпадает, ему выпадает инфа о посылке и возможность "прикрепить"
+    # посылку к своему профилю
+    # 6.
+    # N. Посылать уведомления на профиль (телега/смс/письмо/вывод уведомления)
+
+    user: User = request.user
+    track = models.Item.objects.get(track=track)
+
+    # User +O2M+ Middle Model.py +M2M+ Item(Items)
+
+    # защита от "задвоения"
+    find = models.Find.objects.filter(user=user)
+    if len(find) > 0:
+        find = find[0]
+    else:
+        find = models.Find.objects.create(user=user)
+    find.tracks.add(track)
+    find.save()
+
+    # HTML -> VIEW
+    # 1. HTML FORM
+    # 2. <str:track> - dynamic parameter
+
+    return redirect(reverse("track_list"))
+
+
+@utils.custom_login_required
+def track_remove(request: HttpRequest, track: str) -> HttpResponse:
+    """Удаление посылки в отслеживаемые для пользователя."""
+    user: User = request.user
+    track = models.Item.objects.get(track=track)
+    find = models.Find.objects.filter(user=user)
+    if len(find) > 0:
+        find = find[0]
+    else:
+        find = models.Find.objects.create(user=user)
+    find.tracks.remove(track)
+    find.save()
+    return redirect(reverse("track_list"))
+
+
+@utils.custom_login_required
+def track_list(request: HttpRequest) -> HttpResponse:
+    """Посылки пользователя для отслеживания."""
+
+    """
+    Показывает все посылки которые прикреплены к этому аккаунту
+    """
+
+    user: User = request.user
+    find = models.Find.objects.filter(user=user)
+    if len(find) > 0:
+        find = find[0]
+        data = find.tracks.all()
+    else:
+        data = []
+
+    selected_page = request.GET.get(key="page", default=1)  # query parameter
+    paginator = Paginator(data, 2)
+    current_page = paginator.get_page(selected_page)
+
+    # current_page = utils.CustomPaginator.paginate(object_list=data, limit=2, request=request)
+    return render(request, "django_app/track_list.html", context={"current_page": current_page})
 
 
 # TODO PRIVATE ################################################################################################

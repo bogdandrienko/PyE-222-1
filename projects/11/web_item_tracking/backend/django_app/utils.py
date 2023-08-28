@@ -1,12 +1,12 @@
 """Вспомогательный файл для утилит."""
 
 from django.core.paginator import Paginator, Page
-from django.core.cache import caches
+
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
 import random
-
+from django.core.cache import caches
 
 cache = caches["default"]
 
@@ -14,8 +14,10 @@ cache = caches["default"]
 def custom_login_required(view: callable):  # coins
     def wrapper(*args, **kwargs):  # request: HttpRequest
         request: HttpRequest = args[0]
+
         if request.user.is_authenticated is False:
             return redirect(reverse("login"))
+
         result = view(*args, **kwargs)
         return result
 

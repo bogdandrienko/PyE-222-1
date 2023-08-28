@@ -108,7 +108,7 @@ class Item(models.Model):
         verbose_name_plural = "Товары"
 
     def __str__(self):
-        return self.address
+        return f"<Item {self.address} {self.get_choice()}>"
 
     @staticmethod
     def track_generator() -> str:
@@ -157,7 +157,7 @@ class Find(models.Model):
         verbose_name_plural = "Отслеживания"
 
     def __str__(self):
-        return self.user.username
+        return f"<Find {self.user.username} {self.tracks.count()}>"
 
 
 class IceCreamType(models.Model):
