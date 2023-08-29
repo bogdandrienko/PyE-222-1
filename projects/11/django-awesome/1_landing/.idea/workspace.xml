@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4c4c5c0d-925f-409f-a370-051cc2243993" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/1_landing.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/react/temp/new.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scripts/collect_static.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static_external/css/font_zen/ZenKakuGothicAntique-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static_external/css/font_zen/ZenKakuGothicAntique-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static_external/css/font_zen/ZenKakuGothicAntique-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static_external/css/font_zen/font_style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static_external/files/Django план.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../web_item_tracking/backend/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../web_item_tracking/backend/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../web_item_tracking/backend/.idea/backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../web_item_tracking/backend/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../web_item_tracking/backend/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../web_item_tracking/backend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../web_item_tracking/backend/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../web_item_tracking/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../web_item_tracking/backend/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Пет проекты.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2Uf7avpRmXLCCsJMDm6P4z31oDe" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/github_projects/PyE-222-1/projects/11/django-awesome/1_landing/scripts&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\github_projects\PyE-222-1\projects\11\django-awesome\1_landing\scripts" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="1_landing" type="Python.DjangoServer" factoryName="Django server">
+      <module name="1_landing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4c4c5c0d-925f-409f-a370-051cc2243993" name="Changes" comment="" />
+      <created>1693318848151</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693318848151</updated>
+      <workItem from="1693318849236" duration="431000" />
+      <workItem from="1693319366056" duration="1041000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

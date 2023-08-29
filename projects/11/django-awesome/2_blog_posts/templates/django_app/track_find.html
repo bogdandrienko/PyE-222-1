@@ -1,0 +1,58 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block title %}Отслеживание посылки{% endblock title %}
+
+{% block main %}
+
+<div class="container my-5 w-75 bg-light card p-3">
+    {% if error %}
+        {% include "components/fail.html" %}
+    {% endif %}
+    <form class="p-1 m-2" action="{% url "track_find" %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input-group">
+            <input class="form-control form-control-lg p-1 m-1" type="text"
+                   name="search" placeholder="введите сюда полный трек-код" value="{{ search }}"/>
+            <button class="btn btn-success w-25" type="submit">искать</button>
+        </div>
+    </form>
+</div>
+
+
+{% if item %}
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+  <div class="col text-center">
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+
+        {% if item.get_choice == "Доставлено" or item.get_choice == "Ожидает получения" %}
+        <h1 class="my-0 fw-normal btn btn-success">{{ item.get_choice }}</h1>
+        {% else %}
+            {% if item.get_choice == "На проверке" %}
+            <h1 class="my-0 fw-normal btn btn-secondary">На проверке</h1>
+            {% else %}
+            <h1 class="my-0 fw-normal btn btn-outline-primary">{{ item.get_choice }}</h1>
+            {% endif %}
+        {% endif %}
+
+        <h4 class="my-0 fw-normal">{{ item.address }}</h4>
+      </div>
+      <div class="card-body">
+        <h1 class="card-title pricing-card-title">{{ item.price }}<small class="text-body-secondary fw-light"> тг.</small></h1>
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>Вес(масса, кг): {{ item.weight }}</li>
+          <li>Ширина(см): {{ item.width }}</li>
+          <li>Высота(см): {{ item.height }}</li>
+          <li>Глубина(см): {{ item.depth }}</li>
+        </ul>
+        <a href="{% url 'track_add' item.track %}" type="button" class="w-100 btn btn-lg btn-outline-primary">Отслеживать</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
+{% endblock main %}

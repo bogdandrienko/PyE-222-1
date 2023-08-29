@@ -1,0 +1,34 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block main %}
+
+<div class="container my-5">
+  <div
+    class="position-relative p-5 text-center text-muted bg-body border border-dashed rounded-5"
+  >
+    <button
+      type="button"
+      class="position-absolute top-0 end-0 p-3 m-3 btn-close bg-secondary bg-opacity-10 rounded-pill"
+      aria-label="Close"
+    ></button>
+    <svg class="bi mt-5 mb-3" width="48" height="48">
+      <use xlink:href="#check2-circle"></use>
+    </svg>
+    <h1 class="text-body-emphasis">О нас:</h1>
+      <ul>
+          <div class="">Наши преимущества</div>
+          <a href="{% static "files/Лицензия.pdf" %}" target="_blank" class="btn btn-lg btn-outline-success">Скачать лицензию</a>
+          <li class="">1</li>
+          <li class="">2</li>
+          <li class="">3</li>
+      </ul>
+
+    <div class="embed-responsive embed-responsive-16by9">
+        <video controls class="embed-responsive-item embed-responsive-16by9" width="800" src="{% static "video/video.mp4" %}"></video>
+    </div>
+
+  </div>
+</div>
+
+{% endblock main %}

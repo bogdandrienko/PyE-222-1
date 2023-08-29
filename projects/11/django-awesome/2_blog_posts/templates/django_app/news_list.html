@@ -1,0 +1,43 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% block main %}
+
+<div class="container m-1 p-1">
+    <form action="{% url "news_list" %}" method="post">
+        {% csrf_token %}
+        <div class="input-group text-center w-50">
+            <input name="search" type="text" min="0" max="100" value="{{ search }}" class="form-control" placeholder="введите часть названия сюда"/>
+            <button type="submit" class="btn btn-secondary">искать</button>
+        </div>
+    </form>
+</div>
+
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary my-3 w-75 p-1 m-1">
+    <a href="#" class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-5 fw-semibold">Новости:</span>
+    </a>
+    {% include "components/paginator.html" %}
+    <div class="list-group list-group-flush border-bottom scrollarea">
+        {% for new in current_page %}
+        <a href="{% url "news_detail" new.id %}" class="list-group-item list-group-item-action py-3 lh-sm shadow" aria-current="true">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+                <div class="btn btn-sm btn-outline-dark">{{ new.author.username }}</div>
+                <strong class="mb-1">{{ new.title }}</strong>
+                <small>{{ new.date_time }}</small>
+                <img src="{% static new.image.url %}" alt="image" class="img-fluid bd-placeholder-img" width="200"/>
+            </div>
+            <div class="col-10 mb-1 small">{{ new.description|slice:"30" }}...</div>
+        </a>
+        {% empty %}
+        <a href="#" class="list-group-item list-group-item-action py-3 lh-sm" aria-current="true">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+                <strong class="mb-1">Данных нет!</strong>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% include "components/paginator.html" %}
+</div>
+
+{% endblock main %}

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="db7e553d-f293-4ec0-95ea-e6442b69eebf" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/.idea/1_landing.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/01_Введ в Web-техн. Структура HTML/_Редактируемый материал/Домашнее задание 1.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/01_Введ в Web-техн. Структура HTML/_Редактируемый материал/Материал занятия 1.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/01_Введ в Web-техн. Структура HTML/_Редактируемый материал/План занятия_1.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/01_Введ в Web-техн. Структура HTML/_Редактируемый материал/Практическая работа 1.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/01_Введ в Web-техн. Структура HTML/_Редактируемый материал/Презентация 1.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/01_Введ в Web-техн. Структура HTML/week_1_ht_3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/02_Форматирование при помощи CSS/_Редактируемый материал/Домашнее задание 2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/02_Форматирование при помощи CSS/_Редактируемый материал/Материал занятия 2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/02_Форматирование при помощи CSS/_Редактируемый материал/План урок 2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/02_Форматирование при помощи CSS/_Редактируемый материал/Практическая работа 2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/02_Форматирование при помощи CSS/_Редактируемый материал/Презентация 2.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/03_Поля и отступы/_Редактируемый материа/Домашнее задание 3.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/03_Поля и отступы/_Редактируемый материа/Материал занятия 3.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/03_Поля и отступы/_Редактируемый материа/План урока 3.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/03_Поля и отступы/_Редактируемый материа/План урока 3.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/03_Поля и отступы/_Редактируемый материа/Практическая работа 3.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/03_Поля и отступы/_Редактируемый материа/Презентация 3.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/04_Графика в web-дизайне/_Редактируемый материал/Домашнее задание 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/04_Графика в web-дизайне/_Редактируемый материал/Материал занятия 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/04_Графика в web-дизайне/_Редактируемый материал/План урок 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/04_Графика в web-дизайне/_Редактируемый материал/Практическая работа 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/04_Графика в web-дизайне/_Редактируемый материал/Презентация 4.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/05_Таблицы/_Редактируемый материал/Домашнее задание 5.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/05_Таблицы/_Редактируемый материал/Материал занятия 5.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/05_Таблицы/_Редактируемый материал/План урок 5.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/05_Таблицы/_Редактируемый материал/Практическая работа 5.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/05_Таблицы/_Редактируемый материал/Презентация 5.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/_Редактируемый материал/Домашнее задание 6.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/_Редактируемый материал/Материал занятия 6.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/_Редактируемый материал/План урок 6.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/_Редактируемый материал/Практическая работа 6.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/_Редактируемый материал/Презентация 6.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/доп материал/cloud.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/доп материал/css/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/доп материал/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/06_Позиционирование/доп материал/mountain.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/07_Flexbox/_Редактируемый материал/Домашнее задание 7.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/07_Flexbox/_Редактируемый материал/Материал занятия 7.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/07_Flexbox/_Редактируемый материал/План урок 7.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/07_Flexbox/_Редактируемый материал/Практическая работа 7.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/07_Flexbox/_Редактируемый материал/Презентация 7.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/08_Формы/_Редактируемый материал/Домашнее задание 8.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/08_Формы/_Редактируемый материал/Материал занятия 8.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/08_Формы/_Редактируемый материал/План урок 8.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/08_Формы/_Редактируемый материал/Практическая работа 8.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/08_Формы/_Редактируемый материал/Презентация 8.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/09_Адаптивная верстка сайтов/_Редактируемый материал/Домашнее задание 9.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/09_Адаптивная верстка сайтов/_Редактируемый материал/Материал занятия 9.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/09_Адаптивная верстка сайтов/_Редактируемый материал/План урок 9.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/09_Адаптивная верстка сайтов/_Редактируемый материал/Практическая работа 9.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/09_Адаптивная верстка сайтов/_Редактируемый материал/Презентация 9.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/10_ Проектная работа/_Редактируемый материал/План урок 9.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/2. Разработка веб-страниц на  HTML5 с использованием CSS3/10_ Проектная работа/_Редактируемый материал/Проектная работа 9.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/01_Введение. Переменные и условия/_Редактируемый материал/Домашнее задание.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/01_Введение. Переменные и условия/_Редактируемый материал/План занятия 1.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/01_Введение. Переменные и условия/_Редактируемый материал/Практическая работа.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/01_Введение. Переменные и условия/_Редактируемый материал/Презентация 1.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/02_Множественные условия и циклы/_Редактируемый материал/Домашнее задание 2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/02_Множественные условия и циклы/_Редактируемый материал/План занятия 2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/02_Множественные условия и циклы/_Редактируемый материал/Практическая работа 2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/02_Множественные условия и циклы/_Редактируемый материал/Презентация 2.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/03_Массивы/_Редактируемый материал/Домашнее задание 3.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/03_Массивы/_Редактируемый материал/План занятия 3.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/03_Массивы/_Редактируемый материал/Практическая работа 3.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/03_Массивы/_Редактируемый материал/Презентация 3.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/04_Функции/_Редактируемый материал/Домашнее задание 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/04_Функции/_Редактируемый материал/Доп. ДЗ 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/04_Функции/_Редактируемый материал/План занятия 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/04_Функции/_Редактируемый материал/Практическая работа 4.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/04_Функции/_Редактируемый материал/Презентация 4.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/05_Классы и объекты/_Редактируемый материал/Домашнее задание 5.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/05_Классы и объекты/_Редактируемый материал/План занятия 5.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/05_Классы и объекты/_Редактируемый материал/Практическая работа 5.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/05_Классы и объекты/_Редактируемый материал/Презентация 5.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/06_События, DOM/_Редактируемый материал/Домашнее задание 6.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/06_События, DOM/_Редактируемый материал/План занятия 6.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/06_События, DOM/_Редактируемый материал/Практическая работа 6.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/06_События, DOM/_Редактируемый материал/Презентация 6.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/07_BOM, LocalStorage, Cookie/_Редактируемый материал/Домашнее задание 7.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/07_BOM, LocalStorage, Cookie/_Редактируемый материал/План занятия 7.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/07_BOM, LocalStorage, Cookie/_Редактируемый материал/Практическая работа 7.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/07_BOM, LocalStorage, Cookie/_Редактируемый материал/Презентация 7.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/_Редактируемый матери/Домашнее задание 8.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/_Редактируемый матери/План занятия 8.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/_Редактируемый матери/Практическая работа 8.1.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/_Редактируемый матери/Практическая работа 8.2.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/_Редактируемый матери/Презентация 8.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/Доп. материал 8/js 1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/Доп. материал 8/js 2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/Доп. материал 8/js 3.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/08_Формы, регулярные выражения/Доп. материал 8/js 4.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/09-10_Json, Ajax/_Редактируемый материал/Домашнее задание 10.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/09-10_Json, Ajax/_Редактируемый материал/Домашнее задание 9.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/09-10_Json, Ajax/_Редактируемый материал/План занятия 9-10.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/09-10_Json, Ajax/_Редактируемый материал/Презентация 10.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/09-10_Json, Ajax/_Редактируемый материал/Презентация 9.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/11-12_Проектная работа. Защита ПР/_Редактируемый мат/Критерии оценивания 11-12.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/11-12_Проектная работа. Защита ПР/_Редактируемый мат/План занятия 11-12.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/program/3. Разработка клиентских сценариев с использованием JavaScript/11-12_Проектная работа. Защита ПР/_Редактируемый мат/Проектная работа 11-12.docx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/react/temp/new.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/scripts/collect_static.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/static_external/css/font_zen/ZenKakuGothicAntique-Medium.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/static_external/css/font_zen/ZenKakuGothicAntique-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/static_external/css/font_zen/ZenKakuGothicAntique-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/static_external/css/font_zen/font_style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/1_landing/static_external/files/Django план.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/django_app/migrations/0011_post_remove_book_category_delete_cities_and_more.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/static/media/images/products/Без_названия.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/static/media/images/products/Без_названия_1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/static/media/images/products/Без_названия_AMtsUBM.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/static/media/images/products/Без_названия_gtpEJCJ.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/templates/django_app/post_create.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/templates/django_app/post_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../django-awesome/2_blog_posts/templates/django_app/post_search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../lections/План занятий.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../lections/План занятий.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Пет проекты.txt" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2Uf44CZb7wCZPcASPynrHWdOfxG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="backend" type="Python.DjangoServer" factoryName="Django server">
+      <module name="backend" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="db7e553d-f293-4ec0-95ea-e6442b69eebf" name="Changes" comment="" />
+      <created>1693317107436</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1693317107436</updated>
+      <workItem from="1693317108588" duration="618000" />
+      <workItem from="1693323597568" duration="1024000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

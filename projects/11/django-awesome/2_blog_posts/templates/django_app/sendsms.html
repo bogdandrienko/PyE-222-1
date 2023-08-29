@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Sms</title>
+</head>
+<body>
+<h1>Send Sms</h1>
+
+<form class="p-1 m-2" action="{% url "sms" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="input-group">
+        <input class="form-control form-control-lg p-1 m-1" type="text"
+               name="text" placeholder="{{ sms }}" value="{{ sms }}"/>
+        <button class="btn btn-success w-25" type="submit">отправить</button>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<nav class="container card container-fluid navbar navbar-expand-lg navbar-light bg-body-tertiary">
+    <a class="navbar-brand" href="{% url "home" %}">Домашняя страница</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav navbar-collapse collapse" id="navbarSupportedContent">
+        <li class="dropend">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                О компании
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <strong class="dropdown-header">Профили пользователей</strong>
+                    <a class="dropdown-item text-danger" href="{% url 'about' %}">
+                        <i class="fa-solid fa-list m-0 p-1"></i>
+                        О компании
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>

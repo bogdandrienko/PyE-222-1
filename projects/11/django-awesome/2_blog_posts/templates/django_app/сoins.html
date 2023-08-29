@@ -1,0 +1,29 @@
+{% extends "components/base.html" %}
+
+{% block title %}Курс криптовалют{% endblock title %}
+
+{% block main %}
+
+<div class="container container-fluid">
+    <h1>Курс криптовалют:</h1>
+    <div class="table-responsive small">
+        <table class="table table-striped table-sm table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Bitcoin</th>
+              <th scope="col">Ethereum</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#</td>
+              <td>{{ data.bit }}</td>
+              <td>{{ data.ether }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock main %}

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		 <title>Phone book</title>
+		 <style>
+			 body{font-family:"Courier New",
+			 Courier, monospace;}
+		 </style>
+	</head>
+	<body>
+		 <h2>Add new contact</h2>
+		 <form method='GET'>
+			 <b>Name</b>
+			 <input type="text" placeholder="Enter name"/>
+			 <br/><br/>
+			 <input type="submit" value="Save"/>
+			 <br/><br/>
+			 Phone number
+			 <input type="text" name="phone" id="ph" placeholder="Enter phone number" />
+			 Phone type
+			 <select name="type">
+				 <option value="1" selected>Cellular</option>
+				 <option value="2">Home</option>
+				 <option value="3">Work</option>
+			 </select>
+			 Priority
+			 <input type="radio" name="main" value="1" checked />
+		 </form>
+	</body>
+</html>
+

@@ -1,0 +1,24 @@
+<!-- Шаблоны(TEMPLATE) - ВНЕШНИЙ ВИД -->
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="{% static "img/logo192.png" %}" type="image/x-icon">
+    <link href="{% static "css/bootstrap/bootstrap.min.css" %}" type="text/css" rel="stylesheet" crossorigin="anonymous"/>
+    <link href="{% static "css/fontawesome/css/all.min.css" %}" type="text/css" rel="stylesheet" crossorigin="anonymous"/>
+    <link href="{% static "css/my_css.css" %}" type="text/css" rel="stylesheet" crossorigin="anonymous"/>
+    <title>{% block title %}Мои посылки{% endblock title %}</title>
+  </head>
+  <body class="d-flex flex-column h-100 p-0 m-0 custom-body">
+    {% include 'components/navbar.html' %}
+    <main class="flex-shrink-0">
+        {% block main %}ТУТ БУДЕТ КОНТЕНТ СТРАНИЦЫ{% endblock main %}
+    </main>
+    {% include 'components/footer.html' %}
+    <script src="{% static "js/bootstrap/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static "js/my.js" %}"></script>
+  </body>
+</html>

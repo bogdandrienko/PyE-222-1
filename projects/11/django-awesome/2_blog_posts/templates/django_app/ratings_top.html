@@ -1,0 +1,46 @@
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block main %}
+
+<div class="container bg-light">
+<div class="position-sticky" style="top: 2rem;">
+        <div>
+          <h4 class="fst-italic">Лучшие книги: {{ name }}</h4>
+          <ul class="list-unstyled">
+
+            {% include "components/paginator.html" %}
+
+            {% for book in current_page %}
+            <li>
+              <div class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="#">
+                <div class="fw-bold">{{ book.id }}</div>
+                <img src="/static_external/img/error.jpg" alt="image" class="img-fluid bd-placeholder-img" width="200"/>
+                <div class="col-lg-8">
+                <div class="d-flex">
+                    {% for category in book.categories %}
+                        <small class="m-1 btn btn-outline-dark">{{ category.name }}</small>
+                    {% empty %}
+                        <small class="m-1 btn btn-outline-dark">Без категории</small>
+                    {% endfor %}
+                </div>
+                  <h6 class="mb-0">{{ book.title }}</h6>
+                  <p class="mb-0 lead">{{ book.author }}</p>
+                  <small class="text-body-secondary">{{ book.description|slice:"50" }}...</small>
+                </div>
+              </div>
+            </li>
+            {% empty %}
+            <li>
+                По запросу ничего не найдено!
+            </li>
+            {% endfor %}
+
+            {% include "components/paginator.html" %}
+
+          </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock main %}

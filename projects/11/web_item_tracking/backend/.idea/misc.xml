@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Black">
-    <option name="cmdArguments" value="--line-length 150" />
-    <option name="enabledOnReformat" value="true" />
-    <option name="enabledOnSave" value="true" />
-    <option name="executionMode" value="BINARY" />
-    <option name="pathToExecutable" value="C:\environment\Python311\Scripts\black.exe" />
-    <option name="sdkUUID" value="fbb229dd-31d5-4ea8-aa51-0c240e5b472e" />
-  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (backend) (4)" project-jdk-type="Python SDK" />
 </project>
