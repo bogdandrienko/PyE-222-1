@@ -89,6 +89,14 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
         "LOCATION": "django_ram_cache_table",
     },
+    "extra": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache_db_table",
+        "TIMEOUT": "120",
+        "OPTIONS": {
+            # "MAX_ENTIES": 200,
+        },
+    },
 }
 
 # Password validation
@@ -126,9 +134,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-# STATIC_ROOT = Path(BASE_DIR / "static")
+STATIC_ROOT = Path(BASE_DIR / "static")
 STATICFILES_DIRS = [
-    Path(BASE_DIR / "static"),
+    # Path(BASE_DIR / "static"),
     Path(BASE_DIR / "static_external"),
 ]
 

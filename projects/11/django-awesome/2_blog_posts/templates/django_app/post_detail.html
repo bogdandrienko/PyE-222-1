@@ -1,0 +1,126 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load django_app_filters_and_tags %}
+
+{% block title %}{{ post.title }}{% endblock title %}
+
+{% block main %}
+
+<div class="px-4 py-5" id="custom-cards">
+    <a class="btn btn-lg btn-outline-primary" href="{% url 'post_list' %}">К общему списку</a>
+
+      <div class="row row-cols-1 row-cols-lg-2 text-center align-items-stretch g-4 py-1">
+
+      <div class="col">
+        <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
+
+
+          <div class="d-flex flex-column h-100 p-1 pb-1 text-white text-shadow-1">
+            {% if post.image %}
+                <img src="{% static post.image.url %}" alt="image"
+                     class="img-thumbnail img-fluid" width="400"/>
+            {% endif %}
+            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ post.title }}</h3>
+              <p class="lead">{{ post.description }}</p>
+            <ul class="d-flex list-unstyled mt-auto">
+              <li class="me-auto">
+                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+              </li>
+              <li class="d-flex align-items-center me-3">
+                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                <small>{{ post.author.username }}</small>
+              </li>
+              <li class="d-flex align-items-center">
+                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                <small>{{ post.date_time }}</small>
+              </li>
+            </ul>
+          </div>
+         <div class="bg-light d-flex gap-2 justify-content-center py-1">
+            <div class="input-group">
+            <button class="btn border border-dark border-1 d-inline-flex align-items-center" type="button">
+                {% if ratings.total == 0 %}
+                    <p class="text-dark">
+                    0 ({{ ratings.total }} оценки)
+                    </p>
+                {% elif ratings.total > 0 %}
+                    <p class="text-success">
+                    {{ ratings.total }} ({{ rating.total }} оценки)
+                    </p>
+                {% else %}
+                    <p class="text-danger">
+                    {{ ratings.total }} ({{ rating.total }} оценки)
+                    </p>
+                {% endif %}
+            </button>
+
+            {% if user.is_authenticated %}
+                {% i_liked_this_post post.id as my_rule %}
+                <a href="{% url "post_rating" post.id 'лайк' %}"
+                    {% if my_rule == 1 %}
+                       class="btn btn-success d-inline-flex align-items-center m-1 p-1">
+                    {% else %}
+                       class="btn btn-outline-success d-inline-flex align-items-center m-1 p-1">
+                    {% endif %}
+                    <i class="fa-solid fa-thumbs-up">{{ ratings.like }}</i>
+                </a>
+
+                <a href="{% url "post_rating" post.id 'дизлайк' %}"
+                    {% if my_rule == -1 %}
+                        class="btn btn-danger d-inline-flex align-items-center m-1 p-1">
+                    {% else %}
+                        class="btn btn-outline-danger d-inline-flex align-items-center m-1 p-1">
+                    {% endif %}
+                    <i class="fa-solid fa-thumbs-down">{{ ratings.dislike }}</i>
+                </a>
+            {% endif %}
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="container px-4 py-1 bg-light card" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">Комментарии:</h2>
+{% if user.is_authenticated %}
+    <form action="{% url "post_comment_create" post.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 fw-normal text-center">Ваш комментарий:</h1>
+        <div class="input-group">
+            <input name="text" type="text" class="form-control" id="floatingInput" placeholder="я думаю..." minlength="5" maxlength="200" required>
+            <button class="btn btn-warning w-25 py-2" type="submit">Создать</button>
+        </div>
+    </form>
+{% endif %}
+    <hr/>
+    <div class="row g-4 py-1 row-cols-1 row-cols-lg-3">
+        {% for comment in comments %}
+        <div class="col d-flex align-items-start">
+            <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"></use></svg>
+            </div>
+            <div>
+                <h3 class="fs-2 text-body-emphasis">{{ comment.author.username }}</h3>
+                <p>{{ comment.text }}</p>
+                <hr class="m-0 p-1"/>
+                <p class="text-secondary small">{{ comment.date_time }}</p>
+                <a href="#" class="btn btn-outline-danger">
+                    Пожаловаться!
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col d-flex align-items-start">
+            <div>
+                <h3 class="fs-2 text-body-emphasis">Комментариев нет!</h3>
+                <p>Вы можете быть первыми!</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock main %}

@@ -1,6 +1,8 @@
 from django import template
 import datetime
 from django.contrib.auth.models import User, Group
+from django.http import HttpRequest
+
 from django_app import models
 
 # Фильтры и тэги (jinja)
@@ -123,3 +125,22 @@ def check_user_access(context: str, groups: str = "") -> bool:
     except Exception as error:
         print("error simple_tag check_user_access: ", error)
         return False
+
+
+@register.simple_tag(takes_context=True)
+def i_liked_this_post(context: str, post_pk: str) -> int:
+    try:
+        request: HttpRequest = context["request"]
+        post = models.Post.objects.get(id=int(post_pk))
+
+        ratings = models.PostRatings.objects.filter(post=post, author=request.user)
+        if len(ratings) < 1:
+            return 0
+        else:
+            rating = ratings[0]
+            if rating.status:
+                return 1
+            return -1
+    except Exception as error:
+        print("error simple_tag i_liked_this_post: ", error)
+        return 0

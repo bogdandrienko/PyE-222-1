@@ -98,3 +98,18 @@ ManyToMany(книги и их категории == "Война и Мир" - р�
 #
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# URL -> VIEW -> (optional)MODEL -> VIEW -> (optional)TEMPLATE

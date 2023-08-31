@@ -4,39 +4,70 @@
 {% block title %}Список постов{% endblock title %}
 
 {% block main %}
+
 <div class="px-4 py-5" id="custom-cards">
-    <h2 class="pb-2 border-bottom display-6">Список постов: </h2>
+    <h2 class="pb-2 border-bottom display-6">Список постов:
+        {% if is_detail_view %}
+            <a class="btn btn-lg btn-outline-primary" href="{% url 'post_list_simple' %}">вид списком</a>
+        {% else %}
+            <a class="btn btn-lg btn-outline-secondary" href="{% url 'post_list' %}">вид карточками</a>
+        {% endif %}
+    </h2>
 
     {% include "components/paginator.html" %}
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-        {%  for post in current_page %}
-      <div class="col">
-        <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
-          <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-            {% if post.image %}
-                <img src="{% static post.image.url %}" alt="image"
-                     class="img-thumbnail img-fluid" width="400"/>
-            {% endif %}
-            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ post.title }}</h3>
-              <p class="lead">{{ post.description }}</p>
-            <ul class="d-flex list-unstyled mt-auto">
-              <li class="me-auto">
-                <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
-              </li>
-              <li class="d-flex align-items-center me-3">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
-                <small>{{ post.author.username }}</small>
-              </li>
-              <li class="d-flex align-items-center">
-                <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
-                <small>{{ post.date_time }}</small>
-              </li>
-            </ul>
+
+    {% if is_detail_view %}
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+        {% for post in current_page %}
+          <div class="col">
+            <div class="card card-cover h-100 overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('unsplash-photo-1.jpg');">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                {% if post.image %}
+                    <img src="{% static post.image.url %}" alt="image"
+                         class="img-thumbnail img-fluid" width="400"/>
+                {% endif %}
+                <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ post.title }}</h3>
+                  <p class="lead">{{ post.description }}</p>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="https://github.com/twbs.png" alt="Bootstrap" width="32" height="32" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#geo-fill"></use></svg>
+                    <small>{{ post.author.username }}</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em"><use xlink:href="#calendar3"></use></svg>
+                    <small>{{ post.date_time }}</small>
+                  </li>
+                </ul>
+                <div class="input-group">
+                    <a class="btn btn-lg btn-light w-75" href="{% url 'post_detail' post.id %}">читать пост</a>
+                    {% if post.author.username == user.username %}
+                        <a class="btn btn-lg btn-outline-danger w-25" href="{% url 'post_hide' post.id %}">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </a>
+                    {% else %}
+                        {% if user.is_superuser %}
+                            <a class="btn btn-lg btn-outline-danger w-25" href="{% url 'post_hide' post.id %}">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
         {% endfor %}
-    </div>
+        </div>
+        {% else %}
+            <ul>
+                {% for post in current_page %}
+                    <li>{{ post.title }} {{ post.description|slice:"50" }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
     {% include "components/paginator.html" %}
   </div>
 {% endblock main %}
