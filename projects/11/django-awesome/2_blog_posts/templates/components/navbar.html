@@ -21,14 +21,22 @@
                     </i>
                     <strong class="dropdown-header">Профили пользователей</strong>
                     {% if user.is_authenticated %}
+                        <a class="dropdown-item text-primary" href="{% url 'profile' %}">
+                            <i class="fa-solid fa-user m-0 p-1"></i>
+                            мой профиль
+                        </a>
                         <a class="dropdown-item text-danger" href="{% url 'logout' %}">
-                            <i class="fa-solid fa-list m-0 p-1"></i>
+                            <i class="fa-solid fa-door-open m-0 p-1"></i>
                             выйти из аккаунта
                         </a>
                     {% else %}
                         <a class="dropdown-item text-warning" href="{% url 'register' %}">
                             <i class="fa-solid fa-circle-plus m-0 p-1"></i>
                             регистрация новых пользователей
+                        </a>
+                        <a class="dropdown-item text-danger" href="{% url 'user_password_recover_send' %}">
+                            <i class="fa-solid fa-hammer m-0 p-1"></i>
+                            восстановление доступа к аккаунту
                         </a>
                         <a class="dropdown-item text-primary" href="{% url 'login' %}">
                             <i class="fa-solid fa-list m-0 p-1"></i>

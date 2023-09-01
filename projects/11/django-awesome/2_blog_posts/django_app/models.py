@@ -2,7 +2,64 @@ from time import timezone
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save, pre_save, pre_delete
+from django.dispatch import receiver
 from django.utils.timezone import now
+
+"""
+Расширение модели пользователя(добавление чего-то, аватарка)
+
+1. "Вмешаться" в модель пользователя --
++ простота
+- удаление или обновление env невозможны
+
+2. "Отнаследоваться" от модели пользователя
++ Модель единая, т.е. одна
+- можно задеть "стандартное" поведение и "сломать" логику остальных модулей
+
+3. Создать вспомогательной модели
++ безопасность
+- 2 модели
+
+"""
+
+
+class UserProfile(models.Model):
+    """
+    Модель, которая содержит расширение для стандартной модели пользователя веб-платформы
+    """
+
+    user = models.OneToOneField(
+        editable=True,
+        blank=True,
+        null=True,
+        default=None,
+        verbose_name="Модель пользователя",
+        help_text='<small class="text-muted">Тут лежит "ссылка" на модель пользователя</small><hr><br>',
+        to=User,
+        on_delete=models.CASCADE,
+        related_name="profile",  # user.profile
+    )
+    avatar = models.ImageField(verbose_name="Аватарка", upload_to="users/avatars", default=None, null=True, blank=True)
+
+    class Meta:
+        """Вспомогательный класс"""
+
+        app_label = "auth"
+        ordering = ("-user", "avatar")
+        verbose_name = "Профиль пользователя"
+        verbose_name_plural = "Профили пользователей"
+
+    def __str__(self):
+        return f"<UserProfile {self.user.username}>"
+
+
+@receiver(post_save, sender=User)
+def create_user_model(sender, instance, created, **kwargs):
+    UserProfile.objects.get_or_create(user=instance)
+    # created - за булево значение, "создана ли модель"
+    # if created:
+    #     UserProfile.objects.get_or_create(user=instance)
 
 
 class Post(models.Model):

@@ -25,7 +25,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("django_app.urls")),
     #
-    # re_path(r"^.*$", lambda request: redirect("/login/", permanent=False), name="redirect"),
+    re_path(r"^.*$", lambda request: redirect("/login/", permanent=False), name="redirect"),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

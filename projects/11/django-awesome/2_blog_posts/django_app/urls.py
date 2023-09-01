@@ -8,6 +8,7 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("login/", views.login_, name="login"),
     path("logout/", views.logout_, name="logout"),
+    path("profile/", views.profile, name="profile"),
     # post
     path("post/list/", views.post_list, name="post_list"),
     path("post/list/simple/", views.post_list_simple, name="post_list_simple"),
@@ -18,8 +19,9 @@ urlpatterns = [
     path("post/hide/<str:pk>/", views.post_hide, name="post_hide"),
     # comments
     path("post/comment/create/<str:pk>/", views.post_comment_create, name="post_comment_create"),
-    path("post/rating/<str:pk>/<str:is_like>/", views.post_rating, name="post_rating"),
-    # path("post/delete/<str:pk>/", views.home, name="post_delete"),
     # ratings
-    # path("post/delete/<str:pk>/", views.home, name="post_delete"),
+    path("post/rating/<str:pk>/<str:is_like>/", views.post_rating, name="post_rating"),
+    # recover
+    path("user/password_recover/send/", views.user_password_recover_send, name="user_password_recover_send"),
+    path("user/password_recover/login/", views.user_password_recover_send, name="user_password_recover_login"),
 ]

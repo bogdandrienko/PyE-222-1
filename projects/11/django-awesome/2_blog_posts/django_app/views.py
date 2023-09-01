@@ -1,9 +1,13 @@
+import datetime
 import random
 import re
+
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
@@ -26,27 +30,29 @@ def register(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
         return render(request, "django_app/register.html")
     elif request.method == "POST":
-        email = request.POST.get("email", None)  # Admin1@gmail.com
-        password = request.POST.get("password", None)  # Admin1@gmail.com
-        if (
-            re.match(r"[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}", email) is None
-            or re.match(
-                r"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!.]).*$",
-                password,
-            )
-            is None
-        ):
+        email = str(request.POST.get("email", None)).strip()  # Admin1@gmail.com
+        password = str(request.POST.get("password", None)).strip()  # Admin1@gmail.com
+        valid_email = re.match(r"[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}", email)
+        valid_password = re.match(r"^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!.]).*$", password)
+
+        # print(f"valid_email: ", valid_email)
+        # print(f"valid_password: ", valid_password)
+
+        if valid_email is None or valid_password is None:
             return render(
                 request,
                 "django_app/register.html",
                 {"error": "Некорректный формат email или пароль"},
             )
         try:
-            User.objects.create(
+            user = User.objects.create(
                 username=email,
                 password=make_password(password),  # HASHING PASSWORD
                 email=email,
             )
+            # user_profile = models.UserProfile.objects.create(
+            #     user=user,
+            # )
         except Exception as error:
             return render(
                 request,
@@ -81,6 +87,16 @@ def logout_(request: HttpRequest) -> HttpResponse:
 
     logout(request)
     return redirect(reverse("login"))
+
+
+@login_required
+def profile(request: HttpRequest) -> HttpResponse:
+    if request.method == "GET":
+        user = request.user
+        user_profile = user.profile  # models.Post.objects.get(user=user)
+        context = {"profile": user_profile}
+
+        return render(request, "django_app/profile.html", context)
 
 
 # posts
@@ -207,3 +223,63 @@ def post_rating(request: HttpRequest, pk: str, is_like: str) -> HttpResponse:
             rating.save()
 
     return redirect(reverse("post_detail", args=(pk,)))
+
+
+def user_password_recover_send(request):
+    # Почта: восстановление пароля от аккаунта на почту
+
+    """
+    1. Человек потерял свой пароль, но знает почту/номер телефона(username)
+
+    2. Кнопку, которая ведёт на страницу для сброса пароля.
+    2.1 Просто посылаем ему сразу одноразовый пароль для восстановления.
+    Не даём ничего делать, пока он на заменит пароль на постоянный.
+
+    !danger! 3.1 В момент регистрации, записывать в профиль реальный пароль человека.
+
+    """
+
+    if request.method == "GET":
+        context = {}
+        return render(request, "django_app/user_password_recover_send.html", context)
+    elif request.method == "POST":
+        email = str(request.POST["email"]).strip()
+        users = User.objects.filter(username=email)
+        if len(users) < 1:
+            context = {"error": "Неправильное имя пользователя/почта", "email": email}
+            return render(request, "django_app/user_password_recover_send.html", context)
+
+        """
+        ОТПРАВКА ПИСЬМА это платно*, поэтому нужно будет потом придумать как ограничить
+        
+        
+        1. SendPulse - 
+        + гибко, есть html шаблоны, не блочится другими почтами...
+        - платно, сложное api
+        
+        2. Яндекс smtp
+        2.1 Создать яндекс аккаунт
+        2.2 Зайти в настройки (https://id.yandex.kz/security/app-passwords) - пароль от SMTP сохранить
+        2.3 Создать и настроить ENV-файл(переменные окружения)
+        2.4 В Django задать переменные (EMAIL_HOST...)
+        2.5 Отправить письмо через send_mail(...)
+        + бесплатно, не блочится другими почтами
+        - есть ограничения
+        
+        """
+        try:
+            m_from = settings.EMAIL_HOST_USER
+            m_to = [email]
+            m_subject = "Восстановление доступа к аккаунту"
+            m_message = f"Ваш старый пароль: {users[0].password} {datetime.datetime.now()}"  # TODO
+            # TODO HTML
+            send_mail(m_subject, m_message, m_from, m_to)
+
+            context = {"success": "На указанную почту отправлен код восстанвления! Следуйте инструкциям в письме."}
+            return render(request, "django_app/user_password_recover_send.html", context)
+        except Exception as error:
+            return render(
+                request,
+                "django_app/user_password_recover_send.html",
+                {"error": str(error)},
+            )

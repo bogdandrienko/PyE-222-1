@@ -1,0 +1,15 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% block main %}
+
+<div class="container my-5 w-50 bg-light card p-3">
+<div class="d-flex w-100 align-items-center justify-content-between">
+    <div class="btn btn-sm btn-outline-dark">{{ profile.user.first_name }} {{ profile.user.last_name }}</div>
+    {% if profile.avatar %}
+        <img src="{% static profile.avatar.url %}" alt="image" class="img-fluid bd-placeholder-img" width="200"/>
+    {% else %}
+        <img src="{% static 'media/users/avatars/default.jpg' %}" alt="image" class="img-fluid bd-placeholder-img" width="200"/>
+    {% endif %}
+</div>
+</div>
+{% endblock main %}

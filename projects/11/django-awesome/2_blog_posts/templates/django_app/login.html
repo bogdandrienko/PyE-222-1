@@ -14,14 +14,17 @@
       <input name="email" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="5" maxlength="200" required>
       <label for="floatingInput">Электронная почта</label>
     </div>
-    <div class="form-floating m-1 p-1">
-        <input name="password" type="password" id="passwordInput" class="form-control w-100" placeholder="Password" minlength="8" maxlength="24" required>
-      <label for="passwordInput">Пароль</label>
+    <div class="input-group m-1 p-1">
+        <div class="form-floating">
+            <input name="password" type="password" id="passwordInput" class="form-control w-100" placeholder="Password" minlength="8" maxlength="24" required>
+          <label for="passwordInput">Пароль</label>
+        </div>
+        <button id="toggleButton" onclick="passwordSwitchVisibility()" class="btn btn-danger w-25 fa-solid fa-eye" type="button"></button>
     </div>
     <div class="input-group">
         <button class="btn btn-primary w-50 py-2" type="submit">Войти</button>
-        <button id="toggleButton" onclick="passwordSwitchVisibility()" class="btn btn-danger w-25 py-2 fa-solid fa-eye" type="button"></button>
         <a class="btn btn-warning w-25 py-2" type="button" href="{% url 'register' %}">регистрация</a>
+        <a class="btn btn-danger w-25 py-2" type="button" href="{% url 'user_password_recover_send' %}">восстановление доступа</a>
     </div>
   </form>
 </main>

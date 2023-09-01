@@ -5,22 +5,26 @@
 <div class="container my-5 w-50 bg-light card p-3">
 <main class="form-signin w-100 m-auto">
     {% if error %}
-        {% include "components/error.html" %}
+        {% include "components/fail.html" %}
     {% endif %}
   <form action="{% url "register" %}" method="POST">
     {% csrf_token %}
     <h1 class="h3 mb-3 fw-normal text-center">Создайте аккаунт</h1>
     <div class="form-floating m-1 p-1">
-      <input name="email" type="text" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="5" maxlength="200" required>
+      <input name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" minlength="5" maxlength="200" required>
       <label for="floatingInput">Электронная почта</label>
     </div>
-    <div class="form-floating m-1 p-1">
-        <input name="password" type="password" id="passwordInput" class="form-control w-100" placeholder="Password" minlength="8" maxlength="24" required>
-      <label for="passwordInput">Пароль</label>
+    <div class="input-group m-1 p-1">
+        <div class="form-floating">
+            <input name="password" type="password" id="passwordInput" class="form-control w-100" placeholder="Password" minlength="8" maxlength="24" required>
+          <label for="passwordInput">Пароль</label>
+        </div>
+        <button id="toggleButton" onclick="passwordSwitchVisibility()" class="btn btn-danger w-25 fa-solid fa-eye" type="button"></button>
     </div>
+    <p class="small text-secondary">* от 8 символов, оба регистра, только латинница</p>
     <div class="input-group">
         <button class="btn btn-warning w-75 py-2" type="submit">Создать</button>
-        <button id="toggleButton" onclick="passwordSwitchVisibility()" class="btn btn-danger w-25 py-2 fa-solid fa-eye" type="button"></button>
+        <a class="btn btn-primary w-25 py-2" type="button" href="{% url 'login' %}">Войти</a>
     </div>
   </form>
 </main>

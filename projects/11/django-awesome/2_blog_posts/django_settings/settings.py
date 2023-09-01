@@ -11,21 +11,46 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env(
+    SECRET_KEY=(str, None),
+    DEBUG=(bool, None),
+    ALLOWED_HOSTS=(str, None),
+    REDIS_LOCATION=(str, None),
+    EMAIL_HOST=(str, None),
+    EMAIL_HOST_USER=(str, None),
+    EMAIL_HOST_PASSWORD=(str, None),
+)
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-w=xvki!r*2ewr172ziwguwos0*3u#&a9d5zh=jjpkb5s73fv8g"
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["*"]  # сервер, где развёртывается django
+"""
+Переменные окружения
+Почта: восстановление пароля от аккаунта на почту
+Профиль: расширенный профиль пользователя(аватарка, биография...). Сигналы. Собственная модель пользователя
+
+Django-формы
+Аутентификация - определение пользователя
+Авторизация (определение прав/возможностей) со стороны admin-системы и со стороный Template
+Middleware для логирования пользователей
+Всплывающие сообщения.
+"""
+
+
+ALLOWED_HOSTS = [env("ALLOWED_HOSTS")]  # сервер, где развёртывается django
 
 
 # Application definition
@@ -81,7 +106,15 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    # "extra": {
+    #     "ENGINE": env("SQL_ENGINE"),
+    #     "NAME": env("SQL_DATABASE"),
+    #     "USER": env("SQL_USER"),
+    #     "PASSWORD": env("SQL_PASSWORD"),
+    #     "HOST": env("SQL_HOST"),
+    #     "PORT": env("SQL_PORT"),
+    # }
 }
 
 CACHES = {
@@ -133,17 +166,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = Path(BASE_DIR / "static")
-STATICFILES_DIRS = [
-    # Path(BASE_DIR / "static"),
-    Path(BASE_DIR / "static_external"),
-]
+STATIC_URL = "/static/"
+if DEBUG:
+    # режиме разработки: django "отдаёт" статику сам
+    STATICFILES_DIRS = [
+        Path(BASE_DIR / "static"),
+        Path(BASE_DIR / "static_external"),
+    ]
+else:
+    # режиме production(debug==false): nginx "отдаёт" статику
+    # collectstatic
+    STATIC_ROOT = Path(BASE_DIR / "static")
+    STATICFILES_DIRS = [
+        Path(BASE_DIR / "static_external"),
+    ]
 
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = "static/media"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = 465  # (465 = SSL | 587 = TLS)
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")  # Ваш адрес Yandex
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")  # Пароль от вашего Yandex аккаунта
