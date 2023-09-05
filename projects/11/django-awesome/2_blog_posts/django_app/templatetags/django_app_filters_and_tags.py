@@ -144,3 +144,18 @@ def i_liked_this_post(context: str, post_pk: str) -> int:
     except Exception as error:
         print("error simple_tag i_liked_this_post: ", error)
         return 0
+
+
+@register.simple_tag(takes_context=True)
+def user_groups(context: dict) -> list:
+    try:
+        request: HttpRequest = context["request"]
+        user = request.user
+        if user.is_anonymous:
+            return []
+        names = []
+        for i in user.groups.all():
+            names.append(i.name)
+        return names
+    except:
+        return []

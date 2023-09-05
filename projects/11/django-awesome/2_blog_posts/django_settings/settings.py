@@ -38,15 +38,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 """
-Переменные окружения
-Почта: восстановление пароля от аккаунта на почту
-Профиль: расширенный профиль пользователя(аватарка, биография...). Сигналы. Собственная модель пользователя
-
-Django-формы
-Аутентификация - определение пользователя
-Авторизация (определение прав/возможностей) со стороны admin-системы и со стороный Template
-Middleware для логирования пользователей
-Всплывающие сообщения.
+Публикация на локальном linux сервере
+Публикация на oblako.kz
 """
 
 
@@ -75,6 +68,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_app.middleware.CustomLogsMiddleware",  # custom
 ]
 
 ROOT_URLCONF = "django_settings.urls"

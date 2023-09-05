@@ -1,3 +1,4 @@
+import random
 from time import timezone
 
 from django.contrib.auth.models import User
@@ -119,3 +120,34 @@ class PostRatings(models.Model):
         else:
             like = "ДИЗЛАЙК"
         return f"{self.post.title} {self.author.username} {like}"
+
+
+class UserAuthToken(models.Model):
+    user = models.ForeignKey(verbose_name="Пользователь", to=User, on_delete=models.CASCADE)
+    token = models.CharField(verbose_name="Токен", max_length=300)
+    # можно добавить время создания и не пускать позже 3 дней
+    # можно добавить одноразовое использование
+    # ...
+
+    class Meta:
+        app_label = "django_app"
+        ordering = ("-user", "token")
+        verbose_name = "Токен доступа"
+        verbose_name_plural = "Токены доступа"
+
+    def __str__(self):
+        return f"{self.user.username} {self.token}"
+
+    @staticmethod
+    def token_generator() -> str:
+        def generate_track(length: int, characters: str) -> str:
+            return "".join(random.choice(characters) for _ in range(length))
+
+        f1 = "NL"
+        f2 = generate_track(4, "1234567890")
+        f3 = generate_track(4, "1234567890")
+        f4 = generate_track(3, "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+        # f1  f2   f3   f4
+        # NL13541342KJG
+        return f"{f1}{f2}{f3}{f4}"

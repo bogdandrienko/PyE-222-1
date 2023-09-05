@@ -60,3 +60,4 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(models.Post, PostAdmin)
 admin.site.register(models.PostComments)
 admin.site.register(models.PostRatings)
+admin.site.register(models.UserAuthToken)

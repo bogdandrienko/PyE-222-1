@@ -1,19 +1,18 @@
-import datetime
-import random
 import re
-
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
+from django.core.cache import caches
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib import messages
 from django_app import models
-from django.core.cache import caches, CacheHandler
+from .forms import PostForm
 
 RamCache = caches["default"]
 DatabaseCache = caches["extra"]
@@ -21,7 +20,11 @@ DatabaseCache = caches["extra"]
 
 # base
 def home(request: HttpRequest) -> HttpResponse:
-    return render(request, "django_app/home.html", context={})
+    messages.success(request, "Сообщение отправлено")  # only JINJA
+
+    form = PostForm()
+    context = {"success": "Успешно загружено", "form": form}
+    return render(request, "django_app/home.html", context=context)
 
 
 def register(request: HttpRequest) -> HttpResponse:
@@ -271,7 +274,10 @@ def user_password_recover_send(request):
             m_from = settings.EMAIL_HOST_USER
             m_to = [email]
             m_subject = "Восстановление доступа к аккаунту"
-            m_message = f"Ваш старый пароль: {users[0].password} {datetime.datetime.now()}"  # TODO
+
+            token = models.UserAuthToken.objects.create(user=users[0], token=models.UserAuthToken.token_generator())
+
+            m_message = f"Перейдите по ссылке: 'http://127.0.0.1:8000/user/password_recover/input/{token.token}/'"  # TODO
             # TODO HTML
             send_mail(m_subject, m_message, m_from, m_to)
 
@@ -283,3 +289,14 @@ def user_password_recover_send(request):
                 "django_app/user_password_recover_send.html",
                 {"error": str(error)},
             )
+
+
+def user_password_recover_input(request: HttpRequest, token: str) -> HttpResponse:
+    try:
+        token = models.UserAuthToken.objects.get(token=str(token))
+        login(request, token.user)
+        token.delete()  # одноразовый токен
+        return redirect(reverse("home"))
+    except Exception as error:
+        print(error)
+        return redirect(reverse("login"))

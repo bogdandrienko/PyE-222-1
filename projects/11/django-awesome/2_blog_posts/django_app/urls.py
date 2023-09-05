@@ -24,4 +24,5 @@ urlpatterns = [
     # recover
     path("user/password_recover/send/", views.user_password_recover_send, name="user_password_recover_send"),
     path("user/password_recover/login/", views.user_password_recover_send, name="user_password_recover_login"),
+    path("user/password_recover/input/<str:token>/", views.user_password_recover_input, name="user_password_recover_input"),
 ]

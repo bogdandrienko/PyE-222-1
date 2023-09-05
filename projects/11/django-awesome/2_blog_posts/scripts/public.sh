@@ -1,3 +1,167 @@
+######################################################################
+# ubuntu virtualization
+
+# https://www.virtualbox.org/wiki/Downloads
+# https://ubuntu.com/download/alternative-downloads
+# https://oblako.kz/
+
+# vbox:
+# создать "шаблон" ubuntu-server
+# добавить вторую сетевую карту(сетевой мост)
+# подключить iso
+# запустить и установить операционную систему
+
+login: ubuntu
+password: ********
+
+sudo apt-get update -y && sudo apt update -y
+sudo apt-get install -y openssh-server
+sudo systemctl start ssh
+sudo systemctl restart ssh
+
+# https://www.bitvise.com/ssh-client-download
+
+sudo apt-get install -y python3-dev python3-pip python3-venv curl wget git nginx gunicorn
+
+cd ~
+mkdir rest_api && cd rest_api
+python3 -m venv env
+source env/bin/activate
+pip install django gunicorn
+pip install -r requirements.txt
+django-admin startproject django_settings .
+django-admin startapp django_app
+python manage.py runserver 0.0.0.0:8000
+ip a
+# 192.168.0.198:8000
+
+
+cd ~
+mkdir web && cd web
+python3 -m venv env
+source env/bin/activate
+# переносим проект и запускаем его
+# проверить STATIC_ROOT
+# python manage.py collectstatic --no-input
+
+###########################
+# GUNICORN
+
+pwd
+
+sudo nano /etc/systemd/system/gunicorn.socket
+<file>
+[Unit]
+Description=gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+
+[Install]
+WantedBy=sockets.target
+</file>
+
+sudo nano /etc/systemd/system/gunicorn.service
+<file>
+[Unit]
+Description=Gunicorn for the Django project
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+
+User=ubuntu
+Group=www-data
+
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/ubuntu/web
+ExecStart=/home/ubuntu/web/env/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock django_settings.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+</file>
+
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn
+sudo systemctl enable --now gunicorn.service
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl status gunicorn.service
+#sudo systemctl disable gunicorn
+#sudo systemctl stop gunicorn
+
+#################################
+NGINX
+#####
+
+sudo nano /etc/nginx/sites-available/192.168.0.198-http.conf
+<file>
+server {
+listen 80;
+listen [::]:80;
+
+server_name 192.168.0.198;
+
+root /home/ubuntu/web;
+
+location /.well-known/acme-challenge/ {}
+
+location /favicon.ico {
+    alias /home/ubuntu/web/static/logo.png;
+
+    access_log off; log_not_found off;
+
+    expires max;
+}
+
+location /robots.txt {
+    alias /home/ubuntu/web/static/robots.txt;
+
+    access_log off; log_not_found off;
+
+    expires max;
+}
+
+location /static/ {
+    alias /home/ubuntu/web/static/;
+
+    expires max;
+}
+
+location /media/ {
+    alias /home/ubuntu/web/static/media/;
+
+    expires max;
+}
+
+location / {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_buffering off;
+    proxy_pass http://unix:/run/gunicorn.sock;
+}
+}
+</file>
+
+sudo ln -s /etc/nginx/sites-available/192.168.0.198-http.conf /etc/nginx/sites-enabled/192.168.0.198-http.conf
+
+sudo ufw allow 'Nginx Full'
+sudo service nginx start
+sudo systemctl reload nginx.service
+sudo systemctl status nginx.service
+
+# http://192.168.0.198:80/
+
+#################################################
+
+
 # зарегистироваться на хостинге
 # купить linux-сервер (ubuntu 22.04 LTS)
 #

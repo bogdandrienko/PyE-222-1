@@ -18,6 +18,7 @@
                         {% else %}
                             аноним
                         {% endif %}
+                        {% user_groups %}
                     </i>
                     <strong class="dropdown-header">Профили пользователей</strong>
                     {% if user.is_authenticated %}

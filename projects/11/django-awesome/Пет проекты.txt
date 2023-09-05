@@ -2,14 +2,21 @@
 - pythonanywhere
 - нужно показать максимум: css / js / html + top rating video
 
+* Телеграм-бот
+- pythonanywhere
+
 * Блог - сайт для публикации и просмотра постов
 - пагинация и кэш
 - oblako.kz
 - нужно показать максимум django-MVT
+- nginx, gunicorn
 
 * Api - взаимодействие с программными клиентами (программный интерфейс)
 - кэш(redis) и postgresql
 - oblako.kz
+- нужно показать максимум django-DRF
+- Docker, docker-compose
+- Unit-tests
 
 * Fullstack SPA - полноценное веб-приложение
 - DRF

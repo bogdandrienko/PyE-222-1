@@ -5,28 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db7e553d-f293-4ec0-95ea-e6442b69eebf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/static/media/images/products/mg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/media/images/products/mg_mhG8PdW.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/media/users/avatars/11.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/media/users/avatars/default.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/components/success.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/django_app/profile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/django_app/user_password_recover_send.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_app/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_app/middleware.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_app/migrations/0014_userauthtoken.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../web_item_tracking/.idea/web_item_tracking.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../interview/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_app/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_app/templatetags/django_app_filters_and_tags.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_app/templatetags/django_app_filters_and_tags.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_app/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_settings/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_settings/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_settings/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_settings/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/public.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/public.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/components/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/navbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/django_app/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/django_app/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/django_app/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/django_app/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/components/success.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/components/success.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/django_app/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/django_app/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Пет проекты.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Пет проекты.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web_item_tracking/backend/передача данных.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/../../web_item_tracking/backend/передача данных.drawio" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../подготовка к вакансии.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../подготовка к вакансии.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../interview/requirements.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../../interview/requirements.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,29 +48,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/github_projects/PyE-222-1/projects/11/django-awesome/2_blog_posts/static/media/users/avatars",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.black.configuration.BlackFormatterConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/github_projects/PyE-222-1/projects/11/django-awesome/2_blog_posts/templates/components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.black.configuration.BlackFormatterConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\github_projects\PyE-222-1\projects\11\django-awesome\2_blog_posts\templates\components" />
+      <recent name="C:\github_projects\PyE-222-1\projects\11\django-awesome\2_blog_posts\django_app" />
       <recent name="C:\github_projects\PyE-222-1\projects\11\django-awesome\2_blog_posts\static\media\users\avatars" />
       <recent name="C:\github_projects\PyE-222-1\projects\11\django-awesome\2_blog_posts\templates\django_app" />
       <recent name="C:\github_projects\PyE-222-1\projects\11\django-awesome\2_blog_posts" />
-      <recent name="C:\github_projects\PyE-222-1\projects\11\django-awesome\2_blog_posts\templates\components" />
     </key>
   </component>
   <component name="RunManager">
@@ -114,6 +113,8 @@
       <workItem from="1693487328194" duration="9652000" />
       <workItem from="1693570167242" duration="361000" />
       <workItem from="1693573699917" duration="10211000" />
+      <workItem from="1693921318002" duration="4583000" />
+      <workItem from="1693926281748" duration="3446000" />
     </task>
     <servers />
   </component>
