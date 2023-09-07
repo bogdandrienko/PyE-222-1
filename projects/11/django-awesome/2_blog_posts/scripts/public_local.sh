@@ -21,25 +21,32 @@ sudo systemctl restart ssh
 
 # https://www.bitvise.com/ssh-client-download
 
-sudo apt-get install -y python3-dev python3-pip python3-venv curl wget git nginx gunicorn
+sudo apt-get install -y curl git nginx gunicorn wget build-essential libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt-get install -y python3.11 python3.11-venv python3.11-dev
 
 cd ~
 mkdir rest_api && cd rest_api
-python3 -m venv env
+python3.11 -m venv env
 source env/bin/activate
 pip install django gunicorn
 pip install -r requirements.txt
 django-admin startproject django_settings .
 django-admin startapp django_app
 python manage.py runserver 0.0.0.0:8000
+gunicorn --bind 0.0.0.0:8000 django_settings.wsgi
 ip a
 # 192.168.0.198:8000
+# 188.94.156.135:8000
 
 
 cd ~
 mkdir web && cd web
 python3 -m venv env
 source env/bin/activate
+pip install django gunicorn
+pip install -r requirements.txt
+gunicorn --bind 0.0.0.0:8000 django_settings.wsgi
 # переносим проект и запускаем его
 # проверить STATIC_ROOT
 # python manage.py collectstatic --no-input
@@ -48,6 +55,8 @@ source env/bin/activate
 # GUNICORN
 
 pwd
+htop
+top
 
 sudo nano /etc/systemd/system/gunicorn.socket
 <file>
@@ -151,7 +160,10 @@ location / {
 </file>
 
 sudo ln -s /etc/nginx/sites-available/192.168.0.198-http.conf /etc/nginx/sites-enabled/192.168.0.198-http.conf
-
+sudo nginx -t
+# доступ на чтение файлов
+sudo usermod -aG ubuntu www-data
+# доступ к интернету
 sudo ufw allow 'Nginx Full'
 sudo service nginx start
 sudo systemctl reload nginx.service
@@ -159,24 +171,39 @@ sudo systemctl status nginx.service
 
 # http://192.168.0.198:80/
 
-#################################################
+https://www.enbek.kz:80/ru  - HTTP, т.е. не безопасный
+https://www.enbek.kz:443/ru  - HTTPS, т.е. безопасный (+ сертификат)
 
+waterfall - водопад - вы долго разрабатываете продукт и один раз выпускаете, затем длительные "патчи"(исправления)
+agile(scrum, kanban) - итеративный - MVP - итеративно наращить функционал
+
+###################################################################################################################################################
+
+###################################################################################################################################################
+
+###################################################################################################################################################
+# https://oblako.kz/
 
 # зарегистироваться на хостинге
-# купить linux-сервер (ubuntu 22.04 LTS)
-#
+# купить linux-сервер (ubuntu 20.04 LTS) + нужная мощность
+# Создали репозиторий на гитхабе
+# подключились по ssh
 
-sudo apt-get update -y && sudo apt update -y
+sudo apt-get update -y
 sudo apt-get install -y python3-dev python3-pip python3-venv
 
-cd ~
-mkdir web && cd web
-python3 -m venv env
-source env/bin/activate
-pip3 install Django
-django-admin startproject settings .
-django-admin startapp app
-python manage.py runserver 0.0.0.0:8000
+# ...
+
+# копирует репозиторий в эту папку
+git clone https://github.com/bogdandrienko/django_server.git
+
+# удаляет папку с файлами
+rm -r web
+
+# переименовывание
+mv django_server web
+
+
 
 ###################################################
 
@@ -243,8 +270,7 @@ python3 -m venv env
 source env/bin/activate
 pip3 install -r requirements.txt
 python manage.py runserver 0.0.0.0:8000
-
-gunicorn --bind 0.0.0.0:8000 django_setttings.wsgi
+gunicorn --bind 0.0.0.0:8000 django_settings.wsgi
 
 ###########################
 # GUNICORN

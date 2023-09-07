@@ -1,0 +1,12 @@
+# создать реакт "шаблон"
+npx create-react-app frontend --template redux-typescript
+
+npm i axios prettier
+
+# запуск
+cd frontend
+npm start
+
+# сборка
+cd frontend
+npm run build

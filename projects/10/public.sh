@@ -114,7 +114,7 @@ Group=www-data
 
 RuntimeDirectory=gunicorn
 WorkingDirectory=/home/ubuntu/web
-ExecStart=/home/ubuntu/web/env/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock django_setttings.wsgi:application
+ExecStart=/home/ubuntu/web/env/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock django_settings.wsgi:application
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
