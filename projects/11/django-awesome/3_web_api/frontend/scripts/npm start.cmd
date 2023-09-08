@@ -1,0 +1,9 @@
+cd ..
+
+
+
+npm start
+
+
+
+cmd
