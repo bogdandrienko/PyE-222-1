@@ -3,23 +3,41 @@ import * as bases from "../components/ui/bases";
 import axios from "axios";
 
 export default function Page() {
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    iin: "",
-    dataBirth: "",
-    position: "",
-  });
+  let firstName = "";
+  let lastName = "";
 
-  async function sendForm() {
+  async function sendData() {
     try {
-      console.log(form);
-      const response = await axios.post("http://127.0.0.1:8000/api/", form);
+      console.log("firstName: ", firstName);
+      console.log("lastName: ", lastName);
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+      };
+      const response = await axios.post("http://127.0.0.1:8000/api/", data);
       console.log(response.status);
     } catch (error) {
       console.log(error);
     }
   }
+
+  // const [form, setForm] = useState({
+  //   firstName: "",
+  //   lastName: "",
+  //   iin: "",
+  //   dataBirth: "",
+  //   position: "",
+  // });
+  //
+  // async function sendForm() {
+  //   try {
+  //     console.log(form);
+  //     const response = await axios.post("http://127.0.0.1:8000/api/", form);
+  //     console.log(response.status);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   return (
     <bases.Base1>
@@ -29,8 +47,8 @@ export default function Page() {
           <form
             className="needs-validation"
             onSubmit={(event) => {
-              event.preventDefault(); // останавливает стандартное поведение формы
-              sendForm();
+              event.preventDefault(); // останавливает стандартное поведение формы(перезагрузка)
+              sendData();
             }}
           >
             <div className="row g-3">
@@ -42,10 +60,10 @@ export default function Page() {
                   id="firstName"
                   placeholder=""
                   required
-                  onChange={(event) =>
-                    setForm({ ...form, firstName: event.target.value })
-                  }
-                  value={form.firstName}
+                  minLength={10}
+                  onChange={(event) => {
+                    firstName = event.target.value;
+                  }}
                 />
                 <div className="invalid-feedback">обязательно</div>
               </div>
@@ -58,10 +76,9 @@ export default function Page() {
                   id="lastName"
                   placeholder=""
                   required
-                  onChange={(event) =>
-                    setForm({ ...form, lastName: event.target.value })
-                  }
-                  value={form.lastName}
+                  onChange={(event) => {
+                    lastName = event.target.value;
+                  }}
                 />
                 <div className="invalid-feedback">обязательно</div>
               </div>
@@ -112,7 +129,11 @@ export default function Page() {
 
             <hr className="my-4" />
 
-            <button className="w-100 btn btn-primary btn-lg" type="submit">
+            <button
+              className="w-100 btn btn-primary btn-lg"
+              //onClick={() => sendData()} // НЕЛЬЗЯ, иначе форма не валидируется
+              type="submit"
+            >
               Сохранить карточку
             </button>
           </form>

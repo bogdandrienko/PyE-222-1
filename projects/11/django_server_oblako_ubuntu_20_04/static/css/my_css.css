@@ -1,0 +1,13 @@
+.custom-card-8 {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.custom-body {
+  background-image: url("../img/global_background_image2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.custom-text {
+  color: #21ffab;
+}

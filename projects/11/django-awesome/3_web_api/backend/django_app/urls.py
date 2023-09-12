@@ -7,4 +7,6 @@ urlpatterns = [
     path("home/", views.home),
     #
     path("api/", views.api),
+    path("messages/", views.messages),
+    path("weather/", views.weather),
 ]

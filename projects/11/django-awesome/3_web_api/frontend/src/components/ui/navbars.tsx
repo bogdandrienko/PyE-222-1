@@ -36,6 +36,11 @@ export function Navbar1() {
               </Link>
             </li>
             <li>
+              <Link to={"/chat"} className="nav-link px-2 text-secondary">
+                Онлайн чат
+              </Link>
+            </li>
+            <li>
               <a href="#" className="nav-link px-2 text-white disabled">
                 Зарплатный лист
               </a>
