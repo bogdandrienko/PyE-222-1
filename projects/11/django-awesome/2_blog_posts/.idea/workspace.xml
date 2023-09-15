@@ -5,11 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db7e553d-f293-4ec0-95ea-e6442b69eebf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../../django_server_oblako_ubuntu_20_04/.idea/django_server_20_04.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../django_server_oblako_ubuntu_20_04/django_settings/.idea/django_settings.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../3_web_api/backend/DOCS.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../3_web_api/backend/django_app/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../3_web_api/backend/django_app/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../3_web_api/backend/scripts/migrations.cmd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../3_web_api/frontend/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/frontend/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../3_web_api/frontend/src/pages/CreateWorker.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/frontend/src/pages/CreateWorker.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_web_api/backend/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/backend/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_web_api/backend/django_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/backend/django_app/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_web_api/backend/django_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/backend/django_app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_web_api/backend/django_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/backend/django_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_web_api/backend/django_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/backend/django_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../3_web_api/backend/django_settings/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/backend/django_settings/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../3_web_api/схема.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/../3_web_api/схема.drawio" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,6 +112,7 @@
       <workItem from="1694183677764" duration="617000" />
       <workItem from="1694246228381" duration="250000" />
       <workItem from="1694526310637" duration="17000" />
+      <workItem from="1694530863305" duration="966000" />
     </task>
     <servers />
   </component>

@@ -31,13 +31,18 @@ export function Navbar1() {
               </Link>
             </li>
             <li>
-              <Link to={"/list"} className="nav-link px-2 text-secondary">
+              <Link to={"/list"} className="nav-link px-2 text-white">
                 Список работников
               </Link>
             </li>
             <li>
-              <Link to={"/chat"} className="nav-link px-2 text-secondary">
+              <Link to={"/chat"} className="nav-link px-2 text-white">
                 Онлайн чат
+              </Link>
+            </li>
+            <li>
+              <Link to={"/report"} className="nav-link px-2 text-white">
+                Отчёт о посещаемости
               </Link>
             </li>
             <li>
