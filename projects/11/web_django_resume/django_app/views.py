@@ -45,7 +45,7 @@ def register_old(request):
 
             # native for Django
         #         cursor = connection.cursor()
-        #         query = f"""
+        #         query = """
         # INSERT INTO resume_model_table (first_name)
         # VALUES (%s)
         # """
@@ -55,7 +55,7 @@ def register_old(request):
         # native - встроенный
         #         with sqlite3.Connection("db.sqlite3") as connection:
         #             cursor = connection.cursor()
-        #             query = f"""
+        #             query = """
         # INSERT INTO resume_model_table (first_name)
         # VALUES (?)
         # """

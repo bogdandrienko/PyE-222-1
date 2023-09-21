@@ -88,11 +88,25 @@ DRF:
 
 # todo DJANGO: ORM + DRF
 
+# есть несколько гит веток(branche)
+# main(master/origin) - production
+# preview - codereview
+# test1 - manual - ручные
+# test2 - QA - тестировщики(pytest / postman)
+# dev1
+# exper1
 
+# Домашки
+- если не уложиться в срок, автоматически ставит 1
+- если не успеть за 3 месяца, то её нельзя загрузить(учебная часть)
+- 90% домашек к экзамену
+- есть случаи, когда людям не дают диплом по 2-3 мес.
 
+# clear DRF(backend)
+# React(frontend/fullstack)
+# -> СИСТЕМА ВЫВОДА ЦЕН НА СТРАНИЦУ ИЗ БАЗЫ ДАННЫХ (Pricing)
 
+"""
 
-
-
-
+"""
 
