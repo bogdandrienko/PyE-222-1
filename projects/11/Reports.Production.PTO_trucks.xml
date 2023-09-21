@@ -1,0 +1,2028 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+
+<XRTL version = "1.0" title = "ПТО самосвалы">
+  <Resources>
+  	<Database username="dispatcher" password="disp" provider="MSDAORA" data_source="piteservice"/>
+
+	
+	<Queries>
+	<Query name = "vehids"> 
+	    SELECT 'Все' paramvehid, -1 Item FROM Dual
+          UNION
+        SELECT vehid ParamVehID, Length (vehid) Item FROM dumptrucks where columnnum=1
+        ORDER BY Item, ParamVehID;
+      </Query>
+	  
+	
+	  
+  	<Query name="Report">
+with
+st as
+(
+select
+d.controlid tech_key,
+d.vehid,
+st.taskdate shiftdate,
+st.shift shiftnum
+from shifttasks st 
+inner JOIN DISPATCHER.dumptrucks d ON d.vehid = st.vehid and d.columnnum=1 
+where
+ ((st.taskdate = :ParamDateFrom and st.Shift >= :ParamShiftFrom)or(st.taskdate > :ParamDateFrom))
+            and ((st.taskdate = :ParamDateTo and :ParamShiftTo >= st.Shift)or(:ParamDateTo > st.taskdate ))
+),
+---------------простои самосвалов------------------------
+stpgs AS ( -- Простои берем из отчетов по завершению смены
+select
+sel1.tech_key,
+sel1.VEHID,
+sel1.SHIFTDATE,
+sel1.SHIFTNUM,
+sel1.TIMESTOP,
+sel1.TIMEGO,
+sel1.POLY_STOP_CAT_NAME CATEGORY
+
+from
+(select
+  vehidtocontrolid(s.vehid) tech_key,
+  s.vehid,
+  s.shiftdate,
+  s.shiftnum,
+  greatest(s.timestop,getpredefinedtimefrom('за указанную смену', s.shiftnum,s.shiftdate)) timestop,
+  least(s.timego,getpredefinedtimeto('за указанную смену', s.shiftnum,s.shiftdate)) timego,
+  s.idlestoptype,
+  psc.POLY_STOP_CAT_NAME
+  from
+  DISPATCHER.SHIFTSTOPPAGES s
+  inner JOIN DISPATCHER.POLY_USER_STOPPAGES_DUMP ps ON ps.POLY_STOP_BINDINGS_ID = 23 AND (ps.CODE = s.IDLESTOPTYPE AND ps.POLY_STOP_CAT_ID IS NOT NULL)
+  inner JOIN DISPATCHER.POLY_STOP_CATEGORIES psc ON psc.POLY_STOP_CAT_ID = ps.POLY_STOP_CAT_ID
+  where 
+ NVL(s.IDLESTOPTYPE,0) not in(0,1,67)
+  and (s.TIMEGO - s.TIMESTOP) * 24 * 60 >=4   
+  and s.TIMESTOP is not null and s.TIMEGO is not null
+  and psc.POLY_STOP_CAT_NAME is not null
+  and ((shiftDate = :ParamDateFrom and Shiftnum >= :ParamShiftFrom)or(shiftDate > :ParamDateFrom))
+            and ((shiftDate = :ParamDateTo and :ParamShiftTo >= Shiftnum)or(:ParamDateTo > shiftDate ))
+)sel1
+ ),
+stpgsemerg AS ( -- Простои берем из отчетов по завершению смены
+select
+sel1.tech_key,
+sel1.VEHID,
+sel1.SHIFTDATE,
+sel1.SHIFTNUM,
+sum((sel1.TIMEGO-sel1.TIMESTOP)*24) emergidle
+from
+(select
+  vehidtocontrolid(s.vehid) tech_key,
+  s.vehid,
+  s.shiftdate,
+  s.shiftnum,
+  greatest(s.timestop,getpredefinedtimefrom('за указанную смену', s.shiftnum,s.shiftdate)) timestop,
+  least(s.timego,getpredefinedtimeto('за указанную смену', s.shiftnum,s.shiftdate)) timego,
+  s.idlestoptype,
+  psc.POLY_STOP_CAT_NAME
+  from
+  DISPATCHER.SHIFTSTOPPAGES s
+  inner JOIN DISPATCHER.POLY_USER_STOPPAGES_DUMP ps ON ps.POLY_STOP_BINDINGS_ID = 23 AND (ps.CODE = s.IDLESTOPTYPE AND ps.POLY_STOP_CAT_ID IS NOT NULL)
+  inner JOIN DISPATCHER.POLY_STOP_CATEGORIES psc ON psc.POLY_STOP_CAT_ID = ps.POLY_STOP_CAT_ID
+  inner join userstoppagetypes ust on ust.code=ps.CODE and ust.isrepair=1
+  where 
+ NVL(s.IDLESTOPTYPE,0) not in(0,1,67)
+  and (s.TIMEGO - s.TIMESTOP) * 24 * 60 >=4   
+  and s.TIMESTOP is not null and s.TIMEGO is not null
+  and psc.POLY_STOP_CAT_NAME is not null
+  and ((shiftDate = :ParamDateFrom and Shiftnum >= :ParamShiftFrom)or(shiftDate > :ParamDateFrom))
+            and ((shiftDate = :ParamDateTo and :ParamShiftTo >= Shiftnum)or(:ParamDateTo > shiftDate ))
+)sel1
+group by
+sel1.tech_key,
+sel1.VEHID,
+sel1.SHIFTDATE,
+sel1.SHIFTNUM
+),
+ 
+prgq AS ( -- Перегон на ремонт если в таблице transitions transtype in 6,7
+select
+vehidtocontrolid(t.VEHID) TECH_KEY,
+t.vehid,
+t.shiftdate,
+t.shiftnum,
+greatest(t.timebegin,getpredefinedtimefrom('за указанную смену',t.shiftnum,t.shiftdate)) timebegin,
+least(t.timeend, getpredefinedtimeto('за указанную смену', t.shiftnum,t.shiftdate)) timeend,
+NVL(t.DURATION,0)*24 transdur
+from transitions t
+where t.TRANSTYPE in (6,7)
+and t.length>0
+and t.duration>0
+and 15>=t.duration*24*60 --ограничение перегона на гмц не более 15 минут!!!
+and t.TIMEBEGIN is not null and t.TIMEEND is not null
+and ((t.shiftDate = :ParamDateFrom and t.Shiftnum >= :ParamShiftFrom)or(t.shiftDate > :ParamDateFrom))
+            and ((t.shiftDate = :ParamDateTo and :ParamShiftTo >= t.Shiftnum)or(:ParamDateTo > t.shiftDate ))
+
+),
+---------
+ peregemerg AS ( -- Перегон на ремонт если в таблице transitions transtype in 6,7
+select
+sel1.TECH_KEY,
+sel1.VEHID,
+sel1.SHIFTDATE,
+sel1.SHIFTNUM,
+'перегон на ремонт' CATEGORY,
+CASE WHEN NVL(stpgsemerg.emergidle,0)=0 THEN 0 ELSE sel1.DURATION END DURATION
+from
+(select
+TECH_KEY,
+VEHID,
+SHIFTDATE,
+SHIFTNUM,
+sum(TRANSDUR) duration
+from
+prgq
+group by
+TECH_KEY,
+VEHID,
+SHIFTDATE,
+SHIFTNUM)sel1
+left join stpgsemerg on stpgsemerg.TECH_KEY=sel1.TECH_KEY and stpgsemerg.SHIFTDATE=sel1.SHIFTDATE and stpgsemerg.SHIFTNUM=sel1.SHIFTNUM
+ ), 
+ 
+s AS ( -- Простои берем из отчетов по завершению смены
+select
+tech_key,
+VEHID,
+SHIFTDATE,
+SHIFTNUM,
+CATEGORY,
+SUM((TIMEGO-TIMESTOP)*24) TIME 
+from
+stpgs
+group by 
+tech_key,
+VEHID,
+SHIFTDATE,
+SHIFTNUM,
+CATEGORY
+
+union all 
+select
+tech_key,
+VEHID,
+SHIFTDATE,
+SHIFTNUM,
+CATEGORY,
+SUM(DURATION) TIME 
+from
+peregemerg
+group by 
+tech_key,
+VEHID,
+SHIFTDATE,
+SHIFTNUM,
+CATEGORY
+),
+totalstop
+as
+(
+ select
+ TECH_KEY,
+ SHIFTDATE,
+ SHIFTNUM,
+ sum(TIME) TOTAL_IDLE
+ from
+ s
+ group by
+ TECH_KEY,
+ SHIFTDATE,
+ SHIFTNUM
+),
+ psub AS ( -- Транспонируем таблицу с простоями
+  SELECT * FROM s
+  PIVOT (SUM(TIME) FOR CATEGORY IN (
+    'ТР' TR,
+    'Т1,Т2,Т3,Т4,Т5' SERVICE, 
+    'КР' KR,
+    'Обед' DINNER,
+    'Прием/передача смены' BREAKS,
+    'ЕТО' ETO,
+    'заправка(ДТ,вода)' REFUEL,
+    'перегоны' RELOCATION,
+    'личные нужды' PERS_NEED,
+    'перемещение по блоку' MOVE_BLOCK,
+    'ожидание погрузки' WAIT_LOAD,
+    'ожидание разгрузки' WAIT_UNLOAD,
+    'планировка подъездов/разбивка блока' PORCH_PLAN,
+    'работа бульдозера' AUX_WORK,  
+    'чистка ковшей/кузовов' BODY_CLEAN, 
+    'ВЗРЫВНЫЕ РАБОТЫ' VR,
+    'ТЕХНИЧЕСКИЙ ПЕРЕРЫВ' TECHPER, 
+    'Климатические условия' WEATHER,  
+    'Рем.элек.оборуд.' ELECTRICAL, 
+    'ДВС' DVS, 
+    'Трансмиссия' TRANSMISSION, 
+    'Ходовая часть' CHASSIS,
+    'Навесное оборудование' HINGE,
+    'ремонт а/ш' TIRES,
+    'Гидравлическая часть' HYDRAULIC, 
+    'перегон на ремонт' RELOC_REPAIR, 
+    'Наладочные работы' ADJUSTMENT,
+    'Аварийные прочие' EMERG_OTHERS, 
+    'отсутствие вспомогательной техники' AUX_LACK, 
+    'Отсут.зап.частей' PARTS_LACK,
+    'Прочие' OTHERS_REASON,
+    'доливка масла/антифриза' TOPP_OIL,
+    'Остановка контралирующими органами' REG_AUTH,
+    'Отсутствие диз.топлива' FUEL_LACK,
+    'Работа с маркшейдерами, отстой а/с.' SURV_WORK,
+    'Работа с геологами, отстой а/с.' GEO_WORK,
+    'Очистка ходовой базы' GO_BASE,
+    'переэкскавация без отгрузки' EXCAV_NOUNLOAD,
+    'отсутствие оператора' STAFF_LACK,
+    'разборка отказов' BREAKDOWN,
+    'Дренажные работы без отгрузки' DRAINAGE,
+    'заправка экскаватора' SHOV_REFUEL,
+    'Резерв (ремонт экскаватора)' RESERVE_SHOV,
+    'Организац.прочие' ORG_OTHERS,
+    'Отсутствие экипажа (без бригады)' CREW_LACK,
+    'резерв (без учета резерва ремонта экскаватора)' RESERVE_NOSHOV,
+    'Отсут.фронта работ' WORK_LACK
+
+  ))
+),----------------------
+
+ ---вычисление рабочего времени по рейсам
+ --1. определение количества рейсов по видам работ
+ wtcq as 
+ (
+ select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.trips,0) TRIPS
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+sum(selres.TRIPNUMBERMANUAL) TRIPS
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.tripnumbermanual 
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+  and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )  
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 201 --Раб.время по рейсам
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.COLUMNNUM=1
+ ),
+ wtc AS
+(
+-- Транспонируем таблицу с количеством рейсов
+  SELECT * FROM wtcq
+  PIVOT (SUM(TRIPS) FOR CATEGORY IN (
+    'ПРС в контуре карьера' WTC_PRS,
+    'вскрыша скальная' WTC_ROCKSTRIP, 
+    'вскрыша рыхлая' WTC_LOOSESTRIP,
+    'вскрыша транзитная' WTC_TRANSSTRIP,
+    'руда скальная' WTC_ROCKORE,
+    'руда рыхлая' WTC_LOOSEORE,
+    'руда транзитная' WTC_TRANSORE,
+    'щебень' WTC_MACADAM,
+    'ВСП' WTC_IWT,
+    'ВКП' WTC_IPT,
+    'снег' WTC_SNOW,
+    'ПРС вне контура карьера' WTC_PRSOUTCONT
+  ))
+),
+--------2. Определяем ср.расстояние по видам работ
+wrasq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.length,0) LENGTH
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+decode(sum(selres.tripnumbermanual),0,0,sum(selres.tripnumbermanual*selres.AVLENGTH)/sum(selres.tripnumbermanual)) LENGTH
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.TRIPNUMBERMANUAL,
+CASE WHEN NVL(sra.AVLENGTH,0) = 0 THEN sra.LENGTHMANUAL ELSE sra.AVLENGTH END AVLENGTH
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+  and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )  
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 202 --расстояние по рейсам
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.COLUMNNUM=1
+),
+----------------------
+wras AS
+(
+-- Транспонируем таблицу с расстояниями
+  SELECT * FROM wrasq
+  PIVOT (SUM(LENGTH) FOR CATEGORY IN (
+    'ПРС в контуре карьера' WRAS_PRS,
+    'вскрыша скальная' WRAS_ROCKSTRIP, 
+    'вскрыша рыхлая' WRAS_LOOSESTRIP,
+    'вскрыша транзитная' WRAS_TRANSSTRIP,
+    'руда скальная' WRAS_ROCKORE,
+    'руда рыхлая' WRAS_LOOSEORE,
+    'руда транзитная' WRAS_TRANSORE,
+    'щебень' WRAS_MACADAM,
+    'ВСП' WRAS_IWT,
+    'ВКП' WRAS_IPT,
+    'снег' WRAS_SNOW,
+    'ПРС вне контура карьера' WRAS_PRSOUTCONT
+  ))
+),
+--3. Определяем общее время в работе, которое равно 12 - все простои и перегоны на ремонт
+twt as
+(
+select 
+TECH_KEY,
+SHIFTDATE,
+SHIFTNUM,
+12-sum(TOTAL_IDLE) TOTALWORKTIME
+from
+totalstop
+group by
+TECH_KEY,
+SHIFTDATE,
+SHIFTNUM
+),
+--4. разбиваем время пропорционально количеству рейсов * ср.расстояние рейса и получаем время работы по видам работ
+wtbt as
+(
+select 
+sel.tech_key,
+sel.vehid,
+sel.shiftdate,
+sel.shiftnum,
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_PRS,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+) WT_PRS,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_ROCKSTRIP,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_ROCKSTRIP,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_LOOSESTRIP,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_LOOSESTRIP,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_TRANSSTRIP,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_TRANSSTRIP,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_ROCKORE,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_ROCKORE,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_LOOSEORE,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_LOOSEORE,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_TRANSORE,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_TRANSORE,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_MACADAM,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_MACADAM,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_IWT,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_IWT,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_IPT,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_IPT,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_SNOW,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_SNOW,---
+(case 
+when NVL(sel.WTSUM,0)=0 then 0 
+else NVL(sel.WT_PRSOUTCONT,0)/NVL(sel.WTSUM,0)
+end * NVL(sel.TOTALWORKTIME,0)
+)  WT_PRSOUTCONT,---
+sel.TOTALWORKTIME
+from
+(select
+wtc.tech_key,
+wtc.vehid,
+wtc.shiftdate,
+wtc.shiftnum,
+
+wtc.WTC_PRS WTC_PRS,
+wtc.WTC_ROCKSTRIP WTC_ROCKSTRIP,
+wtc.WTC_LOOSESTRIP WTC_LOOSESTRIP,
+wtc.WTC_TRANSSTRIP WTC_TRANSSTRIP,
+wtc.WTC_ROCKORE WTC_ROCKORE,
+wtc.WTC_LOOSEORE WTC_LOOSEORE,
+wtc.WTC_TRANSORE WTC_TRANSORE,
+wtc.WTC_MACADAM WTC_MACADAM,
+wtc.WTC_IWT WTC_IWT,
+wtc.WTC_IPT WTC_IPT,
+wtc.WTC_SNOW WTC_SNOW,
+wtc.WTC_PRSOUTCONT WTC_PRSOUTCONT,
+
+wras.WRAS_PRS WRAS_PRS,
+wras.WRAS_ROCKSTRIP WRAS_ROCKSTRIP,
+wras.WRAS_LOOSESTRIP WRAS_LOOSESTRIP,
+wras.WRAS_TRANSSTRIP WRAS_TRANSSTRIP,
+wras.WRAS_ROCKORE WRAS_ROCKORE,
+wras.WRAS_LOOSEORE WRAS_LOOSEORE,
+wras.WRAS_TRANSORE WRAS_TRANSORE,
+wras.WRAS_MACADAM WRAS_MACADAM,
+wras.WRAS_IWT WRAS_IWT,
+wras.WRAS_IPT WRAS_IPT,
+wras.WRAS_SNOW WRAS_SNOW,
+wras.WRAS_PRSOUTCONT WRAS_PRSOUTCONT,
+twt.TOTALWORKTIME TOTALWORKTIME,
+
+NVL(wtc.WTC_PRS,0) * NVL(wras.WRAS_PRS,0) WT_PRS,
+NVL(wtc.WTC_ROCKSTRIP,0) * NVL(wras.WRAS_ROCKSTRIP,0) WT_ROCKSTRIP,
+NVL(wtc.WTC_LOOSESTRIP,0) * NVL(wras.WRAS_LOOSESTRIP,0) WT_LOOSESTRIP,
+NVL(wtc.WTC_TRANSSTRIP,0) * NVL(wras.WRAS_TRANSSTRIP,0) WT_TRANSSTRIP,
+NVL(wtc.WTC_ROCKORE,0) * NVL(wras.WRAS_ROCKORE,0) WT_ROCKORE,
+NVL(wtc.WTC_LOOSEORE,0) * NVL(wras.WRAS_LOOSEORE,0) WT_LOOSEORE,
+NVL(wtc.WTC_TRANSORE,0) * NVL(wras.WRAS_TRANSORE,0) WT_TRANSORE,
+NVL(wtc.WTC_MACADAM,0) * NVL(wras.WRAS_MACADAM,0) WT_MACADAM,
+NVL(wtc.WTC_IWT,0) * NVL(wras.WRAS_IWT,0) WT_IWT,
+NVL(wtc.WTC_IPT,0) * NVL(wras.WRAS_IPT,0) WT_IPT,
+NVL(wtc.WTC_SNOW,0) * NVL(wras.WRAS_SNOW,0) WT_SNOW,
+NVL(wtc.WTC_PRSOUTCONT,0) * NVL(wras.WRAS_PRSOUTCONT,0) WT_PRSOUTCONT,
+
+NVL(wtc.WTC_PRS,0) * NVL(wras.WRAS_PRS,0)+
+NVL(wtc.WTC_ROCKSTRIP,0) * NVL(wras.WRAS_ROCKSTRIP,0)+
+NVL(wtc.WTC_LOOSESTRIP,0) * NVL(wras.WRAS_LOOSESTRIP,0)+
+NVL(wtc.WTC_TRANSSTRIP,0) * NVL(wras.WRAS_TRANSSTRIP,0)+
+NVL(wtc.WTC_ROCKORE,0) * NVL(wras.WRAS_ROCKORE,0)+
+NVL(wtc.WTC_LOOSEORE,0) * NVL(wras.WRAS_LOOSEORE,0)+
+NVL(wtc.WTC_TRANSORE,0) * NVL(wras.WRAS_TRANSORE,0)+
+NVL(wtc.WTC_MACADAM,0) * NVL(wras.WRAS_MACADAM,0)+
+NVL(wtc.WTC_IWT,0) * NVL(wras.WRAS_IWT,0)+
+NVL(wtc.WTC_IPT,0) * NVL(wras.WRAS_IPT,0)+
+NVL(wtc.WTC_SNOW,0) * NVL(wras.WRAS_SNOW,0)+
+NVL(wtc.WTC_PRSOUTCONT,0) * NVL(wras.WRAS_PRSOUTCONT,0) WTSUM  
+
+from wtc
+left join wras on wtc.tech_key=wras.tech_key and wtc.shiftdate=wras.shiftdate and wtc.shiftnum=wras.shiftnum
+left join twt on wtc.tech_key=twt.tech_key and wtc.shiftdate=twt.shiftdate and wtc.shiftnum=twt.shiftnum
+)sel
+),
+
+wt as
+(
+select 
+tech_key,
+vehid,
+shiftdate,
+shiftnum,
+NVL(WT_ROCKSTRIP,0)+
+NVL(WT_ROCKORE,0) WT_ROCKGM, --скальная г.м.
+NVL(WT_PRS,0)+
+NVL(WT_LOOSESTRIP,0)+
+NVL(WT_LOOSEORE,0) WT_LOOSEGM, --рыхлая г.м.
+NVL(WT_TRANSSTRIP,0)+
+NVL(WT_TRANSORE,0) WT_TRANSGM, --транзитная г.м.
+0 WT_EQUIPTRANS, --трансп. обор.
+NVL(WT_MACADAM,0) WT_MACADAM, --щебень
+NVL(WT_IWT,0) WT_IWT, --ВСП
+NVL(WT_IPT,0) WT_IPT, --ВКП 
+NVL(WT_SNOW,0) WT_SNOW, --снег
+NVL(WT_PRSOUTCONT,0) WT_PRSOUTCONT --ПРС за контуром
+from
+wtbt
+),
+p as
+(
+select
+psub.tech_key,
+psub.VEHID,
+psub.SHIFTDATE,
+psub.SHIFTNUM,
+psub.TR,
+psub.SERVICE, 
+psub.KR,
+psub.DINNER,
+psub.BREAKS,
+psub.ETO,
+psub.REFUEL,
+0 RELOCATION,
+psub.PERS_NEED,
+psub.MOVE_BLOCK,
+psub.WAIT_LOAD,
+psub.WAIT_UNLOAD,
+psub.PORCH_PLAN,
+psub.AUX_WORK,  
+psub.BODY_CLEAN, 
+psub.VR,
+psub.TECHPER, 
+psub.WEATHER,  
+psub.ELECTRICAL, 
+psub.DVS, 
+psub.TRANSMISSION, 
+psub.CHASSIS,
+psub.HINGE,
+psub.TIRES,
+psub.HYDRAULIC, 
+psub.RELOC_REPAIR, 
+psub.ADJUSTMENT,
+psub.EMERG_OTHERS, 
+psub.AUX_LACK, 
+psub.PARTS_LACK,
+psub.OTHERS_REASON,
+psub.TOPP_OIL,
+psub.REG_AUTH,
+psub.FUEL_LACK,
+psub.SURV_WORK,
+psub.GEO_WORK,
+psub.GO_BASE,
+psub.EXCAV_NOUNLOAD,
+psub.STAFF_LACK,
+psub.BREAKDOWN,
+psub.DRAINAGE,
+psub.SHOV_REFUEL,
+psub.RESERVE_SHOV,
+psub.ORG_OTHERS,
+psub.CREW_LACK,
+psub.RESERVE_NOSHOV,
+psub.WORK_LACK,
+
+ ----regnorm 
+NVL(psub.TR,0)+
+NVL(psub.SERVICE,0)+
+NVL(psub.KR,0)+
+NVL(psub.DINNER,0)+
+NVL(psub.BREAKS,0)+
+NVL(psub.ETO,0)+
+NVL(psub.REFUEL,0)+
+--NVL(pereg.PRGVKAR_TIME,0)+  --перегон в карьере
+NVL(psub.PERS_NEED,0)+
+NVL(psub.MOVE_BLOCK,0)+
+NVL(psub.WAIT_LOAD,0)+
+NVL(psub.WAIT_UNLOAD,0)+
+NVL(psub.PORCH_PLAN,0)+
+NVL(psub.AUX_WORK,0)+
+NVL(psub.BODY_CLEAN,0)+
+NVL(psub.VR,0)+
+NVL(psub.TECHPER,0) REGNORM,
+---------itogplanrem
+NVL(psub.TR,0)+
+NVL(psub.SERVICE,0)+
+NVL(psub.KR,0) ITOGPLANREM,
+-----itogtechnol
+NVL(psub.DINNER,0)+
+NVL(psub.BREAKS,0)+
+NVL(psub.ETO,0)+
+NVL(psub.REFUEL,0)+
+--NVL(pereg.PRGVKAR_TIME,0)+
+NVL(psub.PERS_NEED,0)+
+NVL(psub.MOVE_BLOCK,0)+
+NVL(psub.WAIT_LOAD,0)+
+NVL(psub.WAIT_UNLOAD,0)+
+NVL(psub.PORCH_PLAN,0)+
+NVL(psub.AUX_WORK,0)+
+NVL(psub.BODY_CLEAN,0)+
+NVL(psub.VR,0)+
+NVL(psub.TECHPER,0) ITOGTECHNOL,
+----itogemerg
+NVL(psub.ELECTRICAL,0)+
+NVL(psub.DVS,0)+
+NVL(psub.TRANSMISSION,0)+
+NVL(psub.CHASSIS,0)+
+NVL(psub.HINGE,0)+
+NVL(psub.TIRES,0)+
+NVL(psub.HYDRAULIC,0)+
+NVL(psub.RELOC_REPAIR,0)+
+NVL(psub.ADJUSTMENT,0)+
+NVL(psub.EMERG_OTHERS,0)+
+ -- NVL(psub.AUX_LACK,0)+ 
+NVL(psub.PARTS_LACK,0)+
+NVL(psub.OTHERS_REASON,0)+
+NVL(psub.TOPP_OIL,0) ITOGEMERG,
+---------- itogorg
+NVL(psub.REG_AUTH,0)+
+NVL(psub.FUEL_LACK,0)+
+NVL(psub.SURV_WORK,0)+
+NVL(psub.GEO_WORK,0)+
+NVL(psub.GO_BASE,0)+
+NVL(psub.EXCAV_NOUNLOAD,0)+
+NVL(psub.STAFF_LACK,0)+
+NVL(psub.BREAKDOWN,0)+
+NVL(psub.DRAINAGE,0)+
+NVL(psub.SHOV_REFUEL,0)+
+NVL(psub.RESERVE_SHOV,0)+
+NVL(psub.ORG_OTHERS,0)+
+NVL(psub.CREW_LACK,0)+
+NVL(psub.RESERVE_NOSHOV,0)+
+NVL(psub.WORK_LACK,0) ITOGORG,
+
+--stoppages_kio
+NVL(psub.DINNER,0)+
+NVL(psub.BREAKS,0)+
+NVL(psub.ETO,0)+
+NVL(psub.REFUEL,0)+
+--NVL(pereg.PRGVKAR_TIME,0)+
+NVL(psub.PERS_NEED,0)+
+NVL(psub.MOVE_BLOCK,0)+
+NVL(psub.WAIT_LOAD,0)+
+NVL(psub.WAIT_UNLOAD,0)+
+NVL(psub.PORCH_PLAN,0)+
+NVL(psub.AUX_WORK,0)+
+NVL(psub.BODY_CLEAN,0)+
+NVL(psub.VR,0)+
+NVL(psub.TECHPER,0)+
+NVL(psub.WEATHER,0)+
+NVL(psub.REG_AUTH,0)+
+NVL(psub.FUEL_LACK,0)+
+NVL(psub.SURV_WORK,0)+
+NVL(psub.GEO_WORK,0)+
+NVL(psub.GO_BASE,0)+
+NVL(psub.EXCAV_NOUNLOAD,0)+
+NVL(psub.STAFF_LACK,0)+
+NVL(psub.BREAKDOWN,0)+
+NVL(psub.DRAINAGE,0)+
+NVL(psub.SHOV_REFUEL,0)+
+NVL(psub.RESERVE_SHOV,0)+
+NVL(psub.ORG_OTHERS,0)+
+NVL(psub.CREW_LACK,0)+
+NVL(psub.RESERVE_NOSHOV,0)+
+NVL(psub.WORK_LACK,0) s_kio
+--ITOGPLANREM-ITOGEMERG-ITOGTECHNOL-ITOGORG-WEATHER
+
+from psub
+--LEFT JOIN pereg ON pereg.TECH_KEY=psub.tech_key and pereg.shiftdate=psub.shiftdate and pereg.shiftnum=psub.shiftnum
+
+),
+------------------------
+--------объем работ г.м. тонны--------
+gmwq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.weight,0) WEIGHT
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+sum(selres.tripnumbermanual*selres.avweight)/1000 WEIGHT
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.TRIPNUMBERMANUAL,
+CASE WHEN NVL(sra.AVWEIGHT,0) = 0 THEN sra.WEIGHTRATE ELSE sra.AVWEIGHT END AVWEIGHT
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+
+        ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+            and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )			
+ 
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 3 --категория объем работ г.м.
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+
+----------------------
+gmw AS
+(
+-- Транспонируем таблицу с объемом работ г.м. тонн 
+  SELECT * FROM gmwq
+  PIVOT (SUM(WEIGHT) FOR CATEGORY IN (
+    'ПРС в контуре карьера' GMW_PRS,
+    'вскрыша скальная' GMW_ROCKSTRIP, 
+    'вскрыша рыхлая' GMW_LOOSESTRIP,
+    'вскрыша транзитная' GMW_TRANSSTRIP,
+    'руда скальная' GMW_ROCKORE,
+    'руда рыхлая' GMW_LOOSEORE,
+    'руда транзитная' GMW_TRANSORE
+  ))
+),
+------------------------
+--------объем работ г.м. м3--------
+gmvq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.vol,0) VOL
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+sum(decode(nvl(selres.avweight,0),0,0,selres.avweight*selres.tripnumbermanual/nvl(decode(selres.weightrate,0,selres.avweight,selres.weightrate),selres.avweight)*selres.volumerate))/1000 VOL 
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.TRIPNUMBERMANUAL,
+CASE WHEN NVL(sra.AVWEIGHT,0) = 0 THEN sra.WEIGHTRATE ELSE sra.AVWEIGHT END AVWEIGHT,
+sra.WEIGHTRATE,
+sra.VOLUMERATE
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+  and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )  
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 3 --категория объем работ г.м.
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+
+----------------------
+gmv AS
+(
+-- Транспонируем таблицу с объемом работ г.м. м3 
+  SELECT * FROM gmvq
+  PIVOT (SUM(VOL) FOR CATEGORY IN (
+    'ПРС в контуре карьера' GMV_PRS,
+    'вскрыша скальная' GMV_ROCKSTRIP, 
+    'вскрыша рыхлая' GMV_LOOSESTRIP,
+    'вскрыша транзитная' GMV_TRANSSTRIP,
+    'руда скальная' GMV_ROCKORE,
+    'руда рыхлая' GMV_LOOSEORE,
+    'руда транзитная' GMV_TRANSORE
+  ))
+),
+------------------------
+-------Количество рейсов--------
+trq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.trips,0) TRIPS
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+sum(selres.TRIPNUMBERMANUAL) TRIPS
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.tripnumbermanual 
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+  and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )  
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 4 --категория количество рейсов
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+----------------------
+tr AS
+(
+-- Транспонируем таблицу с количеством рейсов
+  SELECT * FROM trq
+  PIVOT (SUM(TRIPS) FOR CATEGORY IN (
+    'ПРС в контуре карьера' TR_PRS,
+    'вскрыша скальная' TR_ROCKSTRIP, 
+    'вскрыша рыхлая' TR_LOOSESTRIP,
+    'вскрыша транзитная' TR_TRANSSTRIP,
+    'по руде' TR_ORE
+  ))
+),
+-------------------------------------------ср.взв.расстояние г.м.
+rasgmq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.length,0) LENGTH
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+decode(sum(selres.tripnumbermanual),0,0,sum(selres.tripnumbermanual*selres.AVLENGTH)/sum(selres.tripnumbermanual)) LENGTH
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.TRIPNUMBERMANUAL,
+CASE WHEN NVL(sra.AVLENGTH,0) = 0 THEN sra.LENGTHMANUAL ELSE sra.AVLENGTH END AVLENGTH 
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+  and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )  
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 61 --категория ср.взв.расстояние г.м.
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+
+----------------------
+rasgm AS
+(
+-- Транспонируем таблицу с ср.взв.расстояниями
+  SELECT * FROM rasgmq
+  PIVOT (SUM(LENGTH) FOR CATEGORY IN (
+    'ср.взв.расст.г.м.' RAS_GM
+  ))
+),
+---------------
+
+-----------------------------------------
+-------Расстояние--------
+rasq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.length,0) LENGTH
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+decode(sum(selres.tripnumbermanual),0,0,sum(selres.tripnumbermanual*selres.AVLENGTH)/sum(selres.tripnumbermanual)) LENGTH
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.TRIPNUMBERMANUAL,
+CASE WHEN NVL(sra.AVLENGTH,0) = 0 THEN sra.LENGTHMANUAL ELSE sra.AVLENGTH END AVLENGTH 
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+  and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )  
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 5 --категория расстояние
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+----------------------
+ras AS
+(
+-- Транспонируем таблицу с расстояниями
+  SELECT * FROM rasq
+  PIVOT (SUM(LENGTH) FOR CATEGORY IN (
+    'ПРС в контуре карьера' RAS_PRS,
+    'вскрыша скальная' RAS_ROCKSTRIP, 
+    'вскрыша рыхлая' RAS_LOOSESTRIP,
+    'вскрыша транзитная' RAS_TRANSSTRIP,
+    'руда скальная' RAS_ROCKORE, 
+    'руда рыхлая' RAS_LOOSEORE,
+    'руда транзитная' RAS_TRANSORE
+  ))
+),
+---------------
+-------Загрузка а/с г.м.--------
+avwq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.avweight,0) AVWEIGHT
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+decode(sum(selres.tripnumbermanual),0,0,sum(selres.tripnumbermanual*selres.avweight)/sum(selres.tripnumbermanual)) AVWEIGHT 
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.TRIPNUMBERMANUAL,
+CASE WHEN NVL(sra.AVWEIGHT,0) = 0 THEN sra.WEIGHTRATE ELSE sra.AVWEIGHT END AVWEIGHT
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+ and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         ) 
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 6 --категория загрузка а/с г.м.
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+
+----------------------
+avw AS
+(
+-- Транспонируем таблицу с загрузками а/с г.м.
+  SELECT * FROM avwq
+  PIVOT (sum(AVWEIGHT) FOR CATEGORY IN (
+    'ПРС в контуре карьера' AVW_PRS,
+    'по скале' AVW_ROCK, 
+    'по рыхлой' AVW_LOOSE,
+    'по транзитной' AVW_TRANS
+  ))
+),
+-----------------загрузка г.м. средневзв
+avwgmq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.avweight,0) AVWEIGHT
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+decode(sum(selres.tripnumbermanual),0,0,sum(selres.tripnumbermanual*selres.avweight)/sum(selres.tripnumbermanual)) AVWEIGHT 
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.TRIPNUMBERMANUAL,
+CASE WHEN NVL(sra.AVWEIGHT,0) = 0 THEN sra.WEIGHTRATE ELSE sra.AVWEIGHT END AVWEIGHT
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+ and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         ) 
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 41 --категория загрузка а/с г.м.
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+
+----------------------
+avwgm AS
+(
+-- Транспонируем таблицу с загрузками а/с г.м.
+  SELECT * FROM avwgmq
+  PIVOT (sum(AVWEIGHT) FOR CATEGORY IN (
+    'ср.взв.загр.г.м.' AVW_GM
+  ))
+),
+-----------------------
+--------грузооборот-------
+ftq AS
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+sel.poly_work_cat_name CATEGORY,
+NVL(sel.GRUZOB,0) GRUZOB
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+psc.POLY_WORK_CAT_NAME,
+sum(selres.tripnumbermanual*selres.avweight)/1000 *
+decode(sum(selres.tripnumbermanual),0,0,sum(selres.tripnumbermanual*selres.avlength)/sum(selres.tripnumbermanual)) GRUZOB
+from
+(
+select
+sra.vehid,
+sra.taskdate SHIFTDATE,
+sra.shift SHIFTNUM,
+wt.ID WORKTYPE_ID,
+sra.tripnumbermanual,
+CASE WHEN NVL(sra.AVWEIGHT,0) = 0 THEN sra.WEIGHTRATE ELSE sra.AVWEIGHT END AVWEIGHT,
+CASE WHEN NVL(sra.AVLENGTH,0) = 0 THEN sra.LENGTHMANUAL ELSE sra.AVLENGTH END AVLENGTH  
+from shiftreportsadv sra inner join
+worktypes wt on sra.WORKTYPE=wt.NAME
+where 
+ ((sra.taskDate = :ParamDateFrom and sra.Shift >= :ParamShiftFrom)or(sra.taskDate > :ParamDateFrom))
+  and ((sra.taskDate = :ParamDateTo and :ParamShiftTo >= sra.Shift)or(:ParamDateTo > sra.taskDate ))
+AND 
+     NOT (
+             (
+             TRIM(UPPER(unloadid)) LIKE ('%АВТОДОРОГА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ВНЕ ОТВАЛА%')
+             OR  TRIM(UPPER(unloadid)) LIKE ('%ДОРОГА ОБЩЕГО ПОЛЬЗОВАНИЯ%')
+             )
+     AND       
+           (
+           TRIM(UPPER(worktype)) LIKE '%ПРС%'
+           OR TRIM(UPPER(worktype)) LIKE '%ВСКРЫША%'
+           OR TRIM(UPPER(worktype)) LIKE '%РУДА%'
+           )
+         )  
+)selres 
+inner JOIN DISPATCHER.POLY_USER_WORKS_DUMP ps ON ps.POLY_WORK_BINDINGS_ID = 21 --категория грузооборот
+AND (ps.ID = selres.WORKTYPE_ID AND ps.POLY_WORK_CAT_ID IS NOT NULL)
+inner JOIN DISPATCHER.POLY_WORK_CATEGORIES psc ON psc.POLY_WORK_CAT_ID = ps.POLY_WORK_CAT_ID
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum, 
+  psc.POLY_WORK_CAT_NAME
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+----------------------
+ft AS
+(
+-- Транспонируем таблицу с грузооборотами 
+  SELECT * FROM ftq
+  PIVOT (SUM(GRUZOB) FOR CATEGORY IN (
+    'ПРС в контуре карьера' FT_PRS,
+    'вскрыша скальная' FT_ROCKSTRIP, 
+    'вскрыша рыхлая' FT_LOOSESTRIP,
+    'вскрыша транзитная' FT_TRANSSTRIP,
+    'руда скальная' FT_ROCKORE,
+    'руда рыхлая' FT_LOOSEORE,
+    'руда транзитная' FT_TRANSORE
+  ))
+),
+dtmh as
+(
+select
+d.controlid TECH_KEY,
+d.vehid,
+sel.shiftdate,
+sel.shiftnum,
+NVL(sel.MH,0) MH
+from
+(select
+selres.VEHID,
+selres.SHIFTDATE,
+selres.SHIFTNUM,
+SUM(selres.MOTOHOURSEND-selres.MOTOHOURSBEGIN) MH
+from
+(
+select
+vehid,
+taskdate SHIFTDATE,
+shift SHIFTNUM,
+MOTOHOURSBEGIN,
+MOTOHOURSEND
+from shiftlensandtimes
+where 
+ ((taskdate = :ParamDateFrom and shift >= :ParamShiftFrom)or(taskdate > :ParamDateFrom))
+  and ((taskdate = :ParamDateTo and :ParamShiftTo >= shift)or(:ParamDateTo > taskdate ))
+)selres 
+group by 
+  selres.vehid,
+  selres.shiftdate,
+  selres.shiftnum 
+ )sel inner join dumptrucks d on d.VEHID = sel.VEHID and d.columnnum=1
+),
+norep
+as
+(
+select
+vehidtocontrolid(VEHID) tech_key,
+vehid,
+taskdate shiftdate,
+shift shiftnum
+from KGP_NOREPTECH
+where
+((taskdate = :ParamDateFrom and shift >= :ParamShiftFrom)or(taskdate > :ParamDateFrom))
+  and ((taskdate = :ParamDateTo and :ParamShiftTo >= shift)or(:ParamDateTo > taskdate ))
+) 
+
+
+--------------------
+---------------begin main query------------------
+
+SELECT
+'Автосамосвалы' CATEGORY,
+smsv.MODEL MODEL,
+POSITION,
+TECH_ID,
+trim(SHIFTDATE) SHIFTDATE,
+SHIFTNUM,
+SHIFTDATE || ' ' || SHIFTNUM || ' смена' PERD,
+------------
+null OTSKONS,
+MH,
+--1. Календарное время всегда 12 !!! Если мы всегда к этому стремимся то его логично принять как константу. готово
+KALENTIME,
+REGNORM,
+CHVHOZ,
+WT_ALL,
+WT_GM,
+--(WT_ROCKGM - (WT_ROCKGM * 20 / 100)) WT_ROCKGM,
+WT_ROCKGM,
+WT_LOOSEGM,
+WT_TRANSGM,
+--(WT_EW + (WT_ROCKGM * 20 / 100)) WT_EW,
+WT_EW,
+WT_EQUIPTRANS,
+WT_MACADAM,
+WT_IWT,
+WT_IPT,
+WT_SNOW,
+WT_PRSOUTCONT,
+----------------kirpnkfv------
+(KALENTIME-
+ITOGPLANREM-
+ITOGTECHNOL-
+ITOGEMERG-
+ITOGORG)/KALENTIME KIRPNKFV,
+---------------kirpnor
+CASE 
+WHEN (KALENTIME * ((KALENTIME-ITOGPLANREM-ITOGEMERG)/KALENTIME)) = 0 THEN null
+--WHEN (KALENTIME-ITOGPLANREM-ITOGEMERG) = 0 THEN null 
+ELSE
+(KALENTIME * ((KALENTIME-ITOGPLANREM-ITOGEMERG)/KALENTIME) - s_kio) / (KALENTIME * ((KALENTIME-ITOGPLANREM-ITOGEMERG)/KALENTIME))
+--(KALENTIME-ITOGPLANREM-ITOGEMERG-ITOGTECHNOL-ITOGORG-WEATHER) / (KALENTIME-ITOGPLANREM-ITOGEMERG)
+--(TIME_FUND * KTG - STOPPAGES_KIO) / (TIME_FUND * KTG) 
+
+
+END KIRPNOR,
+-----------------ktg
+(KALENTIME-ITOGPLANREM-ITOGEMERG)/KALENTIME KTG,
+---------------
+ITOGPLANREM,
+TR,
+SERVICE, 
+KR,
+ITOGTECHNOL,
+DINNER,
+BREAKS,
+ETO,
+REFUEL,
+RELOCATION,
+PERS_NEED,
+MOVE_BLOCK,
+WAIT_LOAD,
+WAIT_UNLOAD,
+PORCH_PLAN,
+AUX_WORK,  
+BODY_CLEAN,
+VR,
+TECHPER,
+WEATHER,
+--ITOGEMERG,
+case when TOTAL_IDLE > 12 THEN ITOGEMERG - RELOC_REPAIR else ITOGEMERG end ITOGEMERG, 
+ELECTRICAL,
+DVS, 
+TRANSMISSION, 
+CHASSIS,
+HINGE,
+TIRES,
+HYDRAULIC, 
+--RELOC_REPAIR,
+case when TOTAL_IDLE > 12 THEN 0 else RELOC_REPAIR end RELOC_REPAIR, 
+ADJUSTMENT,
+EMERG_OTHERS,
+AUX_LACK, 
+PARTS_LACK,
+OTHERS_REASON,
+TOPP_OIL,
+---
+ITOGORG,
+REG_AUTH,
+FUEL_LACK,
+SURV_WORK,
+GEO_WORK,
+GO_BASE,
+EXCAV_NOUNLOAD,
+STAFF_LACK,
+BREAKDOWN,
+DRAINAGE,
+SHOV_REFUEL,
+RESERVE_SHOV,
+ORG_OTHERS,
+CREW_LACK,
+RESERVE_NOSHOV,
+WORK_LACK,
+GMV_GM,
+GMW_GM,
+GMV_PRS,
+GMW_PRS,
+GMV_ROCKSTRIP,
+GMW_ROCKSTRIP,
+GMV_LOOSESTRIP,
+GMW_LOOSESTRIP,
+GMV_TRANSSTRIP,
+GMW_TRANSSTRIP,
+GMV_ROCKORE,
+GMW_ROCKORE,
+GMV_LOOSEORE,
+GMW_LOOSEORE,
+GMV_TRANSORE,
+GMW_TRANSORE,
+AVV_PROD*1000 AVV_PROD,
+AVW_PROD*1000 AVW_PROD,
+OPV_ROCKGM*1000 OPV_ROCKGM,
+OPW_ROCKGM*1000 OPW_ROCKGM,
+OPV_LOOSEGM*1000 OPV_LOOSEGM,
+OPW_LOOSEGM*1000 OPW_LOOSEGM,
+OPV_TRANSGM*1000 OPV_TRANSGM,
+OPW_TRANSGM*1000 OPW_TRANSGM,
+TR_GM,
+TR_PRS,
+TR_ROCKSTRIP, 
+TR_LOOSESTRIP,
+TR_TRANSSTRIP,
+TR_ORE,
+CASE WHEN RAS_GM=0 then null else RAS_GM end RAS_GM,
+CASE WHEN RAS_PRS=0 then null else RAS_PRS end RAS_PRS,
+CASE WHEN RAS_ROCKSTRIP =0 then null else RAS_ROCKSTRIP  end RAS_ROCKSTRIP ,
+CASE WHEN RAS_LOOSESTRIP=0 then null else RAS_LOOSESTRIP end RAS_LOOSESTRIP,
+CASE WHEN RAS_TRANSSTRIP=0 then null else RAS_TRANSSTRIP end RAS_TRANSSTRIP,
+CASE WHEN RAS_ROCKORE =0 then null else RAS_ROCKORE  end RAS_ROCKORE ,
+CASE WHEN RAS_LOOSEORE=0 then null else RAS_LOOSEORE end RAS_LOOSEORE,
+CASE WHEN RAS_TRANSORE=0 then null else RAS_TRANSORE end RAS_TRANSORE,
+KOLDUMPLINE,
+KOLDUMPWORK,
+--ft_itog--
+RAS_GM*GMW_GM FT_ITOG,
+FT_PRS,
+FT_ROCKSTRIP, 
+FT_LOOSESTRIP,
+FT_TRANSSTRIP,
+FT_ROCKORE,
+FT_LOOSEORE,
+FT_TRANSORE,
+CASE WHEN AVW_GM=0 then null else AVW_GM end AVW_GM,
+CASE WHEN AVW_PRS=0 then null else AVW_PRS end AVW_PRS,
+CASE WHEN AVW_ROCK =0 then null else AVW_ROCK  end AVW_ROCK ,
+CASE WHEN AVW_LOOSE=0 then null else AVW_LOOSE end AVW_LOOSE,
+CASE WHEN AVW_TRANS=0 then null else AVW_TRANS end AVW_TRANS,
+--TOTAL_IDLE,
+case when TOTAL_IDLE > 12 THEN TOTAL_IDLE - RELOC_REPAIR else TOTAL_IDLE end TOTAL_IDLE, 
+--BALANCE_TIME
+case when TOTAL_IDLE > 12 THEN BALANCE_TIME + RELOC_REPAIR else BALANCE_TIME end BALANCE_TIME
+  from
+(SELECT
+  pt.POSITION,
+  --pt.CATEGORY,
+  --pt.TECH_TYPE_DISP || ' ' || t.MODEL TECH_TYPE,
+  t.VEHID TECH_ID,
+  st.shiftdate,
+  st.shiftnum,
+  NVL(dtmh.mh,0) MH,
+  ----------kalen time --------
+case when NVL(norep.tech_key,0)=0 then 12 else null end KALENTIME,   
+  ----------
+  NVL(wt.WT_ROCKGM,0)+
+  NVL(wt.WT_LOOSEGM,0)+ 
+  NVL(wt.WT_TRANSGM,0)+
+  NVL(wt.WT_EQUIPTRANS,0)+
+  NVL(wt.WT_MACADAM,0)+
+  NVL(wt.WT_IWT,0)+
+  NVL(wt.WT_IPT,0)+
+  NVL(wt.WT_SNOW,0)+
+  NVL(wt.WT_PRSOUTCONT,0)+
+  NVL(p.DINNER,0)+
+  NVL(p.BREAKS,0)+
+  NVL(p.ETO,0)+
+  NVL(p.REFUEL,0)+
+  NVL(p.RELOCATION,0)+
+  NVL(p.PERS_NEED,0)+
+  NVL(p.MOVE_BLOCK,0)+
+  NVL(p.WAIT_LOAD,0)+
+  NVL(p.WAIT_UNLOAD,0)+
+  NVL(p.PORCH_PLAN,0)+
+  NVL(p.AUX_WORK,0)+
+  NVL(p.BODY_CLEAN,0)+
+  NVL(p.VR,0)+
+  NVL(p.TECHPER,0) CHVHOZ,
+  --------------
+  NVL(wt.WT_ROCKGM,0)+
+  NVL(wt.WT_LOOSEGM,0)+ 
+  NVL(wt.WT_TRANSGM,0)+
+  NVL(wt.WT_EQUIPTRANS,0)+
+  NVL(wt.WT_MACADAM,0)+
+  NVL(wt.WT_IWT,0)+
+  NVL(wt.WT_IPT,0)+
+  NVL(wt.WT_SNOW,0)+
+  NVL(wt.WT_PRSOUTCONT,0) WT_ALL,
+  --------------
+  
+  NVL(wt.WT_ROCKGM,0)+
+  NVL(wt.WT_LOOSEGM,0)+ 
+  NVL(wt.WT_TRANSGM,0) WT_GM,
+  NVL(wt.WT_ROCKGM,0) WT_ROCKGM,
+  NVL(wt.WT_LOOSEGM,0) WT_LOOSEGM, 
+  NVL(wt.WT_TRANSGM,0) WT_TRANSGM,
+  -------------
+  NVL(wt.WT_EQUIPTRANS,0)+
+  NVL(wt.WT_MACADAM,0)+
+  NVL(wt.WT_IWT,0)+
+  NVL(wt.WT_IPT,0)+
+  NVL(wt.WT_SNOW,0)+
+  NVL(wt.WT_PRSOUTCONT,0) WT_EW,
+  -------
+  NVL(wt.WT_EQUIPTRANS,0) WT_EQUIPTRANS,
+  NVL(wt.WT_MACADAM,0) WT_MACADAM,
+  NVL(wt.WT_IWT,0) WT_IWT,
+  NVL(wt.WT_IPT,0) WT_IPT,
+  NVL(wt.WT_SNOW,0) WT_SNOW,
+  NVL(wt.WT_PRSOUTCONT,0) WT_PRSOUTCONT,
+  -----------
+  NVL(p.REGNORM,0) REGNORM,
+  --------------
+  NVL(p.ITOGPLANREM,0) ITOGPLANREM,
+  -------------
+  NVL(p.TR,0) TR,
+  NVL(p.SERVICE,0) SERVICE, 
+  NVL(p.KR,0) KR,
+ -----------
+  NVL(p.ITOGTECHNOL,0) ITOGTECHNOL,
+ -------------- 
+  NVL(p.DINNER,0) DINNER,
+  NVL(p.BREAKS,0) BREAKS,
+  NVL(p.ETO,0) ETO,
+  NVL(p.REFUEL,0) REFUEL,
+  NVL(p.RELOCATION,0) RELOCATION,
+  NVL(p.PERS_NEED,0) PERS_NEED,
+  NVL(p.MOVE_BLOCK,0) MOVE_BLOCK,
+  NVL(p.WAIT_LOAD,0) WAIT_LOAD,
+  NVL(p.WAIT_UNLOAD,0) WAIT_UNLOAD,
+  NVL(p.PORCH_PLAN,0) PORCH_PLAN,
+  NVL(p.AUX_WORK,0) AUX_WORK,  
+  NVL(p.BODY_CLEAN,0) BODY_CLEAN,
+  NVL(p.VR,0) VR,
+  NVL(p.TECHPER,0) TECHPER,
+  ------------------
+  NVL(p.WEATHER,0) WEATHER,
+  ---------------
+  NVL(p.ITOGEMERG,0) ITOGEMERG,
+  -------------
+  NVL(p.ELECTRICAL,0) ELECTRICAL,
+  NVL(p.DVS,0) DVS, 
+  NVL(p.TRANSMISSION,0) TRANSMISSION, 
+  NVL(p.CHASSIS,0) CHASSIS,
+  NVL(p.HINGE,0) HINGE,
+  NVL(p.TIRES,0) TIRES,
+  NVL(p.HYDRAULIC,0) HYDRAULIC, 
+  NVL(p.RELOC_REPAIR,0) RELOC_REPAIR,
+  NVL(p.ADJUSTMENT,0) ADJUSTMENT,
+  NVL(p.EMERG_OTHERS,0) EMERG_OTHERS,
+  ---------------------- 
+  NVL(p.AUX_LACK,0) AUX_LACK, 
+  NVL(p.PARTS_LACK,0) PARTS_LACK,
+  NVL(p.OTHERS_REASON,0) OTHERS_REASON,
+  NVL(p.TOPP_OIL,0) TOPP_OIL,
+  ------------------------
+  NVL(p.ITOGORG,0) ITOGORG,
+  ----------------------------
+  NVL(p.REG_AUTH,0) REG_AUTH,
+  NVL(p.FUEL_LACK,0) FUEL_LACK,
+  NVL(p.SURV_WORK,0) SURV_WORK,
+  NVL(p.GEO_WORK,0) GEO_WORK,
+  NVL(p.GO_BASE,0) GO_BASE,
+  NVL(p.EXCAV_NOUNLOAD,0) EXCAV_NOUNLOAD,
+  NVL(p.STAFF_LACK,0) STAFF_LACK,
+  NVL(p.BREAKDOWN,0) BREAKDOWN,
+  NVL(p.DRAINAGE,0) DRAINAGE,
+  NVL(p.SHOV_REFUEL,0) SHOV_REFUEL,
+  NVL(p.RESERVE_SHOV,0) RESERVE_SHOV,
+  NVL(p.ORG_OTHERS,0) ORG_OTHERS,
+  NVL(p.CREW_LACK,0) CREW_LACK,
+  NVL(p.RESERVE_NOSHOV,0) RESERVE_NOSHOV,
+  NVL(p.WORK_LACK,0) WORK_LACK,
+  NVL(p.s_kio,0) s_kio,
+  
+    ----------итого объем работ г.м. т.м3
+  NVL(gmv.GMV_PRS,0)+
+  NVL(gmv.GMV_ROCKSTRIP,0)+ 
+  NVL(gmv.GMV_LOOSESTRIP,0)+
+  NVL(gmv.GMV_TRANSSTRIP,0)+
+  NVL(gmv.GMV_ROCKORE,0)+
+  NVL(gmv.GMV_LOOSEORE,0)+
+  NVL(gmv.GMV_TRANSORE,0) GMV_GM,
+    --------итого объем работ г.м.т.тонн
+  NVL(gmw.GMW_PRS,0)+
+  NVL(gmw.GMW_ROCKSTRIP,0)+ 
+  NVL(gmw.GMW_LOOSESTRIP,0)+
+  NVL(gmw.GMW_TRANSSTRIP,0)+
+  NVL(gmw.GMW_ROCKORE,0)+
+  NVL(gmw.GMW_LOOSEORE,0)+
+  NVL(gmw.GMW_TRANSORE,0) GMW_GM,
+  ----------
+  NVL(gmv.GMV_PRS,0) GMV_PRS,
+  NVL(gmw.GMW_PRS,0) GMW_PRS,
+  NVL(gmv.GMV_ROCKSTRIP,0) GMV_ROCKSTRIP,
+  NVL(gmw.GMW_ROCKSTRIP,0) GMW_ROCKSTRIP,
+  NVL(gmv.GMV_LOOSESTRIP,0) GMV_LOOSESTRIP,
+  NVL(gmw.GMW_LOOSESTRIP,0) GMW_LOOSESTRIP,
+  NVL(gmv.GMV_TRANSSTRIP,0) GMV_TRANSSTRIP,
+  NVL(gmw.GMW_TRANSSTRIP,0) GMW_TRANSSTRIP,
+  NVL(gmv.GMV_ROCKORE,0) GMV_ROCKORE,
+  NVL(gmw.GMW_ROCKORE,0) GMW_ROCKORE,
+  NVL(gmv.GMV_LOOSEORE,0) GMV_LOOSEORE,
+  NVL(gmw.GMW_LOOSEORE,0) GMW_LOOSEORE,
+  NVL(gmv.GMV_TRANSORE,0) GMV_TRANSORE,
+  NVL(gmw.GMW_TRANSORE,0) GMW_TRANSORE,
+  ----------------operprod
+  CASE 
+  WHEN NVL(wt.WT_ROCKGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmv.GMV_ROCKSTRIP,0)+
+  NVL(gmv.GMV_ROCKORE,0)
+  )/NVL(wt.WT_ROCKGM,0)
+  END OPV_ROCKGM,
+  -------
+  CASE 
+  WHEN NVL(wt.WT_ROCKGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmw.GMW_ROCKSTRIP,0)+
+  NVL(gmw.GMW_ROCKORE,0)
+  )/NVL(wt.WT_ROCKGM,0)
+  END OPW_ROCKGM,
+  --------------
+  CASE 
+  WHEN NVL(wt.WT_LOOSEGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmv.GMV_LOOSESTRIP,0)+
+  NVL(gmv.GMV_LOOSEORE,0)
+  )/NVL(wt.WT_LOOSEGM,0)
+  END OPV_LOOSEGM,
+  ------------
+  CASE 
+  WHEN NVL(wt.WT_LOOSEGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmw.GMW_LOOSESTRIP,0)+
+  NVL(gmw.GMW_LOOSEORE,0)
+  )/NVL(wt.WT_LOOSEGM,0)
+  END OPW_LOOSEGM,
+  --------------------
+  CASE 
+  WHEN NVL(wt.WT_TRANSGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmv.GMV_TRANSSTRIP,0)+
+  NVL(gmv.GMV_TRANSORE,0)
+  )/NVL(wt.WT_TRANSGM,0)
+  END OPV_TRANSGM,
+  --------------------
+  CASE 
+  WHEN NVL(wt.WT_TRANSGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmw.GMW_TRANSSTRIP,0)+
+  NVL(gmw.GMW_TRANSORE,0)
+  )/NVL(wt.WT_TRANSGM,0)
+  END OPW_TRANSGM,
+  ------------------avprod------------
+  CASE
+  WHEN
+  (
+ NVL(gmv.GMV_PRS,0)+
+  NVL(gmv.GMV_ROCKSTRIP,0)+ 
+  NVL(gmv.GMV_LOOSESTRIP,0)+
+  NVL(gmv.GMV_TRANSSTRIP,0)+
+  NVL(gmv.GMV_ROCKORE,0)+
+  NVL(gmv.GMV_LOOSEORE,0)+
+  NVL(gmv.GMV_TRANSORE,0)
+ ) = 0 THEN 0
+ ELSE
+  (
+  (NVL(gmv.GMV_ROCKSTRIP,0)+
+  NVL(gmv.GMV_ROCKORE,0)
+  )*CASE 
+  WHEN NVL(wt.WT_ROCKGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmv.GMV_ROCKSTRIP,0)+
+  NVL(gmv.GMV_ROCKORE,0)
+  )/NVL(wt.WT_ROCKGM,0)
+  END +
+ (NVL(gmv.GMV_LOOSESTRIP,0)+
+  NVL(gmv.GMV_LOOSEORE,0)
+  )*
+  CASE 
+  WHEN NVL(wt.WT_LOOSEGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmv.GMV_LOOSESTRIP,0)+
+  NVL(gmv.GMV_LOOSEORE,0)
+  )/NVL(wt.WT_LOOSEGM,0)
+  END +
+ (NVL(gmv.GMV_TRANSSTRIP,0)+
+  NVL(gmv.GMV_TRANSORE,0)
+  )*
+  CASE 
+  WHEN NVL(wt.WT_TRANSGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmv.GMV_TRANSSTRIP,0)+
+  NVL(gmv.GMV_TRANSORE,0)
+  )/NVL(wt.WT_TRANSGM,0)
+  END
+  )/
+ (
+ NVL(gmv.GMV_PRS,0)+
+  NVL(gmv.GMV_ROCKSTRIP,0)+ 
+  NVL(gmv.GMV_LOOSESTRIP,0)+
+  NVL(gmv.GMV_TRANSSTRIP,0)+
+  NVL(gmv.GMV_ROCKORE,0)+
+  NVL(gmv.GMV_LOOSEORE,0)+
+  NVL(gmv.GMV_TRANSORE,0)
+ )
+END 
+ AVV_PROD, 
+ ----------------
+ CASE WHEN
+ (
+  NVL(gmw.GMW_PRS,0)+
+  NVL(gmw.GMW_ROCKSTRIP,0)+ 
+  NVL(gmw.GMW_LOOSESTRIP,0)+
+  NVL(gmw.GMW_TRANSSTRIP,0)+
+  NVL(gmw.GMW_ROCKORE,0)+
+  NVL(gmw.GMW_LOOSEORE,0)+
+  NVL(gmw.GMW_TRANSORE,0)
+  ) = 0 THEN 0
+ELSE
+ ( 
+(NVL(gmw.GMW_ROCKSTRIP,0)+
+  NVL(gmw.GMW_ROCKORE,0)
+  )* 
+  CASE 
+  WHEN NVL(wt.WT_ROCKGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmw.GMW_ROCKSTRIP,0)+
+  NVL(gmw.GMW_ROCKORE,0)
+  )/NVL(wt.WT_ROCKGM,0)
+  END +
+  (NVL(gmw.GMW_LOOSESTRIP,0)+
+  NVL(gmw.GMW_LOOSEORE,0)
+  )*
+  CASE 
+  WHEN NVL(wt.WT_LOOSEGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmw.GMW_LOOSESTRIP,0)+
+  NVL(gmw.GMW_LOOSEORE,0)
+  )/NVL(wt.WT_LOOSEGM,0)
+  END + 
+  (NVL(gmw.GMW_TRANSSTRIP,0)+
+  NVL(gmw.GMW_TRANSORE,0)
+  )*
+  CASE 
+  WHEN NVL(wt.WT_TRANSGM,0)=0 THEN 0
+  ELSE
+  (NVL(gmw.GMW_TRANSSTRIP,0)+
+  NVL(gmw.GMW_TRANSORE,0)
+  )/NVL(wt.WT_TRANSGM,0)
+  END
+  )/
+  (
+  NVL(gmw.GMW_PRS,0)+
+  NVL(gmw.GMW_ROCKSTRIP,0)+ 
+  NVL(gmw.GMW_LOOSESTRIP,0)+
+  NVL(gmw.GMW_TRANSSTRIP,0)+
+  NVL(gmw.GMW_ROCKORE,0)+
+  NVL(gmw.GMW_LOOSEORE,0)+
+  NVL(gmw.GMW_TRANSORE,0)
+  )
+  END AVW_PROD,
+  -----------------
+  --------итого рейсы г.м.
+  NVL(tr.TR_PRS,0)+
+  NVL(tr.TR_ROCKSTRIP,0)+ 
+  NVL(tr.TR_LOOSESTRIP,0)+
+  NVL(tr.TR_TRANSSTRIP,0)+
+  NVL(tr.TR_ORE,0) TR_GM,
+  -------------------------рейсы
+  NVL(tr.TR_PRS,0) TR_PRS,
+  NVL(tr.TR_ROCKSTRIP,0) TR_ROCKSTRIP, 
+  NVL(tr.TR_LOOSESTRIP,0) TR_LOOSESTRIP,
+  NVL(tr.TR_TRANSSTRIP,0) TR_TRANSSTRIP,
+  NVL(tr.TR_ORE,0) TR_ORE,
+  -----------
+  NVL(rasgm.RAS_GM,0) RAS_GM,
+  ---------
+  NVL(ras.RAS_PRS,0) RAS_PRS,
+  NVL(ras.RAS_ROCKSTRIP,0) RAS_ROCKSTRIP, 
+  NVL(ras.RAS_LOOSESTRIP,0) RAS_LOOSESTRIP,
+  NVL(ras.RAS_TRANSSTRIP,0) RAS_TRANSSTRIP,
+  NVL(ras.RAS_ROCKORE,0) RAS_ROCKORE, 
+  NVL(ras.RAS_LOOSEORE,0) RAS_LOOSEORE,
+  NVL(ras.RAS_TRANSORE,0) RAS_TRANSORE,
+  ----------
+  NVL(ft.FT_PRS,0) FT_PRS,
+  NVL(ft.FT_ROCKSTRIP,0) FT_ROCKSTRIP, 
+  NVL(ft.FT_LOOSESTRIP,0) FT_LOOSESTRIP,
+  NVL(ft.FT_TRANSSTRIP,0) FT_TRANSSTRIP,
+  NVL(ft.FT_ROCKORE,0) FT_ROCKORE,
+  NVL(ft.FT_LOOSEORE,0) FT_LOOSEORE,
+  NVL(ft.FT_TRANSORE,0) FT_TRANSORE,
+  -----------koldumpline----------------
+/*
+case when NVL(norep.tech_key,0)=0 then 12 else null end -
+NVL(p.itogplanrem,0)-
+NVL(p.itogemerg,0)
+)/ case when NVL(norep.tech_key,0)=0 then 12 else null end KOLDUMPLINE,
+*/ -- ранее считали по данной формуле
+--теперь считаем с 23.05.2022 по формуле, кол-во самосвалов на линии = (рабочее время всего + отсут фронта работ + итого организ + климат усл)/(календ время - прием/передача смены - ЕТО - обед)
+
+CASE WHEN NVL(norep.tech_key,0) = 0 THEN
+CASE WHEN (
+12 - NVL(p.BREAKS,0) - NVL(p.ETO,0) - NVL(p.DINNER,0)
+) = 0 THEN NULL
+ELSE
+(
+(
+NVL(wt.WT_ROCKGM,0)+
+  NVL(wt.WT_LOOSEGM,0)+ 
+  NVL(wt.WT_TRANSGM,0)+
+  NVL(wt.WT_EQUIPTRANS,0)+
+  NVL(wt.WT_MACADAM,0)+
+  NVL(wt.WT_IWT,0)+
+  NVL(wt.WT_IPT,0)+
+  NVL(wt.WT_SNOW,0)+
+  NVL(wt.WT_PRSOUTCONT,0) --WT_ALL
+) +
+NVL(p.WORK_LACK,0)+
+NVL(p.ITOGORG,0)+
+NVL(p.WEATHER,0)
+)/
+(
+12 - NVL(p.BREAKS,0) - NVL(p.ETO,0) - NVL(p.DINNER,0)
+) END
+ELSE NULL END KOLDUMPLINE,
+
+  ---------------koldumpwork--------
+/* (
+NVL(wt.WT_ROCKGM,0)+
+NVL(wt.WT_LOOSEGM,0)+ 
+NVL(wt.WT_TRANSGM,0)+
+NVL(wt.WT_EQUIPTRANS,0)+
+NVL(wt.WT_MACADAM,0)+
+NVL(wt.WT_IWT,0)+
+NVL(wt.WT_IPT,0)+ 
+NVL(wt.WT_SNOW,0)+
+NVL(wt.WT_PRSOUTCONT,0)+  --wt_all
+NVL(p.itogtechnol,0)
+ )/case when NVL(norep.tech_key,0)=0 then 12 else null end KOLDUMPWORK,*/ -- ранее считали по данной формуле
+ --теперь считаем с 23.05.2022 по формуле, кол-во самосвалов в работе = рабочее время всего / (календ время - прием/передача смены - ЕТО - обед)
+
+ CASE WHEN NVL(norep.tech_key,0) = 0 THEN
+ CASE WHEN (
+12 - NVL(p.BREAKS,0) - NVL(p.ETO,0) - NVL(p.DINNER,0)
+) = 0 THEN NULL
+ELSE
+ (
+NVL(wt.WT_ROCKGM,0)+
+  NVL(wt.WT_LOOSEGM,0)+ 
+  NVL(wt.WT_TRANSGM,0)+
+  NVL(wt.WT_EQUIPTRANS,0)+
+  NVL(wt.WT_MACADAM,0)+
+  NVL(wt.WT_IWT,0)+
+  NVL(wt.WT_IPT,0)+
+  NVL(wt.WT_SNOW,0)+
+  NVL(wt.WT_PRSOUTCONT,0) --WT_ALL
+)/ 
+(
+12 - NVL(p.BREAKS,0) - NVL(p.ETO,0) - NVL(p.DINNER,0)
+) END
+ELSE NULL END KOLDUMPWORK,
+
+  ------------
+  NVL(avwgm.AVW_GM,0) AVW_GM,
+  ----------
+  NVL(avw.AVW_PRS,0) AVW_PRS,
+  NVL(avw.AVW_ROCK,0) AVW_ROCK, 
+  NVL(avw.AVW_LOOSE,0) AVW_LOOSE,
+  NVL(avw.AVW_TRANS,0) AVW_TRANS,
+  NVL(totalstop.TOTAL_IDLE,0) TOTAL_IDLE,
+  -----------
+  case when NVL(norep.tech_key,0)=0 then 12 else null end-
+  (
+  NVL(wt.WT_ROCKGM,0)+
+  NVL(wt.WT_LOOSEGM,0)+ 
+  NVL(wt.WT_TRANSGM,0)+
+  NVL(wt.WT_EQUIPTRANS,0)+
+  NVL(wt.WT_MACADAM,0)+
+  NVL(wt.WT_IWT,0)+
+  NVL(wt.WT_IPT,0)+
+  NVL(wt.WT_SNOW,0)+
+  NVL(wt.WT_PRSOUTCONT,0)+
+  NVL(totalstop.TOTAL_IDLE,0)
+  ) BALANCE_TIME
+  
+  ----------
+FROM 
+DISPATCHER.ALLVEHS t
+INNER JOIN KGP.PTO_TECH pt ON pt.CONTROLID = t.CONTROLID AND pt.CATEGORY='Автосамосвалы'
+LEFT JOIN st ON st.TECH_KEY = t.CONTROLID
+LEFT JOIN wt ON wt.TECH_KEY = t.CONTROLID and wt.shiftdate=st.shiftdate and wt.shiftnum=st.shiftnum
+LEFT JOIN p ON p.TECH_KEY=t.CONTROLID and p.shiftdate=st.shiftdate and p.shiftnum=st.shiftnum
+LEFT JOIN gmw ON gmw.TECH_KEY=t.CONTROLID and gmw.shiftdate=st.shiftdate and gmw.shiftnum=st.shiftnum
+LEFT JOIN gmv ON gmv.TECH_KEY=t.CONTROLID and gmv.shiftdate=st.shiftdate and gmv.shiftnum=st.shiftnum
+LEFT JOIN tr ON tr.TECH_KEY=t.CONTROLID and tr.shiftdate=st.shiftdate and tr.shiftnum=st.shiftnum
+LEFT JOIN rasgm ON rasgm.TECH_KEY=t.CONTROLID and rasgm.shiftdate=st.shiftdate and rasgm.shiftnum=st.shiftnum
+LEFT JOIN ras ON ras.TECH_KEY=t.CONTROLID and ras.shiftdate=st.shiftdate and ras.shiftnum=st.shiftnum
+LEFT JOIN ft ON ft.TECH_KEY=t.CONTROLID and ft.shiftdate=st.shiftdate and ft.shiftnum=st.shiftnum
+LEFT JOIN avw ON avw.TECH_KEY=t.CONTROLID and avw.shiftdate=st.shiftdate and avw.shiftnum=st.shiftnum
+LEFT JOIN avwgm ON avwgm.TECH_KEY=t.CONTROLID and avwgm.shiftdate=st.shiftdate and avwgm.shiftnum=st.shiftnum
+LEFT JOIN dtmh ON dtmh.TECH_KEY=t.CONTROLID and dtmh.shiftdate=st.shiftdate and dtmh.shiftnum=st.shiftnum
+LEFT JOIN totalstop ON totalstop.TECH_KEY=t.CONTROLID and totalstop.shiftdate=st.shiftdate and totalstop.shiftnum=st.shiftnum
+LEFT JOIN norep ON norep.TECH_KEY=t.CONTROLID and norep.shiftdate=st.shiftdate and norep.shiftnum=st.shiftnum
+
+) src left join 
+(select
+*
+from
+dumptrucks where columnnum=1
+)smsv on src.tech_id=smsv.vehid
+where (TECH_ID = :paramvehid or :paramvehid = 'Все')
+ORDER BY POSITION, TECH_ID,shiftdate,shiftnum desc
+
+		
+		</Query>
+	</Queries>
+
+	<ResourceFiles>
+		<ResourceFile file="Modules\Oracle.ManagedDataAccess.dll"/>
+		
+		<ResourceFile file="Modules\DevExpress.Data.v18.1.dll"/>
+		<ResourceFile file="Modules\DevExpress.Printing.v18.1.Core.dll"/>
+		<ResourceFile file="Modules\DevExpress.Utils.v18.1.dll"/>
+		<ResourceFile file="Modules\DevExpress.XtraBars.v18.1.dll"/>
+		<ResourceFile file="Modules\DevExpress.XtraEditors.v18.1.dll"/>
+		<ResourceFile file="Modules\DevExpress.XtraGrid.v18.1.dll"/>
+		<ResourceFile file="Modules\DevExpress.XtraPrinting.v18.1.dll"/>
+		<ResourceFile file="Modules\DevExpress.XtraTreeList.v18.1.dll"/>
+		<ResourceFile file="Modules\DevExpress.XtraLayout.v18.1.dll"/>
+
+		<ResourceFile file="Modules\ru\DevExpress.XtraGrid.v18.1.resources.dll"/>
+
+		<ResourceFile file="Modules\IXrtlControl.dll"/>
+		<ResourceFile file="Modules\IXrtlExplorer.dll"/>
+
+		
+		<ResourceFile file="Templates\ПТО самосвалы.xlsx"/>
+	</ResourceFiles>
+  </Resources>
+
+  <Window width="1200" height="700">
+  	<Object
+  		file      = "Modules\Reports.Production.PTO_trucks.dll"
+  		class     = "Reports.Production.PTO_trucks"
+		template  = "Templates\ПТО самосвалы.xlsx"
+		/>
+		
+  	
+	</Window>
+</XRTL>

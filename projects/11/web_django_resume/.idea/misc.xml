@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="cmdArguments" value="--l 150" />
+    <option name="executionMode" value="BINARY" />
+    <option name="pathToExecutable" value="C:\environment\Python311\Scripts\black.exe" />
+    <option name="sdkUUID" value="921f7dda-4daf-449b-bbe1-0043bb1037b8" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (web_django_resume)" project-jdk-type="Python SDK" />
+</project>
