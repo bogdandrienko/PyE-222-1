@@ -27,3 +27,30 @@ JSON - HTTP(web-запрос), WebSocket(длительный web-запрос),
 
 * Fullstack SPA - полноценное веб-приложение
 - DRF
+
+
+
+
+
+backend:
+Django 4+, DRF, docker и docker-compose, Celery, rabbit-mq, pytest, PostgreSQL
+
+Любое приложение:
+- Идея: Парсер интернет магазина/api для криптовалюты...
+к чужому API нужно уметь делать асинхронный веб-запрос, с нагрузкой(2с * 100), парсинг, + выгрузка...
+- Frontend - PyQT6/PySide2
+- Backend - Python 3.10+, asyncio, aiohttp, threading, bs4, opencv, openpyxl, json, numpy+mathplotlib...
+- Database - SQLite
+- Devops - Github(система контроля версий), Jira/Trello(командная разработка), Windows/WindowsCE/linux/mac(среда исполнения) 
+
+MVP:
+* ядро
+* обёртка
+* мясо
+
+
+
+
+
+
+

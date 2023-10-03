@@ -28,7 +28,7 @@
         <div class="fw-bold text-danger border border-1 border-danger card m-2 p-2 display-6">{{ error }}</div>
     {% endif %}
     <hr/>
-<form action="{% url 'register' %}" method="POST" enctype="multipart/form-data">
+<form action="{% url 'register_mvt' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="card">
         <div class="card-header lead">
