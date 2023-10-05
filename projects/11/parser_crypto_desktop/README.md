@@ -1,1 +1,0 @@
-# parser_crypto_desktop

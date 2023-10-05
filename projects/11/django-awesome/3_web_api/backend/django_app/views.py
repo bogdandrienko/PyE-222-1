@@ -49,7 +49,7 @@ def messages(request: Request) -> Response:
         # print(request.body)
         print(request.data)  # dictionary
 
-        message: str = request.data.get('message', '')
+        message: str = request.data.get("message", "")
         with open("messages.txt", "a", encoding="utf-8") as file:
             file.write(f"{message}\n")
 
@@ -62,7 +62,7 @@ def weather(request: Request) -> Response:
         return Response(data={"text": "Сегодня отличная погода"}, status=status.HTTP_200_OK)
     elif request.method == "POST":
         # {"text": "Сегодня дождь!"}
-        message: str = request.data.get('text', '')
+        message: str = request.data.get("text", "")
         print(message)
         return Response(data={"message": "OK"}, status=status.HTTP_201_CREATED)
 
@@ -100,7 +100,7 @@ def workers(request: Request) -> Response:
     elif request.method == "POST":
         # откуда [HTTP]: api / pyqt6 / requests / frontend / html ...
         """
-{"iin": "9708777", "firstName": "Диас", "lastName": "Фамилия"}
+        {"iin": "9708777", "firstName": "Диас", "lastName": "Фамилия"}
         """
         # password = str(request.data.data['password'])
         # re.match("", "")
@@ -108,9 +108,9 @@ def workers(request: Request) -> Response:
         # TODO нужна валидация данных (проверка соответствия данных)
 
         new_worker = models.Worker.objects.create(
-            iin=str(request.data['iin']),  # unsafe - хочу ловить Exception если этого параметра нет,
-            first_name=str(request.data.get('firstName', '')).strip(),  # safe
-            last_name=str(request.data.get('lastName', '')).strip(),  # safe
+            iin=str(request.data["iin"]),  # unsafe - хочу ловить Exception если этого параметра нет,
+            first_name=str(request.data.get("firstName", "")).strip(),  # safe
+            last_name=str(request.data.get("lastName", "")).strip(),  # safe
         )
         # new_worker.delete()
         return Response(data={"message": "OK"}, status=status.HTTP_201_CREATED)
@@ -127,23 +127,22 @@ def workers_pk(request: Request, pk: str) -> Response:
         return Response(data=serializers.WorkerSerializer(models.Worker.objects.get(id=int(pk)), many=False).data, status=status.HTTP_200_OK)
     elif request.method == "PUT":
         """
-/1 PUT - весь объект
-{"iin": "9708777", "firstName": "Диас", "lastName": "Фамилия"}
+        /1 PUT - весь объект
+        {"iin": "9708777", "firstName": "Диас", "lastName": "Фамилия"}
 
-/1 PATCH - частично
-{"firstName": "Диас3", "lastName": "Фамилия3"}
-"""
+        /1 PATCH - частично
+        {"firstName": "Диас3", "lastName": "Фамилия3"}"""
         worker_obj = models.Worker.objects.get(id=int(pk))
 
-        iin = str(request.data.get('iin', ''))
+        iin = str(request.data.get("iin", ""))
         if len(iin) > 0:
             worker_obj.iin = iin
 
-        first_name = str(request.data.get('firstName', ''))
+        first_name = str(request.data.get("firstName", ""))
         if len(first_name) > 0:
             worker_obj.first_name = first_name
 
-        last_name = str(request.data.get('lastName', ''))
+        last_name = str(request.data.get("lastName", ""))
         if len(last_name) > 0:
             worker_obj.last_name = last_name
 
@@ -160,9 +159,9 @@ def workers_pk(request: Request, pk: str) -> Response:
 @api_view(http_method_names=["GET", "POST", "PUT", "DELETE"])
 def rating(request: Request, post_id: str = "-1") -> Response:
     """
-Эй, фронтендер:
+    Эй, фронтендер:
 
-{"user_id": 1354314, "value": 7, "post_id": 1354}
+    {"user_id": 1354314, "value": 7, "post_id": 1354}
 
     """
     if request.method == "GET":
@@ -190,15 +189,11 @@ def rating(request: Request, post_id: str = "-1") -> Response:
         print(request.data)  # default for json data (django DRF)
 
         # post_id
-        user_id = request.data.get('user_id', None)  # GO
+        user_id = request.data.get("user_id", None)  # GO
         if user_id is None:
             raise Exception("user_id is None !")
-        value = request.data['value']  # unsafe == Exception
-        _rating = models.Rating.objects.create(
-            post_id=post_id,
-            user_id=user_id,
-            value=value
-        )
+        value = request.data["value"]  # unsafe == Exception
+        _rating = models.Rating.objects.create(post_id=post_id, user_id=user_id, value=value)
         return Response(data={"id": str(_rating.id)}, status=status.HTTP_201_CREATED)
 
 
