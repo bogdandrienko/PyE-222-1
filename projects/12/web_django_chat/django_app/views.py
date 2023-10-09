@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 def data(request):
     return JsonResponse(data={"data": "Python is awesome!"}, safe=False)
 
+
 def rooms(request):
     return render(request, "home.html", context={"rooms": models.Room.objects.all()})
 
@@ -14,9 +15,9 @@ def rooms(request):
 @login_required
 def room(request, slug):
     room_obj = models.Room.objects.get(slug=slug)
-    context = {"room": room_obj, "messages": models.Message.objects.filter(room=room_obj)[:25]}
+    messages = models.Message.objects.filter(room=room_obj)[:2][::-1]
     return render(
         request,
         "room.html",
-        context=context
+        context={"room": room_obj, "messages": messages}
     )

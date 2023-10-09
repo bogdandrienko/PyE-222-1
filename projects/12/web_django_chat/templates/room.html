@@ -25,9 +25,11 @@
     <div class="lg:w-2/4 mt-6 mx-4 lg:mx-auto p-4 bg-white rounded-xl">
         <form method="post" action="." class="flex">
             {% csrf_token %}
-            <input type="text" name="content" class="flex-1 mr-3" placeholder="Ваше сообщение..." id="chat-message-input"/>
+            <input type="text" name="content" class="flex-1 mr-3" placeholder="Ваше сообщение..."
+                   id="chat-message-input"/>
             <button
-                class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700" id="chat-message-submit">Ok
+                class="px-5 py-3 rounded-xl text-white bg-teal-600 hover:bg-teal-700"
+                id="chat-message-submit">Ok
             </button>
         </form>
     </div>
@@ -42,11 +44,15 @@
     const userName = JSON.parse(document.getElementById('json-username').textContent);
 
     const chatSocket = new WebSocket('ws://' + window.location.host + '/ws/' + roomName + '/');
+    // 'ws://127.0.0.1:8000/ws/first/'
     // браузер открывает вебсокет и "слушает" сообщения от сервера
+
+    // chatSocket.close() // принудительное закрытие сокета
 
     chatSocket.onmessage = function(e) {
         // каждый раз, когда приходит сообщение, он его добавлени на страницу HTML
         const data = JSON.parse(e.data);
+        //
         if(data.message){
             let html = '<div class="p-4 bg-gray-200 rounded-xl">';
                 html+=  '<p class="font-semibold">' + data.username + '</p>';

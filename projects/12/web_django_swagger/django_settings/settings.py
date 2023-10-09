@@ -20,31 +20,40 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-2275$%1st&!5pd_)z0o=at&!^r*qs_oyl=6)8i5avq217pic*%"
+SECRET_KEY = "django-insecure-$9labc*#&ofs)ovdi$g_*a2ga)71p6)&id^5ow4m)d)_1z)o9o"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-# 0o=at&!^r*qs_oyl=6)8i5avq2
+CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://127.0.0.1:3000",
+#     "http://localhost:3000",
+# ]
+# CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', 'http://localhost']
 
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
-    'channels',
-
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
+    #
+    "corsheaders",
+    'rest_framework',
+    'drf_yasg',
     'django_app',
 ]
 
 MIDDLEWARE = [
+    "django_app.middleware.CustomCorsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    #
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -59,7 +68,7 @@ ROOT_URLCONF = "django_settings.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [BASE_DIR / 'templates'],
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -72,14 +81,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_settings.wsgi.application'
-ASGI_APPLICATION = 'django_settings.asgi.application'
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-}
+WSGI_APPLICATION = "django_settings.wsgi.application"
 
 
 # Database
@@ -127,15 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    Path(BASE_DIR / 'static'),
-]
-
-MEDIA_URL = 'media/'
-MEDIA_ROOT = Path(BASE_DIR, 'static/media')
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
