@@ -10,20 +10,24 @@ services:
       - POSTGRES_PASSWORD=Qwerty12345!
     ports:
       - "5433:5433"
+    expose:
+        - 5433
   cache:
     image: "redis:latest"
     ports:
-      - "6379:6379"
+      - "6381:6381"
+    expose:
+        - 6381
   web:
     build: ./web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/web_build
+      - ./web/:/web
     ports:
       - "8000:8000"
     restart: always
     env_file:
-      - .env
+      - ./.env
     depends_on:
       - db
       - cache

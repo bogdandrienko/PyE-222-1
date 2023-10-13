@@ -1,11 +1,20 @@
+import random
+
+from django.core.cache import cache
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
-import requests
 
 
 # Create your views here.
 
 def home(request):
+    # cache
+    value = cache.get("my_value")  # int | None
+    if value is None:
+        value = random.randint(1, 100000000)
+        cache.set("my_value", value, 5)
+    # cache
+
     """
     # ssh
     sudo apt-get update -y
@@ -52,4 +61,4 @@ def home(request):
 
     """
 
-    return render(request, "Home.html")
+    return render(request, "Home.html", context={"value": value})

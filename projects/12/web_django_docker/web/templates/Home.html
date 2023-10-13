@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<h1>{{ value }}</h1>
+
 <form method="POST" action="{% url 'home' %}" enctype="multipart/form-data">
     {% csrf_token %}
 
