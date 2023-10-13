@@ -27,13 +27,13 @@ urlpatterns = [
     path("api/redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
     # TODO news ###########################################
     # GET(many) POST
-    path("api/news/", views.news_f, name="news"),
+    # path("api/news/", views.news_f, name="news"),
     # GET(one) PUT(PATCH) DELETE
-    path("api/news/<str:news_id>", views.news_id_f, name="news_id"),
+    # path("api/news/<str:news_id>", views.news_id_f, name="news_id"),
     # TODO news ###########################################
     #
-    path("", views.home),
-    path("home/", views.home),
+    # path("", views.home),
+    # path("home/", views.home),
     #
     # path("api/", views.api),
     # path("messages/", views.messages),
@@ -52,4 +52,11 @@ urlpatterns = [
     # #
     # path("api/report/", views.report),
     # path("api/report/<str:point_id>", views.report),
+    #
+    #
+    #
+    #
+    #
+    path("api/news/list/", views.news_list, name="news_list"),
+    path("api/news/create/", views.news_create, name="news_create"),
 ]

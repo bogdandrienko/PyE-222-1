@@ -5,6 +5,8 @@ from django.urls import reverse
 from rest_framework import status
 
 # python manage.py test
+# TDD - test driven development - разработка через тестирование - высокая цена ошибки
+# QA - автотесты
 
 
 class UserModelTestCase(TestCase):
@@ -17,7 +19,7 @@ class UserModelTestCase(TestCase):
     def test_model_create(self):
         print("""Тестируем модель на корректное создание пользователя""")
         user = User.objects.get(username=self.username)
-        self.assertEqual(user.username, self.username)
+        self.assertEqual(user.username, self.username)  # функция для сравнения
 
 
 class NewsListTestCase(TestCase):

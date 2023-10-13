@@ -27,3 +27,4 @@ from django_app import models
 # admin.site.register(models.Worker, WorkerAdmin)
 admin.site.register(models.Worker)
 admin.site.register(models.Rating)
+admin.site.register(models.News)

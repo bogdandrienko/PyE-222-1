@@ -14,6 +14,8 @@ from rest_framework.response import Response
 from django_app import models, serializers
 
 # https://github.com/bogdandrienko/django_drf_react_typescripts_facebook_app/blob/main/backend/django_api/views.py
+# 1) Упрощённый - просто подключили библиотеку для swagger
+# 2) Продвинутый - нужно "описывать" для каждой функции значения на входе и на выходе.
 
 response_schema_dict = {
     "200": openapi.Response(
@@ -59,19 +61,67 @@ def news_f(request: Request) -> Response:
     """
 
     if request.method == "GET":
-        # плавающий "баг"
-        int1 = random.randint(1, 2)
-        if int1 % 2 == 0:
-            raise Exception("Ошибка Базы данных")
+        # # плавающий "баг"
+        # int1 = random.randint(1, 2)
+        # if int1 % 2 == 0:
+        #     raise Exception("Ошибка Базы данных")
 
         data = []
         for i in range(1, 100):
             new = {"id": i, "title": f"Новость {i}"}
             data.append(new)
         return Response(data={"list": data, "message": "OK"}, status=status.HTTP_200_OK)
-    elif request.method == "POST":
-        # message: str = request.data.get("text", "")
-        return Response(data={"message": "OK"}, status=status.HTTP_201_CREATED)
+
+
+@swagger_auto_schema(
+    method="POST",
+    request_body=serializers.NewsSerializer,  # Описание входных данных
+    responses={201: "Успех", 400: "Error detail"},  # Описание выходных данных
+)
+@api_view(http_method_names=["POST"])
+def news_create(request: Request) -> Response:
+    """
+    Отправка формы с новостью.
+
+    JSON -> DB
+    """
+    try:
+        title = request.data["title"]  # json form
+        description = request.data.get("description", "")  # json form
+        models.News.objects.create(title=title, description=description)  # ORM
+        return Response(data={"message": "Успех"}, status=status.HTTP_201_CREATED)
+    except Exception as error:
+        return Response(data=f"ERROR: {error}", status=status.HTTP_400_BAD_REQUEST)
+
+
+@swagger_auto_schema(  # документация
+    method="GET",
+    manual_parameters=[
+        openapi.Parameter("search_by", openapi.IN_QUERY, description="Поиск по этому параметру", type=openapi.TYPE_STRING, default="")
+    ],  # Описание входных данных
+    responses={200: serializers.NewsSerializer, 400: "Error detail"},  # Описание выходных данных
+)
+@api_view(http_method_names=["GET"])
+def news_list(request: Request) -> Response:
+    """
+    Возврат списка новостей.
+
+    * поиск
+    * сортировка
+    * фильтрация(категория)
+    * страница
+    * лимит
+    * кэш(да/нет)
+
+    DB -> Python -> JSON
+    """
+    try:
+        search_by = request.query_params.get("search_by", "")  # query params
+        news_objs = models.News.objects.filter(title__icontains=search_by)  # DB -> Python
+        news_jsons = serializers.NewsSerializer(news_objs, many=True).data  # Python -> JSON
+        return Response(data=news_jsons, status=status.HTTP_200_OK)
+    except Exception as error:
+        return Response(data=f"ERROR: {error}", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(http_method_names=["GET", "PUT", "PATCH", "DELETE"])  # GET(one) PUT(PATCH) DELETE
@@ -104,14 +154,13 @@ def native_django_api(request):
     return JsonResponse(data={"message": "OK"}, safe=True)
 
 
-@api_view(http_method_names=["GET", "POST"])
+@api_view(http_method_names=["GET", "POST"])  # DRF - django rest framework
 def api(request: Request) -> Response:
     print(request.GET)
     print(request.POST)
     print(request.FILES)
     # print(request.body)
     print(request.data)  # dictionary
-
     return Response(data={"message": "OK"}, status=status.HTTP_200_OK)
 
 

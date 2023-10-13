@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.timezone import now
+
 
 class Worker(models.Model):
     """Таблица с полями и их настройками в базе данных"""
@@ -33,3 +35,17 @@ class Rating(models.Model):
     def __str__(self):
         return f"<Rating {self.post_id} {self.user_id} {self.value}>"
 
+
+class News(models.Model):
+    title = models.CharField(verbose_name="Наименование", unique=True, max_length=200)
+    description = models.CharField(verbose_name="Описание", max_length=2000)
+    datetime_created = models.DateTimeField(verbose_name="Дата публикации", default=now)
+
+    class Meta:
+        app_label = "django_app"
+        ordering = ("-datetime_created",)
+        verbose_name = "Новость"
+        verbose_name_plural = "Новости"
+
+    def __str__(self):
+        return f"<News {self.title} {self.description[:10]}>"
