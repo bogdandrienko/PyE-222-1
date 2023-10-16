@@ -1,33 +1,56 @@
-version: '3'
+version: '3.8'
 
 services:
   # celery, ..., ...
   db:
+    container_name: db
     image: "postgres:latest"
+    restart: on-failure
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    networks:
+      - main
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_DB=django_db
       - POSTGRES_USER=django_usr
       - POSTGRES_PASSWORD=Qwerty12345!
-    ports:
-      - "5433:5433"
-    expose:
-        - 5433
-  cache:
+
+  ch:
+    container_name: ch
     image: "redis:latest"
+    restart: on-failure
+    networks:
+      - main
     ports:
-      - "6381:6381"
-    expose:
-        - 6381
+      - "6379:6379"
+
   web:
+    container_name: web
+    depends_on:
+      - db
+      - ch
     build: ./web
-    command: python manage.py runserver 0.0.0.0:8000
+    restart: on-failure
+    networks:
+      - main
+    env_file:
+      - ./.env
+    image: web
     volumes:
       - ./web/:/web
     ports:
       - "8000:8000"
-    restart: always
-    env_file:
-      - ./.env
-    depends_on:
-      - db
-      - cache
+    command: >
+      sh -c "python manage.py wait_for_db &&  
+             python manage.py makemigrations --noinput && python3 manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+             # gunicorn django_settings.wsgi -bind 0.0.0.0:8000
+
+volumes:
+  postgres_data:
+
+networks:
+   main:
+     driver: bridge

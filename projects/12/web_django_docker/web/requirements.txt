@@ -4,3 +4,4 @@ django-redis==5.4.0
 redis==5.0.1
 sqlparse==0.4.4
 tzdata==2023.3
+psycopg2-binary

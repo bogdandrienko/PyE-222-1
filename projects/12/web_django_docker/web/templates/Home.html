@@ -15,5 +15,11 @@
     <button type="submit">send</button>
 </form>
 
+<ul>
+    {% for i in books %}
+    <li>{{ i.title }}</li>
+    {% endfor %}
+</ul>
+
 </body>
 </html>

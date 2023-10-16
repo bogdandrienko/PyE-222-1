@@ -3,6 +3,7 @@ import random
 from django.core.cache import cache
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
+from django_app.models import Book
 
 
 # Create your views here.
@@ -14,6 +15,9 @@ def home(request):
         value = random.randint(1, 100000000)
         cache.set("my_value", value, 5)
     # cache
+
+    book = Book.objects.create(title=f"Book {random.randint(1, 100000000)}")
+    books = Book.objects.all()
 
     """
     # ssh
@@ -61,4 +65,4 @@ def home(request):
 
     """
 
-    return render(request, "Home.html", context={"value": value})
+    return render(request, "Home.html", context={"value": value, "books": books})
