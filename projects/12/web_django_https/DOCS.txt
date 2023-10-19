@@ -1,0 +1,23 @@
+http - протокол передачи данных(top for web)
+
+http://127.0.0.1:8000/ - default for Django development
+http://127.0.0.1:80/ - default for http(unsafe)
+http://127.0.0.1:443/ - default for https(safe)
+
+SSL‑сертификат безопасности -
+есть несколько ключей:
+public key(send to browser)
+private key(save to linux)
+
+encrypt -> decrypt
+
+
+https://letsencrypt.org/ru/ - free
+
+0) Купить сервер (VPS/VDS)
+1) Проект Django доводится до полной работоспособности на 80 порту.
+Nginx + Gunicorn + Django
+
+2) Купить доменное имя.
+3) Привязываем доменное имя к ip адресу (hosting)
+4) Донастройка операционной системы до уровня https
