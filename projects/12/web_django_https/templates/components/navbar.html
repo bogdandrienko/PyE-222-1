@@ -1,0 +1,73 @@
+<nav class="container card container-fluid navbar navbar-expand-lg navbar-light bg-body-tertiary">
+    <a class="navbar-brand" href="{% url "home" %}">Домашняя страница</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav navbar-collapse collapse" id="navbarSupportedContent">
+        <li class="dropend">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                Профиль
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <i class="btn btn-sm btn-dark bg-opacity-50 badge rounded-pill">аккаунт:
+                        {% if user.is_authenticated %}
+                            {{ user.username }}
+                        {% else %}
+                            аноним
+                        {% endif %}
+                    </i>
+                    <strong class="dropdown-header">Профили пользователей</strong>
+                    {% if user.is_authenticated %}
+                        <a class="dropdown-item text-primary" href="#">
+                            <i class="fa-solid fa-user m-0 p-1"></i>
+                            мой профиль
+                        </a>
+                        <a class="dropdown-item text-danger" href="#">
+                            <i class="fa-solid fa-door-open m-0 p-1"></i>
+                            выйти из аккаунта
+                        </a>
+                    {% else %}
+                        <a class="dropdown-item text-warning" href="#">
+                            <i class="fa-solid fa-circle-plus m-0 p-1"></i>
+                            регистрация новых пользователей
+                        </a>
+                        <a class="dropdown-item text-danger" href="#">
+                            <i class="fa-solid fa-hammer m-0 p-1"></i>
+                            восстановление доступа к аккаунту
+                        </a>
+                        <a class="dropdown-item text-primary" href="#">
+                            <i class="fa-solid fa-list m-0 p-1"></i>
+                            войти в аккаунт
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </li>
+
+        <li class="dropend">
+            <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                Публикация постов:
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <strong class="dropdown-header">Новостной раздел</strong>
+                    <a class="dropdown-item" href="#">
+                        <i class="fa-solid fa-newspaper text-warning m-0 p-1"></i>
+                        Список всех постов
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fa-solid fa-newspaper text-warning m-0 p-1"></i>
+                        Поиск
+                    </a>
+                    {% if user.is_authenticated %}
+                        <a class="dropdown-item" href="#">
+                            <i class="fa-solid fa-newspaper text-warning m-0 p-1"></i>
+                            Опубликовать пост
+                        </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </li>
+    </ul>
+</nav>
