@@ -6,7 +6,7 @@
 # discord - https://discord.gg/MJ4rvgWJ
 # 91.201.214.224 bogdandrienko.site
 # ubuntu
-# 00Kc3Igk27iDYq89pm5TsMU=
+# EchpnrU21cV0RURPJHY7+os=
 #
 
 

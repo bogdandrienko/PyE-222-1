@@ -61,7 +61,7 @@ ROOT_URLCONF = "django_settings.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "build"],
+        "DIRS": [BASE_DIR / "build", BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -124,7 +124,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
-    Path(BASE_DIR / "build/static"),
+    Path(BASE_DIR / "build/static"),  # React
+    Path(BASE_DIR / "static"),  # Django native static(css, js,)
 ]
 
 # Default primary key field type
