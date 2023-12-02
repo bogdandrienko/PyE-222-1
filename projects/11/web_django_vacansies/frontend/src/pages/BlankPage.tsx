@@ -6,7 +6,7 @@ export default function Page() {
 
   async function sendData() {
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/blank/`, {
+      const response = await axios.post(`http://127.0.0.1:8080/api/blank/`, {
         name: name,
       });
       console.log(response);

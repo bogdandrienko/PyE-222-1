@@ -7,7 +7,7 @@ export default function Page() {
 
   async function getData() {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/vacasies/?search=${search}`,
+      `http://127.0.0.1:8080/api/vacasies/?search=${search}`,
     );
     console.log(response);
     setData(response.data.list);

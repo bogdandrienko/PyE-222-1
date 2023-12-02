@@ -111,7 +111,7 @@ server {
 listen 80;
 listen [::]:80;
 
-server_name bogdandrienko.site www.bogdandrienko.site;
+server_name bogdandrienko.site www.bogdandrienko.site ;
 
 root /home/ubuntu/web;
 

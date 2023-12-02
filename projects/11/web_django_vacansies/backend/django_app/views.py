@@ -14,7 +14,7 @@ def api(request):
 
 
 def index(request):
-    return render(request, "index.html", context={})
+    return render(request, "index2.html", context={})
 
 
 def vacasies(request):
