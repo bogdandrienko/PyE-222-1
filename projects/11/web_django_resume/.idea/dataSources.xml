@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="db" uuid="7df91271-fa14-4236-942a-403809be257a">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>489348ac-3a64-4086-bb0c-ab7424f2b5d0</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\github_projects\PyE-222-1\projects\11\web_django_resume\db.sqlite3</jdbc-url>
